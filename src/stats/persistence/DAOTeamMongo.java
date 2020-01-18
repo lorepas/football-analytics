@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.bson.Document;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.mongodb.MongoWriteException;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -14,18 +12,17 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 
-import stats.model.Player;
-import stats.utility.Utils;
+import stats.model.Team;
 
-public class DAOPlayerMongo implements IDAOPlayer {
+public class DAOTeamMongo implements IDAOTeam {
 
 	@Override
-	public void createPlayer(Player player) throws DAOException{
+	public void createTeam(Team team) throws DAOException {
 		try {
-			Document obj = Document.parse(player.toJSON());
+			Document obj = Document.parse(team.toJSON());
 			MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("players");
+			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
 			mongoCollection.insertOne(obj);
 		} catch(MongoWriteException mwe) {
 			throw new DAOException(mwe);
@@ -33,11 +30,11 @@ public class DAOPlayerMongo implements IDAOPlayer {
 	}
 	
 	@Override
-	public void createListOfPlayers(List<Player> players) throws DAOException {
+	public void createListOfTeams(List<Team> teams) throws DAOException {
 		try {
 			List<Document> documents = new ArrayList<>();
-			for (Player player : players) {
-				Document obj = Document.parse(player.toJSON());
+			for (Team team : teams) {
+				Document obj = Document.parse(team.toJSON());
 				documents.add(obj);
 			}
 			MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
@@ -47,41 +44,42 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		} catch(MongoWriteException mwe) {
 			throw new DAOException(mwe);
 		}
+		
 	}
 
 	@Override
-	public void updatePlayer(Player player) throws DAOException {
+	public void updateTeam(Team player) throws DAOException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void deletePlayer(Player player) throws DAOException {
+	public void deleteTeam(Team player) throws DAOException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public List<Player> retrievePlayers(String surname) throws DAOException {
+	public List<Team> retrieveTeams(String surname) throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Player> retrieveAllPlayers() throws DAOException {
+	public List<Team> retrieveAllTeams() throws DAOException {
 		MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
 		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find().iterator();
-		List<Player> players = new ArrayList<Player>();
+		MongoCursor<Document> cursor = mongoDatabase.getCollection("teams").find().iterator();
+		List<Team> teams = new ArrayList<Team>();
 		try {
 			while (cursor.hasNext()) { 
-				players.add(Player.playerFromJson(cursor.next().toJson()));
+				teams.add(Team.playerFromJson(cursor.next().toJson()));
 			}
 		} finally {
 			cursor.close(); 
 		}
         mongoClient.close();
-		return players;
+		return teams;
 	}
 
 }

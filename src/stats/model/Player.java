@@ -3,6 +3,8 @@ package stats.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 public class Player {
 	
 	private String name;
@@ -79,4 +81,15 @@ public class Player {
 	public void setDetailedPerformances(List<DetailedPerformance> detailedPerformances) {
 		this.detailedPerformances = detailedPerformances;
 	}
+	
+	public String toJSON() {
+		Gson g = new Gson();
+		return g.toJson(this);
+	}
+	
+	public static Player playerFromJson(String jsonString) {
+		Gson g = new Gson();
+		return g.fromJson(jsonString, Player.class);
+	}
+	
 }
