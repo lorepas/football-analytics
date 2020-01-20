@@ -1,13 +1,20 @@
 package stats;
 	
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import stats.model.Player;
 import stats.persistence.DAOPlayerMongo;
 import stats.persistence.ReadFromFile;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 
 
 public class App extends Application {
@@ -19,7 +26,12 @@ public class App extends Application {
 			scene.getStylesheets().add(getClass().getResource("/stats/view/application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			new ReadFromFile().readLocalJSON("/Users/kenobi_gen/Serie A 2019-20- Players.json");
+			String json = new ReadFromFile().readLocalJSON("/Users/kenobi_gen/Serie A 2019-20- Players.json");
+			Gson gson = new Gson();
+			Player[] players = gson.fromJson(json, Player[].class);
+			System.out.println("Number: " + players.length);
+			List<Player> playerList = Arrays.asList(players);
+			new DAOPlayerMongo().createListOfPlayers(playerList);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

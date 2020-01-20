@@ -13,7 +13,7 @@ public class Player {
 	private String fullName;
 	private String bornDate;
 	private String marketValueString;
-	private double link;
+	private String link;
 	private String team;
 	private String nation;
 	List<DetailedPerformance> detailedPerformances = new ArrayList<>();
@@ -39,7 +39,7 @@ public class Player {
 	public String getMarketValueString() {
 		return marketValueString;
 	}
-	public double getLink() {
+	public String getLink() {
 		return link;
 	}
 	public String getTeam() {
@@ -69,7 +69,7 @@ public class Player {
 	public void setMarketValueString(String marketValueString) {
 		this.marketValueString = marketValueString;
 	}
-	public void setLink(double link) {
+	public void setLink(String link) {
 		this.link = link;
 	}
 	public void setTeam(String team) {

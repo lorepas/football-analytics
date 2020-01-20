@@ -10,18 +10,22 @@ import java.io.InputStreamReader;
 public class ReadFromFile {
 	
 	public String readLocalJSON(String path) {
-		String json = "";
+		StringBuilder json = new StringBuilder();
 		try {
 			FileReader in = new FileReader(path);
 		    BufferedReader reader = new BufferedReader(in);
 		    String line = null;
+		    int i = 0;
 		    while ((line = reader.readLine()) != null) {
-		       	json.concat(line);
-		       	System.out.println(line);
+//		    	i++;
+//		    	if(i%10000 == 0) {
+//		    		System.out.println(i);
+//		    	}
+		    	json.append(line);
 		    }
 		} catch (IOException e) {
 		    new DAOException(e);
 		}
-		return json;
+		return json.toString();
 	}
 }
