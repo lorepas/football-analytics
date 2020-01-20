@@ -1,16 +1,19 @@
 package stats;
 	
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mongodb.MongoSocketOpenException;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import stats.model.Player;
+import stats.persistence.DAOException;
 import stats.persistence.DAOPlayerMongo;
 import stats.persistence.ReadFromFile;
 import javafx.scene.Parent;
@@ -32,6 +35,8 @@ public class App extends Application {
 			System.out.println("Number: " + players.length);
 			List<Player> playerList = Arrays.asList(players);
 			new DAOPlayerMongo().createListOfPlayers(playerList);
+		} catch(DAOException msoe) {
+			System.out.println("Non sei collegato alla VPN");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
