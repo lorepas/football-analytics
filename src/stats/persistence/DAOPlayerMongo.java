@@ -138,6 +138,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		List<Player> players = new ArrayList<Player>();
 		try {
 			while (cursor.hasNext()) { 
+				System.out.println(cursor.next());
 				players.add(Player.playerFromJson(cursor.next().toJson()));
 			}
 		} finally {

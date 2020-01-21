@@ -3,7 +3,9 @@ package stats;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import stats.persistence.DAOPlayerMongo;
 import stats.persistence.DAOTeamMongo;
+import stats.persistence.IDAOPlayer;
 import stats.persistence.IDAOTeam;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 public class App extends Application {
 	public static App sharedInstance = new App();
 	private IDAOTeam daoTeam = new DAOTeamMongo();
+	private IDAOPlayer daoPlayer = new DAOPlayerMongo();
 	
 	public static App getSharedInstance() {
 		return sharedInstance;
@@ -23,9 +26,14 @@ public class App extends Application {
 		return daoTeam;
 	}
 	
+	public IDAOPlayer getDaoPlayer() {
+		return daoPlayer;
+	}
+
+
 	
-	
-	
+
+
 	@Override
 	public void start(Stage primaryStage) {
 		try {
