@@ -102,5 +102,14 @@ public class Player {
 		Gson g = new Gson();
 		return g.fromJson(jsonString, Player.class);
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(fullName);
+		return builder.toString();
+	}
+	
+	
 	
 }
