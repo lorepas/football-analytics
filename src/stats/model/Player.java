@@ -13,6 +13,7 @@ public class Player {
 	private String fullName;
 	private String bornDate;
 	private String marketValueString;
+	private double marketValue;
 	private String link;
 	private String team;
 	private String nation;
@@ -39,6 +40,11 @@ public class Player {
 	public String getMarketValueString() {
 		return marketValueString;
 	}
+	
+	public double getMarketValue() {
+		return marketValue;
+	}
+	
 	public String getLink() {
 		return link;
 	}
@@ -69,6 +75,11 @@ public class Player {
 	public void setMarketValueString(String marketValueString) {
 		this.marketValueString = marketValueString;
 	}
+	
+	public void setMarketValue(double marketValue) {
+		this.marketValue = marketValue;
+	}
+	
 	public void setLink(String link) {
 		this.link = link;
 	}

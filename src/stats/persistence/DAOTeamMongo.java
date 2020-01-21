@@ -3,6 +3,7 @@ package stats.persistence;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.bson.Document;
 
@@ -110,12 +111,12 @@ public class DAOTeamMongo implements IDAOTeam {
 		MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
 		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 		Document query = new Document();
-		query.append("name", name);
+		query.append("name", Pattern.compile(".*" + name + ".*" , Pattern.CASE_INSENSITIVE));
 		MongoCursor<Document> cursor = mongoDatabase.getCollection("teams").find(query).iterator();
 		List<Team> teams = new ArrayList<Team>();
 		try {
 			while (cursor.hasNext()) { 
-				teams.add(Team.playerFromJson(cursor.next().toJson()));
+				teams.add(Team.teamFromJson(cursor.next().toJson()));
 			}
 		} finally {
 			cursor.close(); 
@@ -132,7 +133,7 @@ public class DAOTeamMongo implements IDAOTeam {
 		List<Team> teams = new ArrayList<Team>();
 		try {
 			while (cursor.hasNext()) { 
-				teams.add(Team.playerFromJson(cursor.next().toJson()));
+				teams.add(Team.teamFromJson(cursor.next().toJson()));
 			}
 		} finally {
 			cursor.close(); 

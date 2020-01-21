@@ -93,6 +93,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		try {
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("players");
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 			Document query = new Document();
 			query.append("fullName", fullName);
 			Document setData = new Document();
@@ -100,6 +101,8 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			setData.append("name", player.getName());
 			setData.append("surname", player.getSurname());
 			setData.append("marketValueString", player.getMarketValueString());
+			setData.append("marketValue", player.getMarketValue());
+			setData.append("bornDate", dateFormatter.parse(player.getBornDate()));
 			setData.append("link", player.getLink());
 			setData.append("nation", player.getNation());
 			setData.append("role", player.getRole());
@@ -107,6 +110,8 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			mongoCollection.findOneAndUpdate(query, setData);
 		} catch(MongoWriteException mwe) {
 			throw new DAOException(mwe);
+		} catch (ParseException e) {
+			throw new DAOException(e);
 		} finally {
 			mongoClient.close();
 		}

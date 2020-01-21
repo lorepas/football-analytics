@@ -50,7 +50,7 @@ public class Team {
 		return g.toJson(this);
 	}
 	
-	public static Team playerFromJson(String jsonString) {
+	public static Team teamFromJson(String jsonString) {
 		Gson g = new Gson();
 		return g.fromJson(jsonString, Team.class);
 	}
