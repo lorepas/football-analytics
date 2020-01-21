@@ -3,8 +3,12 @@ package stats;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import stats.persistence.DAOLeagueMongo;
+import stats.persistence.DAOMatchMongo;
 import stats.persistence.DAOPlayerMongo;
 import stats.persistence.DAOTeamMongo;
+import stats.persistence.IDAOLeague;
+import stats.persistence.IDAOMatch;
 import stats.persistence.IDAOPlayer;
 import stats.persistence.IDAOTeam;
 import javafx.scene.Parent;
@@ -16,6 +20,9 @@ public class App extends Application {
 	public static App sharedInstance = new App();
 	private IDAOTeam daoTeam = new DAOTeamMongo();
 	private IDAOPlayer daoPlayer = new DAOPlayerMongo();
+	private IDAOLeague daoLeague = new DAOLeagueMongo();
+	private IDAOMatch daoMatch = new DAOMatchMongo();
+	
 	
 	public static App getSharedInstance() {
 		return sharedInstance;
@@ -30,8 +37,13 @@ public class App extends Application {
 		return daoPlayer;
 	}
 
+	public IDAOLeague getDaoLeague() {
+		return daoLeague;
+	}
 
-	
+	public IDAOMatch getDaoMatch() {
+		return daoMatch;
+	}
 
 
 	@Override

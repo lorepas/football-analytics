@@ -24,16 +24,6 @@
                         <BorderPane layoutX="14.0" layoutY="130.0" prefHeight="706.0" prefWidth="866.0" style="-fx-background-color: #359565;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <left>
                               <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
-                                 <top>
-                                    <TextField accessibleRole="PARENT" promptText="Search a league..." BorderPane.alignment="CENTER">
-                                       <BorderPane.margin>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                       </BorderPane.margin>
-                                       <font>
-                                          <Font name="Baghdad Regular" size="11.0" />
-                                       </font>
-                                    </TextField>
-                                 </top>
                                  <center>
                                     <ListView accessibleRole="PARENT" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
@@ -41,6 +31,32 @@
                                        </BorderPane.margin>
                                     </ListView>
                                  </center>
+                                 <top>
+                                    <HBox prefHeight="66.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <TextField prefHeight="27.0" prefWidth="110.0" promptText="Search a League...">
+                                             <HBox.margin>
+                                                <Insets left="10.0" top="10.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font name="Baghdad Regular" size="11.0" />
+                                             </font>
+                                          </TextField>
+                                          <Button mnemonicParsing="false" text="SEARCH">
+                                             <HBox.margin>
+                                                <Insets left="10.0" top="10.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </top>
+                                 <bottom>
+                                    <Button mnemonicParsing="false" text="UPDATE" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets bottom="50.0" left="20.0" right="20.0" />
+                                       </BorderPane.margin>
+                                    </Button>
+                                 </bottom>
                               </BorderPane>
                            </left>
                         </BorderPane>

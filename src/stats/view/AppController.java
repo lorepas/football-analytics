@@ -41,7 +41,29 @@ public class AppController {
 		}
 		//
 		ObservableList listP = FXCollections.observableArrayList(listSearchedPlayers);
-		listTeams.setItems(listP);
+		listPlayer.setItems(listP);
 		}
+	
+	//TODO
+	public void ActionRetrieveLeague(ActionEvent event) throws DAOException {
+		
+	}
+	
+	
+	//TODO
+	public void ActionUpdateLeague(ActionEvent event) throws DAOException {
+		
+		}
+	//TODO
+	public void ActionUpdateTeams(ActionEvent event) throws DAOException {
+		
+	}
+	//TODO
+	public void ActionUpdatePlayers(ActionEvent event) throws DAOException {
+		
+	}
+
+	
+	
 
 }
