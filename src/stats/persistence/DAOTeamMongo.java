@@ -1,6 +1,7 @@
 package stats.persistence;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
@@ -95,7 +96,7 @@ public class DAOTeamMongo implements IDAOTeam {
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
 			Document query = new Document();
-			query.append("fullName", "/" + team.getFullName() + "/");
+			query.append("fullName", team.getFullName());
 			mongoCollection.deleteOne(query);
 		} catch(MongoWriteException mwe) {
 			throw new DAOException(mwe);
@@ -110,7 +111,7 @@ public class DAOTeamMongo implements IDAOTeam {
 		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 		Document query = new Document();
 		query.append("name", name);
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("teams").find().iterator();
+		MongoCursor<Document> cursor = mongoDatabase.getCollection("teams").find(query).iterator();
 		List<Team> teams = new ArrayList<Team>();
 		try {
 			while (cursor.hasNext()) { 

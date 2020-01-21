@@ -1,5 +1,7 @@
 package stats.persistence;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,12 +47,16 @@ public class DAOPlayerMongo implements IDAOPlayer {
 	public void createPlayer(Player player) throws DAOException{
 		try {
 			Document obj = Document.parse(player.toJSON());
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+			obj.put("bornDate", dateFormatter.parse(player.getBornDate()));
 			MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("players");
 			mongoCollection.insertOne(obj);
 		} catch(MongoWriteException mwe) {
 			throw new DAOException(mwe);
+		} catch (ParseException e) {
+			throw new DAOException(e);
 		}
 	}
 	
@@ -59,7 +65,9 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		try {
 			List<Document> documents = new ArrayList<>();
 			for (Player player : players) {
+				SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 				Document obj = Document.parse(player.toJSON());
+				obj.put("bornDate", dateFormatter.parse(player.getBornDate()));
 				documents.add(obj);
 			}
 			MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
@@ -74,6 +82,8 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			throw new DAOException(mwe);
 		} catch(MongoSocketOpenException msoe) {
 			throw new DAOException(msoe);
+		} catch(ParseException pe) {
+			throw new DAOException(pe);
 		}
 	}
 
@@ -123,7 +133,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
 		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 		Document query = new Document();
-		query.append("surname", "/" + surname + "/");
+		query.append("surname", surname);
 		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(query).iterator();
 		List<Player> players = new ArrayList<Player>();
 		try {
