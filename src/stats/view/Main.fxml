@@ -112,6 +112,13 @@
                                        </children>
                                     </Pane>
                                  </top>
+                                 <bottom>
+                                    <Button mnemonicParsing="false" text="UPDATE" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets bottom="50.0" left="20.0" right="20.0" />
+                                       </BorderPane.margin>
+                                    </Button>
+                                 </bottom>
                               </BorderPane>
                            </left>
                         </BorderPane>
@@ -147,6 +154,13 @@
                                                    </BorderPane.margin>
                                                 </ListView>
                                              </center>
+                                             <bottom>
+                                                <Button mnemonicParsing="false" text="UPDATE" BorderPane.alignment="CENTER">
+                                                   <BorderPane.margin>
+                                                      <Insets bottom="50.0" left="20.0" right="20.0" />
+                                                   </BorderPane.margin>
+                                                </Button>
+                                             </bottom>
                                           </BorderPane>
                                        </center>
                                     </BorderPane>
