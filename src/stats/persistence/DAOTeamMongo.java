@@ -95,7 +95,7 @@ public class DAOTeamMongo implements IDAOTeam {
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
 			Document query = new Document();
-			query.append("fullName", team.getFullName());
+			query.append("fullName", "/" + team.getFullName() + "/");
 			mongoCollection.deleteOne(query);
 		} catch(MongoWriteException mwe) {
 			throw new DAOException(mwe);

@@ -123,7 +123,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
 		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 		Document query = new Document();
-		query.append("surname", surname);
+		query.append("surname", "/" + surname + "/");
 		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(query).iterator();
 		List<Player> players = new ArrayList<Player>();
 		try {
