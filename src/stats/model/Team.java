@@ -54,6 +54,13 @@ public class Team {
 		Gson g = new Gson();
 		return g.fromJson(jsonString, Team.class);
 	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(name);
+		return builder.toString();
+	}
+	
 	
 	
 }
