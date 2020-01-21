@@ -1,95 +1,181 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ScrollBar?>
-<?import javafx.scene.control.SplitPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Pane prefHeight="520.0" prefWidth="720.0" style="-fx-background-color: #80ff80;">
-         <children>
-            <TabPane layoutX="2.0" layoutY="7.0" prefHeight="511.0" prefWidth="714.0" stylesheets="@application.css" tabClosingPolicy="UNAVAILABLE">
-              <tabs>
-                <Tab style="-fx-background-color: #80ff80; -fx-border-color: #009900;" text="LEAGUES">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <SplitPane dividerPositions="0.29797979797979796" layoutX="8.0" layoutY="8.0" prefHeight="482.0" prefWidth="714.0" style="-fx-background-color: #009900;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <items>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                       <children>
-                                          <ScrollBar layoutX="195.0" orientation="VERTICAL" prefHeight="480.0" prefWidth="14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="195.0" AnchorPane.topAnchor="0.0" />
-                                          <TextField layoutX="24.0" layoutY="21.0" promptText="Search for a leagues..." />
-                                       </children>
-                                    </AnchorPane>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #80ff80;" />
-                                </items>
-                              </SplitPane>
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-                  <Tab style="-fx-background-color: #80ff80; -fx-border-color: #009900;" text="TEAMS">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <SplitPane dividerPositions="0.29797979797979796" layoutX="8.0" layoutY="8.0" prefHeight="482.0" prefWidth="714.0" style="-fx-background-color: #009900;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <items>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                       <children>
-                                          <ScrollBar layoutX="195.0" orientation="VERTICAL" prefHeight="480.0" prefWidth="14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="195.0" AnchorPane.topAnchor="0.0" />
-                                       </children>
-                                    </AnchorPane>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #80ff80;" />
-                                 </items>
-                              </SplitPane>
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab style="-fx-background-color: #80ff80; -fx-border-color: #009900;" text="PLAYERS">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <SplitPane dividerPositions="0.29797979797979796" layoutX="8.0" layoutY="8.0" prefHeight="482.0" prefWidth="714.0" style="-fx-background-color: #009900;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <items>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                       <children>
-                                          <ScrollBar layoutX="195.0" orientation="VERTICAL" prefHeight="480.0" prefWidth="14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="195.0" AnchorPane.topAnchor="0.0" />
-                                       </children>
-                                    </AnchorPane>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #80ff80;" />
-                                 </items>
-                              </SplitPane>
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab style="-fx-background-color: #80ff80; -fx-border-color: #009900;" text="MATCHES">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <SplitPane dividerPositions="0.29797979797979796" layoutX="8.0" layoutY="8.0" prefHeight="482.0" prefWidth="714.0" style="-fx-background-color: #009900;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <items>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                       <children>
-                                          <ScrollBar layoutX="195.0" orientation="VERTICAL" prefHeight="480.0" prefWidth="14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="195.0" AnchorPane.topAnchor="0.0" />
-                                       </children>
-                                    </AnchorPane>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #80ff80;" />
-                                 </items>
-                              </SplitPane>
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-              </tabs>
-            </TabPane>
-         </children>
-      </Pane>
-   </children>
-</AnchorPane>
+<BorderPane prefHeight="739.0" prefWidth="866.0" style="-fx-background-color: #359565;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <TabPane accessibleRole="PARENT" prefHeight="438.0" prefWidth="624.0" style="-fx-background-color: #359565;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab style="-fx-background-color: #359565;" text="LEAGUES">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #359565; -fx-border-color: #29734E;">
+                     <children>
+                        <BorderPane layoutX="14.0" layoutY="130.0" prefHeight="706.0" prefWidth="866.0" style="-fx-background-color: #359565;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <left>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
+                                 <top>
+                                    <TextField accessibleRole="PARENT" promptText="Search a league..." BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </BorderPane.margin>
+                                       <font>
+                                          <Font name="Baghdad Regular" size="11.0" />
+                                       </font>
+                                    </TextField>
+                                 </top>
+                                 <center>
+                                    <ListView accessibleRole="PARENT" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" />
+                                       </BorderPane.margin>
+                                    </ListView>
+                                 </center>
+                              </BorderPane>
+                           </left>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab style="-fx-background-color: #359565;" text="TEAMS">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #359565; -fx-border-color: #29734E;">
+                     <children>
+                        <BorderPane layoutX="142.0" layoutY="122.0" prefHeight="706.0" prefWidth="866.0" style="-fx-background-color: #359565;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <left>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
+                                 <top>
+                                    <TextField accessibleRole="PARENT" promptText="Search a team..." BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </BorderPane.margin>
+                                       <font>
+                                          <Font name="Baghdad Regular" size="11.0" />
+                                       </font>
+                                    </TextField>
+                                 </top>
+                                 <center>
+                                    <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
+                                       <top>
+                                          <ComboBox accessibleRole="PARENT" prefWidth="150.0" promptText="LEAGUES" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets bottom="10.0" />
+                                             </BorderPane.margin>
+                                          </ComboBox>
+                                       </top>
+                                       <center>
+                                          <ListView accessibleRole="PARENT" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" />
+                                             </BorderPane.margin>
+                                          </ListView>
+                                       </center>
+                                    </BorderPane>
+                                 </center>
+                              </BorderPane>
+                           </left>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab style="-fx-background-color: #359565;" text="PLAYERS">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #359565; -fx-border-color: #29734E;">
+                     <children>
+                        <BorderPane layoutX="249.0" layoutY="231.0" prefHeight="706.0" prefWidth="866.0" style="-fx-background-color: #359565; -fx-border-color: #29734E;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <left>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
+                                 <top>
+                                    <TextField accessibleRole="PARENT" promptText="Search a player..." BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </BorderPane.margin>
+                                       <font>
+                                          <Font name="Baghdad Regular" size="11.0" />
+                                       </font>
+                                    </TextField>
+                                 </top>
+                                 <center>
+                                    <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
+                                       <top>
+                                          <ComboBox accessibleRole="PARENT" prefWidth="150.0" promptText="LEAGUES" BorderPane.alignment="CENTER" />
+                                       </top>
+                                       <center>
+                                          <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
+                                             <top>
+                                                <ComboBox accessibleRole="PARENT" prefWidth="150.0" promptText="TEAMS" BorderPane.alignment="CENTER">
+                                                   <BorderPane.margin>
+                                                      <Insets top="10.0" />
+                                                   </BorderPane.margin>
+                                                </ComboBox>
+                                             </top>
+                                             <center>
+                                                <ListView accessibleRole="PARENT" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
+                                                   <BorderPane.margin>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </BorderPane.margin>
+                                                </ListView>
+                                             </center>
+                                          </BorderPane>
+                                       </center>
+                                    </BorderPane>
+                                 </center>
+                              </BorderPane>
+                           </left>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab style="-fx-background-color: #359565;" text="MATCHES">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #359565; -fx-border-color: #29734E;">
+                     <children>
+                        <BorderPane layoutX="204.0" layoutY="261.0" prefHeight="706.0" prefWidth="866.0" style="-fx-background-color: #359565; -fx-border-color: &quot;#29734E#29734E;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <left>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
+                                 <top>
+                                    <ComboBox accessibleRole="PARENT" prefWidth="150.0" promptText="LEAGUES" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets top="10.0" />
+                                       </BorderPane.margin>
+                                    </ComboBox>
+                                 </top>
+                                 <center>
+                                    <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
+                                       <top>
+                                          <ComboBox accessibleRole="PARENT" prefWidth="150.0" promptText="MATCH DAYS" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets top="10.0" />
+                                             </BorderPane.margin>
+                                          </ComboBox>
+                                       </top>
+                                       <center>
+                                          <ListView accessibleRole="PARENT" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </BorderPane.margin>
+                                          </ListView>
+                                       </center>
+                                    </BorderPane>
+                                 </center>
+                              </BorderPane>
+                           </left>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
