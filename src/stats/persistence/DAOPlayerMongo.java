@@ -3,7 +3,9 @@ package stats.persistence;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.bson.Document;
 
@@ -138,13 +140,20 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
 		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 		Document query = new Document();
-		query.append("surname", surname);
+		query.append("surname", Pattern.compile(".*" + surname + ".*" , Pattern.CASE_INSENSITIVE));
 		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(query).iterator();
 		List<Player> players = new ArrayList<Player>();
 		try {
 			while (cursor.hasNext()) { 
-				System.out.println(cursor.next());
-				players.add(Player.playerFromJson(cursor.next().toJson()));
+				Document document = cursor.next();
+				Date bornDate = (Date) document.get("bornDate");
+				String dateString = new SimpleDateFormat("dd/MM/yyyy").format(bornDate);
+				document.put("bornDate", dateString);
+				
+				String json = document.toJson();
+				System.out.println(json);
+				Player player = Player.playerFromJson(json);
+				players.add(player);
 			}
 		} finally {
 			cursor.close(); 
