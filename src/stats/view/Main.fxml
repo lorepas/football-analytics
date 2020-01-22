@@ -87,6 +87,13 @@
                                              </BorderPane.margin>
                                           </ListView>
                                        </center>
+                                       <bottom>
+                                          <Button fx:id="buttonUpdateTeam" mnemonicParsing="false" onAction="#ActionUpdateTeams" text="UPDATE" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets bottom="50.0" left="20.0" right="20.0" />
+                                             </BorderPane.margin>
+                                          </Button>
+                                       </bottom>
                                     </BorderPane>
                                  </center>
                                  <top>
@@ -112,13 +119,6 @@
                                        </children>
                                     </Pane>
                                  </top>
-                                 <bottom>
-                                    <Button mnemonicParsing="false" text="UPDATE" BorderPane.alignment="CENTER">
-                                       <BorderPane.margin>
-                                          <Insets bottom="50.0" left="20.0" right="20.0" />
-                                       </BorderPane.margin>
-                                    </Button>
-                                 </bottom>
                               </BorderPane>
                            </left>
                         </BorderPane>
@@ -155,7 +155,7 @@
                                                 </ListView>
                                              </center>
                                              <bottom>
-                                                <Button mnemonicParsing="false" text="UPDATE" BorderPane.alignment="CENTER">
+                                                <Button fx:id="buttonUpdatePlayer" mnemonicParsing="false" onAction="#ActionUpdatePlayers" text="UPDATE" BorderPane.alignment="CENTER">
                                                    <BorderPane.margin>
                                                       <Insets bottom="50.0" left="20.0" right="20.0" />
                                                    </BorderPane.margin>

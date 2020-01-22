@@ -8,6 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import stats.App;
 import stats.model.Player;
@@ -22,44 +25,83 @@ public class AppController {
 	@FXML javafx.scene.control.Button searchPlayerButton;
 	@FXML javafx.scene.control.TextField fieldPlayer;
 	@FXML ListView<Team> listPlayer;
+	@FXML javafx.scene.control.Button buttonUpdateTeam;
 	
 	
 	
-	public void ActionRetrieveTeam(ActionEvent event) throws DAOException {
-		String text = fieldTeam.getText();
-		List<Team> listSearchedTeams = App.sharedInstance.getDaoTeam().retrieveTeams(text);
-		ObservableList list = FXCollections.observableArrayList(listSearchedTeams);
-		listTeams.setItems(list);
+	
+	public void ActionRetrieveTeam(ActionEvent event) {
+		try {
+			String text = fieldTeam.getText();
+			List<Team> listSearchedTeams = App.sharedInstance.getDaoTeam().retrieveTeams(text);
+			ObservableList list = FXCollections.observableArrayList(listSearchedTeams);
+			listTeams.setItems(list);
+		} catch(DAOException e) {
+			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
+			alert.showAndWait();
+		}
+		
 		}
 	
-	public void ActionRetrievePlayer(ActionEvent event) throws DAOException {
-		String textPlayer = fieldPlayer.getText();
-		List<Player> listSearchedPlayers = App.sharedInstance.getDaoPlayer().retrievePlayers(textPlayer);
-		//CONTROL OF LIST
-		if (listSearchedPlayers.isEmpty()) {
-			System.out.println("LISTA VUOTA");
+	public void ActionRetrievePlayer(ActionEvent event) {
+		try {
+			String textPlayer = fieldPlayer.getText();
+			List<Player> listSearchedPlayers = App.sharedInstance.getDaoPlayer().retrievePlayers(textPlayer);
+			ObservableList listP = FXCollections.observableArrayList(listSearchedPlayers);
+			listPlayer.setItems(listP);
+		} catch(DAOException e) {
+			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
+			alert.showAndWait();
 		}
-		//
-		ObservableList listP = FXCollections.observableArrayList(listSearchedPlayers);
-		listPlayer.setItems(listP);
+		
+		
 		}
 	
 	//TODO
-	public void ActionRetrieveLeague(ActionEvent event) throws DAOException {
+	public void ActionRetrieveLeague(ActionEvent event) {
+//		try {
+//			
+//			
+//		} catch(DAOException e) {
+//			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
+//			alert.showAndWait();
+//		}
 		
 	}
 	
 	
 	//TODO
-	public void ActionUpdateLeague(ActionEvent event) throws DAOException {
-		
+	public void ActionUpdateLeague(ActionEvent event) {
+//		try {
+//			
+//		} catch(DAOException e) {
+//			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
+//			alert.showAndWait();
+//		}
+//		
 		}
 	//TODO
-	public void ActionUpdateTeams(ActionEvent event) throws DAOException {
+	public void ActionUpdateTeams(ActionEvent event) {
+//		try {
+		System.out.println("UPDATE TEAM OK");
+		
+		
+//			
+//		} catch(DAOException e) {
+//			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
+//			alert.showAndWait();
+//		}
 		
 	}
 	//TODO
-	public void ActionUpdatePlayers(ActionEvent event) throws DAOException {
+	public void ActionUpdatePlayers(ActionEvent event) {
+//		try {
+			System.out.println("UPDATE PLAYER OK");
+//		} catch(DAOException e) {
+//			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
+//			alert.showAndWait();
+//			
+//		}
 		
 	}
 
