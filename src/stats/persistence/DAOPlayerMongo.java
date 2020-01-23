@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.bson.Document;
-import org.bson.conversions.Bson;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -20,7 +19,6 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.connection.ClusterDescription;
 import com.mongodb.connection.ClusterType;
-import static com.mongodb.client.model.Filters.eq;
 
 import stats.model.Player;
 import stats.utility.Utils;
@@ -100,9 +98,8 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("players");
 			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 			
-			Bson filter = eq("fullName", fullName);
-//			Document query = new Document();
-//			query.append("fullName", fullName);
+			Document query = new Document();
+			query.append("fullName", fullName);
 			Document setData = new Document();
 			setData.append("fullName", player.getFullName());
 			setData.append("name", player.getName());
@@ -115,7 +112,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			setData.append("role", player.getRole());
 			setData.append("team", player.getTeam());
 			setData.append("detailedPerformances", player.getDetailedPerformances());
-			mongoCollection.updateOne(filter, setData);
+			mongoCollection.updateOne(query, setData);
 		} catch(MongoWriteException mwe) {
 			throw new DAOException(mwe);
 		} catch (ParseException e) {
