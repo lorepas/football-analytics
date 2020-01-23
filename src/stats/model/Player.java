@@ -18,6 +18,7 @@ public class Player {
 	private String team;
 	private String nation;
 	List<DetailedPerformance> detailedPerformances = new ArrayList<>();
+	List<MarketValue> marketValueHistory = new ArrayList<>();
 	
 	public Player() {
 	}
@@ -57,6 +58,11 @@ public class Player {
 	public List<DetailedPerformance> getDetailedPerformances() {
 		return detailedPerformances;
 	}
+	
+	public List<MarketValue> getMarketValueHistory() {
+		return marketValueHistory;
+	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -91,6 +97,10 @@ public class Player {
 	}
 	public void setDetailedPerformances(List<DetailedPerformance> detailedPerformances) {
 		this.detailedPerformances = detailedPerformances;
+	}
+	
+	public void setMarketValueHistory(List<MarketValue> marketValueHistory) {
+		this.marketValueHistory = marketValueHistory;
 	}
 	
 	public String toJSON() {

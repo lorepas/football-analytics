@@ -129,11 +129,11 @@ public class AppController {
 				Player[] players = new Gson().fromJson(json, Player[].class);
 				for (Player player : players) {
 					if(App.getSharedInstance().getDaoPlayer().exists(player)) {
-//						App.getSharedInstance().getDaoPlayer().updatePlayer(player.getFullName(), player);
-						System.out.println(player.getSurname() + "updated");
+						App.getSharedInstance().getDaoPlayer().updatePlayer(player.getFullName(), player);
+						System.out.println(player.getSurname() + " updated");
 					} else {
 						App.getSharedInstance().getDaoPlayer().createPlayer(player);
-						System.out.println(player.getSurname() + "created");
+						System.out.println(player.getSurname() + " created");
 					}
 				}
 			} else {

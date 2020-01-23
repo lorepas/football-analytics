@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
+import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
@@ -19,7 +21,9 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.connection.ClusterDescription;
 import com.mongodb.connection.ClusterType;
+import static com.mongodb.client.model.Filters.eq;
 
+import stats.model.DetailedPerformance;
 import stats.model.Player;
 import stats.utility.Utils;
 
@@ -97,26 +101,14 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("players");
 			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-			
-			Document query = new Document();
-			query.append("fullName", fullName);
-			Document setData = new Document();
-			setData.append("fullName", player.getFullName());
-			setData.append("name", player.getName());
-			setData.append("surname", player.getSurname());
-			setData.append("marketValueString", player.getMarketValueString());
-			setData.append("marketValue", player.getMarketValue());
-			setData.append("bornDate", dateFormatter.parse(player.getBornDate()));
-			setData.append("link", player.getLink());
-			setData.append("nation", player.getNation());
-			setData.append("role", player.getRole());
-			setData.append("team", player.getTeam());
-			setData.append("detailedPerformances", player.getDetailedPerformances());
-			mongoCollection.updateOne(query, setData);
+			Bson query = eq("fullName", player.getFullName());
+			Document setData = Document.parse(player.toJSON());
+			Document updateDocument = new Document("$set", setData);
+			System.out.println("Update document: " + updateDocument);
+			mongoCollection.updateOne(query, updateDocument);
+			System.out.println("Query: " + query);
 		} catch(MongoWriteException mwe) {
 			throw new DAOException(mwe);
-		} catch (ParseException e) {
-			throw new DAOException(e);
 		} finally {
 			mongoClient.close();
 		}
