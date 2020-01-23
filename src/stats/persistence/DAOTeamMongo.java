@@ -1,27 +1,33 @@
 package stats.persistence;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import org.bson.Document;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoWriteException;
-import com.mongodb.client.MongoClient;
+import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.internal.MongoClientImpl;
 
 import stats.model.Team;
+import stats.utility.Utils;
 
 public class DAOTeamMongo implements IDAOTeam {
 	
 	@Override
-	public boolean existsTeam(Team team) throws DAOException {
+	public boolean exists(Team team) throws DAOException {
+		MongoClient mongoClient = Utils.getMongoClient();
 		try {
-			MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
 			Document filter = new Document();
@@ -34,6 +40,8 @@ public class DAOTeamMongo implements IDAOTeam {
 			}
 		} catch (MongoWriteException mwe) {
 			throw new DAOException(mwe);
+		} finally {
+			mongoClient.close();
 		}
 	}
 
@@ -41,7 +49,7 @@ public class DAOTeamMongo implements IDAOTeam {
 	public void createTeam(Team team) throws DAOException {
 		try {
 			Document obj = Document.parse(team.toJSON());
-			MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
+			MongoClient mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
 			mongoCollection.insertOne(obj);
@@ -58,7 +66,7 @@ public class DAOTeamMongo implements IDAOTeam {
 				Document obj = Document.parse(team.toJSON());
 				documents.add(obj);
 			}
-			MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
+			MongoClient mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
 			mongoCollection.insertMany(documents);
@@ -70,7 +78,7 @@ public class DAOTeamMongo implements IDAOTeam {
 
 	@Override
 	public void updateTeam(String fullName, Team team) throws DAOException {
-		MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
+		MongoClient mongoClient = Utils.getMongoClient();
 		try {
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
@@ -92,7 +100,7 @@ public class DAOTeamMongo implements IDAOTeam {
 
 	@Override
 	public void deleteTeam(Team team) throws DAOException {
-		MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
+		MongoClient mongoClient = Utils.getMongoClient();
 		try {
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
@@ -108,7 +116,7 @@ public class DAOTeamMongo implements IDAOTeam {
 
 	@Override
 	public List<Team> retrieveTeams(String name) throws DAOException {
-		MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
+		MongoClient mongoClient = Utils.getMongoClient();
 		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 		Document query = new Document();
 		query.append("name", Pattern.compile(".*" + name + ".*" , Pattern.CASE_INSENSITIVE));
@@ -127,7 +135,7 @@ public class DAOTeamMongo implements IDAOTeam {
 
 	@Override
 	public List<Team> retrieveAllTeams() throws DAOException {
-		MongoClient mongoClient = MongoClients.create("mongodb://172.16.0.132:27018");
+		MongoClient mongoClient = Utils.getMongoClient();
 		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 		MongoCursor<Document> cursor = mongoDatabase.getCollection("teams").find().iterator();
 		List<Team> teams = new ArrayList<Team>();
