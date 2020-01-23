@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="691.0" style="-fx-background-color: #359565 #359565;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stats.view.LoginController">
+   <bottom>
+      <Button fx:id="buttonToHome" mnemonicParsing="false" onAction="#ActionToHomePage" text="LOGIN" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

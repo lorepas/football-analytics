@@ -1,5 +1,8 @@
 package stats;
 	
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -11,13 +14,18 @@ import stats.persistence.IDAOLeague;
 import stats.persistence.IDAOMatch;
 import stats.persistence.IDAOPlayer;
 import stats.persistence.IDAOTeam;
+import stats.view.AppController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
 
 public class App extends Application {
+	//
+	
+	//
 	public static App sharedInstance = new App();
+	private AppController appController = new AppController();
 	private IDAOTeam daoTeam = new DAOTeamMongo();
 	private IDAOPlayer daoPlayer = new DAOPlayerMongo();
 	private IDAOLeague daoLeague = new DAOLeagueMongo();
@@ -44,6 +52,10 @@ public class App extends Application {
 	public IDAOMatch getDaoMatch() {
 		return daoMatch;
 	}
+	public AppController getAppController() {
+		return appController;
+	}
+
 
 
 	@Override
@@ -51,6 +63,7 @@ public class App extends Application {
 		try {
 			
 			Parent root = FXMLLoader.load(getClass().getResource("/stats/view/Main.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/stats/view/Main.fxml"));
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/stats/view/application.css").toExternalForm());
 			primaryStage.setMinHeight(739);
