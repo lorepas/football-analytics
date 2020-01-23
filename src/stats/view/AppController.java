@@ -96,11 +96,18 @@ public class AppController {
 				String filePath = file.getAbsolutePath();
 
 				String json = App.getSharedInstance().getReadFromFile().readLocalJSON(filePath);
+				if(!json.contains("rosterSize") && !json.contains("shield") && !json.contains("championshipCode")) {
+					Alert alert = new Alert(AlertType.ERROR, "File is not in the correct format", ButtonType.CLOSE);
+					alert.showAndWait();
+					return;
+				}
 				Team[] teams = new Gson().fromJson(json, Team[].class);
 				for (Team team : teams) {
 					if(App.getSharedInstance().getDaoTeam().exists(team)) {
+						App.getSharedInstance().getDaoTeam().updateTeam(team.getFullName(), team);
 						System.out.println(team.getFullName() + " already exists");
 					} else {
+						App.getSharedInstance().getDaoTeam().createTeam(team);
 						System.out.println(team.getFullName() + " doesn't exist");
 					}
 				}
@@ -126,6 +133,11 @@ public class AppController {
 				String filePath = file.getAbsolutePath();
 
 				String json = App.getSharedInstance().getReadFromFile().readLocalJSON(filePath);
+				if(!json.contains("bornDate") || !json.contains("detailedPerformances") || !json.contains("marketValueHistory")) {
+					Alert alert = new Alert(AlertType.ERROR, "File is not in the correct format", ButtonType.CLOSE);
+					alert.showAndWait();
+					return;
+				}
 				Player[] players = new Gson().fromJson(json, Player[].class);
 				for (Player player : players) {
 					if(App.getSharedInstance().getDaoPlayer().exists(player)) {
@@ -148,8 +160,4 @@ public class AppController {
 		}
 		
 	}
-
-	
-	
-
 }
