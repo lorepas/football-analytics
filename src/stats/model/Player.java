@@ -17,6 +17,7 @@ public class Player {
 	private String link;
 	private String team;
 	private String nation;
+	private String league;
 	List<DetailedPerformance> detailedPerformances = new ArrayList<>();
 	List<MarketValue> marketValueHistory = new ArrayList<>();
 	
@@ -55,6 +56,11 @@ public class Player {
 	public String getNation() {
 		return nation;
 	}
+	
+	public String getLeague() {
+		return league;
+	}
+	
 	public List<DetailedPerformance> getDetailedPerformances() {
 		return detailedPerformances;
 	}
@@ -95,6 +101,11 @@ public class Player {
 	public void setNation(String nation) {
 		this.nation = nation;
 	}
+	
+	public void setLeague(String league) {
+		this.league = league;
+	}
+	
 	public void setDetailedPerformances(List<DetailedPerformance> detailedPerformances) {
 		this.detailedPerformances = detailedPerformances;
 	}
