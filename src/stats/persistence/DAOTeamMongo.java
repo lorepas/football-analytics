@@ -1,5 +1,8 @@
 package stats.persistence;
 
+import static com.mongodb.client.model.Filters.eq;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -7,6 +10,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
@@ -81,15 +85,13 @@ public class DAOTeamMongo implements IDAOTeam {
 		MongoClient mongoClient = Utils.getMongoClient();
 		try {
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
-			Document query = new Document();
-			query.append("fullName", fullName);
-			Document setData = new Document();
-			setData.append("fullName", team.getFullName());
-			setData.append("name", team.getName());
-			setData.append("rosterSize", team.getRosterSize());
-			setData.append("shield", team.getShield());
-			mongoCollection.findOneAndUpdate(query, setData);
+			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("team");
+			Bson query = eq("fullName", team.getFullName());
+			Document setData = Document.parse(team.toJSON());
+			Document updateDocument = new Document("$set", setData);
+			System.out.println("Update document: " + updateDocument);
+			mongoCollection.updateOne(query, updateDocument);
+			System.out.println("Query: " + query);
 		} catch(MongoWriteException mwe) {
 			throw new DAOException(mwe);
 		} finally {

@@ -103,12 +103,15 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 			Bson query = eq("fullName", player.getFullName());
 			Document setData = Document.parse(player.toJSON());
+			setData.put("bornDate", dateFormatter.parse(player.getBornDate()));
 			Document updateDocument = new Document("$set", setData);
 			System.out.println("Update document: " + updateDocument);
 			mongoCollection.updateOne(query, updateDocument);
 			System.out.println("Query: " + query);
 		} catch(MongoWriteException mwe) {
 			throw new DAOException(mwe);
+		} catch (ParseException e) {
+			throw new DAOException(e);
 		} finally {
 			mongoClient.close();
 		}
@@ -141,6 +144,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		try {
 			while (cursor.hasNext()) { 
 				Document document = cursor.next();
+				System.out.println(document.get("bornDate"));
 				Date bornDate = (Date) document.get("bornDate");
 				String dateString = new SimpleDateFormat("dd/MM/yyyy").format(bornDate);
 				document.put("bornDate", dateString);

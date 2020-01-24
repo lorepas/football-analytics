@@ -4,11 +4,11 @@ import java.util.Date;
 
 public class MarketValue {
 
-	String team;
-	int age;
-	String marketValueString;
-	String dateString;
-	Date date;
+	private String team;
+	private int age;
+	private String marketValueString;
+	private String dateString;
+	//Date date;
 	double marketValue;
 	
 	public String getTeam() {
@@ -23,9 +23,9 @@ public class MarketValue {
 	public String getDateString() {
 		return dateString;
 	}
-	public Date getDate() {
-		return date;
-	}
+//	public Date getDate() {
+//		return date;
+//	}
 	public double getMarketValue() {
 		return marketValue;
 	}
@@ -41,9 +41,9 @@ public class MarketValue {
 	public void setDateString(String dateString) {
 		this.dateString = dateString;
 	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
+//	public void setDate(Date date) {
+//		this.date = date;
+//	}
 	public void setMarketValue(double marketValue) {
 		this.marketValue = marketValue;
 	}
