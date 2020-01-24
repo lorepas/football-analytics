@@ -12,6 +12,7 @@ public class Team {
 	private int rosterSize;
 //	private String link;
 	private String shield;
+	private String nation;
 	private List<String> players = new ArrayList<>();
 	
 	public String getName() {
@@ -26,6 +27,11 @@ public class Team {
 	public String getShield() {
 		return shield;
 	}
+	
+	public String getNation() {
+		return nation;
+	}
+	
 	public List<String> getPlayers() {
 		return players;
 	}
@@ -43,6 +49,10 @@ public class Team {
 	}
 	public void setPlayers(List<String> players) {
 		this.players = players;
+	}
+	
+	public void setNation(String nation) {
+		this.nation = nation;
 	}
 	
 	public String toJSON() {
