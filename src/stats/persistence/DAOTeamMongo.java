@@ -22,6 +22,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.internal.MongoClientImpl;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
 
 import stats.model.Team;
 import stats.utility.Utils;
@@ -150,6 +153,16 @@ public class DAOTeamMongo implements IDAOTeam {
 		}
         mongoClient.close();
 		return teams;
+	}
+	
+	public void getTeamTotalMarketValue(Team team) {
+		MongoClient mongoClient = Utils.getMongoClient();
+		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").aggregate(
+				Arrays.asList(
+						Aggregates.match(Filters.eq("team",team.getFullName())),
+						Aggregates.group("$team", Accumulators.sum("marketValue", "$marketValue"))
+				)).iterator();
 	}
 
 }
