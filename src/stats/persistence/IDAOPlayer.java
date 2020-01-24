@@ -13,5 +13,8 @@ public interface IDAOPlayer {
 	public void deletePlayer(String fullName, Player player) throws DAOException;
 	public List<Player> retrievePlayers(String surname)throws DAOException;
 	public List<Player> retrieveAllPlayers() throws DAOException;
+	public Player retrieveYoungerPlayer() throws DAOException;
+	public Player retrieveOlderPlayer() throws DAOException;
+	public Player retrieveMostValuedPlayer() throws DAOException;
 	
 }

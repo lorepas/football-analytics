@@ -178,4 +178,55 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		return players;
 	}
 
+	@Override
+	public Player retrieveYoungerPlayer() throws DAOException {
+		MongoClient mongoClient = Utils.getMongoClient();
+		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+		Document sort = new Document();
+		sort.append("bornDate", 1);
+		Document filter = new Document();
+		filter.append("bornDate", new Document().put("$exists", true));
+		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+		Player player = null;
+		if(cursor.hasNext()) {
+			player = Player.playerFromJson(cursor.next().toJson());
+		}
+		mongoClient.close();
+		return player;
+	}
+
+	@Override
+	public Player retrieveOlderPlayer() throws DAOException {
+		MongoClient mongoClient = Utils.getMongoClient();
+		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+		Document sort = new Document();
+		sort.append("bornDate", -1);
+		Document filter = new Document();
+		filter.append("bornDate", new Document().put("$exists", true));
+		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+		Player player = null;
+		if(cursor.hasNext()) {
+			player = Player.playerFromJson(cursor.next().toJson());
+		}
+		mongoClient.close();
+		return player;
+	}
+
+	@Override
+	public Player retrieveMostValuedPlayer() throws DAOException {
+		MongoClient mongoClient = Utils.getMongoClient();
+		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+		Document sort = new Document();
+		sort.append("marketValue", -1);
+		Document filter = new Document();
+		filter.append("marketValue", new Document().put("$exists", true));
+		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+		Player player = null;
+		if(cursor.hasNext()) {
+			player = Player.playerFromJson(cursor.next().toJson());
+		}
+		mongoClient.close();
+		return player;
+	}
+
 }
