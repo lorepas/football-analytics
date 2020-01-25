@@ -8,16 +8,19 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 
+import stats.model.User;
 import stats.utility.Utils;
 
 public class DAOUserMongo implements IDAOUser{
 	
-	public boolean Login(String username, String pwd) throws DAOException {
+	public boolean login(User user) throws DAOException {
 		MongoClient mongoClient = Utils.getMongoClient();
 		try {
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("users");
 			Document filter = new Document();
+			String username = user.getUsername();
+			String pwd = user.getPwd();
 			filter.append("username", username);
 			filter.append("pwd", pwd);
 			MongoCursor<Document> cursor = mongoCollection.find(filter).iterator();

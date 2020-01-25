@@ -11,10 +11,12 @@ import org.slf4j.LoggerFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import stats.model.User;
 import stats.persistence.DAOLeagueMongo;
 import stats.persistence.DAOMatchMongo;
 import stats.persistence.DAOPlayerMongo;
 import stats.persistence.DAOTeamMongo;
+import stats.persistence.DAOUserKV;
 import stats.persistence.DAOUserMongo;
 import stats.persistence.IDAOLeague;
 import stats.persistence.IDAOMatch;
@@ -39,6 +41,7 @@ public class App extends Application {
 	private IDAOLeague daoLeague = new DAOLeagueMongo();
 	private IDAOMatch daoMatch = new DAOMatchMongo();
 	private IDAOUser daoUser = new DAOUserMongo();
+	private IDAOUser daoUserKV = new DAOUserKV();
 	private ReadFromFile readFromFile = new ReadFromFile();
 	private Stage primaryStage;
 	
@@ -47,6 +50,9 @@ public class App extends Application {
 		return sharedInstance;
 	}
 
+	public IDAOUser getDaoUserKV() {
+		return daoUserKV;
+	}
 	
 	public IDAOTeam getDaoTeam() {
 		return daoTeam;
@@ -83,6 +89,10 @@ public class App extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+//			User user = new User();
+//			user.setUsername("user");
+//			user.setPwd("nalf10");
+//			App.getSharedInstance().getDaoUserKV().putUser(user);
 			LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 			Logger rootLogger = loggerContext.getLogger("org.mongodb.driver");
 			rootLogger.setLevel(Level.OFF);

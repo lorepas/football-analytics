@@ -13,6 +13,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import stats.App;
+import stats.model.User;
 import stats.persistence.DAOException;
 
 public class LoginController {
@@ -27,23 +28,25 @@ public void ActionToHomePage(ActionEvent event) throws IOException {
 	
 	String username = fieldUsername.getText();
 	String pwd = fieldPassword.getText();
+	User user = new User();
+	user.setPwd(pwd);
+	user.setUsername(username);
 	try {
-		if (App.getSharedInstance().getDaoUser().Login(username, pwd)) {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
-		Parent homePage = loader.load();
-		Scene homeScene = new Scene(homePage);
-		Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		AppController controller = loader.getController();
-		app_stage.setScene(homeScene);
-		controller.buttonLogin.setText("LOGOUT");
-		controller.buttonUpdateTeam.setVisible(true);
-		controller.buttonUpdateLeague.setVisible(true);
-		controller.buttonDeleteLeague.setVisible(true);
-		controller.buttonDeleteTeam.setVisible(true);
-		controller.buttonDeletePlayer.setVisible(true);
-		controller.buttoUpdatePlayer.setVisible(true);
-		app_stage.show();
-		
+		if(App.getSharedInstance().getDaoUserKV().login(user)) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+			Parent homePage = loader.load();
+			Scene homeScene = new Scene(homePage);
+			Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			AppController controller = loader.getController();
+			app_stage.setScene(homeScene);
+			controller.buttonLogin.setText("LOGOUT");
+			controller.buttonUpdateTeam.setVisible(true);
+			controller.buttonUpdateLeague.setVisible(true);
+			controller.buttonDeleteLeague.setVisible(true);
+			controller.buttonDeleteTeam.setVisible(true);
+			controller.buttonDeletePlayer.setVisible(true);
+			controller.buttoUpdatePlayer.setVisible(true);
+			app_stage.show();
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION, "Wrong insert! Try again or if you want you can login as a guest.", ButtonType.CLOSE);
 			alert.showAndWait();
