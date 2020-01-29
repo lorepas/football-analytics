@@ -51,31 +51,36 @@ public class DAOTeamMongo implements IDAOTeam {
 
 	@Override
 	public void createTeam(Team team) throws DAOException {
+		MongoClient mongoClient = Utils.getMongoClient();
 		try {
 			Document obj = Document.parse(team.toJSON());
-			MongoClient mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
 			mongoCollection.insertOne(obj);
 		} catch(MongoWriteException mwe) {
 			throw new DAOException(mwe);
+		} finally {
+			mongoClient.close();
 		}
 	}
 	
 	@Override
 	public void createListOfTeams(List<Team> teams) throws DAOException {
+		MongoClient mongoClient = Utils.getMongoClient();
 		try {
 			List<Document> documents = new ArrayList<>();
 			for (Team team : teams) {
 				Document obj = Document.parse(team.toJSON());
 				documents.add(obj);
 			}
-			MongoClient mongoClient = Utils.getMongoClient();
+			
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
 			mongoCollection.insertMany(documents);
 		} catch(MongoWriteException mwe) {
 			throw new DAOException(mwe);
+		} finally {
+			mongoClient.close();
 		}
 		
 	}
