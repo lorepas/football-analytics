@@ -3,6 +3,7 @@ package stats.view;
 import java.awt.Button;
 import java.awt.TextField;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +14,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import stats.App;
+import stats.model.Match;
 import stats.model.Player;
 import stats.model.Team;
 import stats.persistence.DAOException;
@@ -32,6 +43,25 @@ public class AppController {
 	@FXML javafx.scene.control.TextField fieldPlayer;
 	@FXML ListView<Team> listPlayer;
 	@FXML javafx.scene.control.Button buttonUpdateTeam;
+	@FXML javafx.scene.control.Button buttonLogin;
+	@FXML javafx.scene.control.Button buttonUpdateLeague;
+	@FXML javafx.scene.control.Button buttonDeleteLeague;
+	@FXML javafx.scene.control.Button buttonDeleteTeam;
+	@FXML javafx.scene.control.Button buttoUpdatePlayer;
+	@FXML javafx.scene.control.Button buttonDeletePlayer;
+	@FXML TableView<Match> tableMatches;
+	@FXML BarChart<Team, Float> barCharLeague;
+	@FXML Label labelYoungest;
+	@FXML Label labelOldest;
+	@FXML Label labelHigest;
+	@FXML Label labelNameTeam;
+	@FXML Label labelMarketValue;
+	@FXML Label labelMostRepresentative;
+	@FXML PieChart pieChartForeign;
+	@FXML PieChart pieChartResults;
+	
+	
+	
 	
 	
 	
@@ -160,4 +190,30 @@ public class AppController {
 		}
 		
 	}
+	
+	public void ActionToLogin(ActionEvent event) throws IOException {
+		if (this.buttonLogin.getText().equalsIgnoreCase("LOGIN")) {
+			Parent login = FXMLLoader.load(getClass().getResource("Login.fxml"));
+			Scene loginScene = new Scene(login);
+			Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			app_stage.setScene(loginScene);
+			app_stage.setMinHeight(739);
+			app_stage.setMinWidth(866);
+			app_stage.show();
+		} else {
+			this.buttonLogin.setText("LOGIN");
+			this.buttonUpdateTeam.setVisible(false);
+			this.buttonUpdateLeague.setVisible(false);
+			this.buttoUpdatePlayer.setVisible(false);
+			this.buttonDeleteLeague.setVisible(false);
+			this.buttonDeletePlayer.setVisible(false);
+			this.buttonDeleteTeam.setVisible(false);
+			Alert alert = new Alert(AlertType.INFORMATION, "LOGOUT DONE", ButtonType.CLOSE);
+			alert.showAndWait();
+			
+		}
+		
+	
+	}
+	
 }
