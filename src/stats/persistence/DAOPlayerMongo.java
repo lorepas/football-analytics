@@ -54,11 +54,13 @@ public class DAOPlayerMongo implements IDAOPlayer {
 
 	@Override
 	public void createPlayer(Player player) throws DAOException{
+		MongoClient mongoClient = Utils.getMongoClient();
 		try {
 			Document obj = Document.parse(player.toJSON());
 			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-			obj.put("bornDate", dateFormatter.parse(player.getBornDate()));
-			MongoClient mongoClient = Utils.getMongoClient();
+			if(player.getBornDate() != null) {
+				obj.put("bornDate", dateFormatter.parse(player.getBornDate()));
+			}
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("players");
 			mongoCollection.insertOne(obj);
@@ -66,6 +68,8 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			throw new DAOException(mwe);
 		} catch (ParseException e) {
 			throw new DAOException(e);
+		} finally {
+			mongoClient.close();
 		}
 	}
 	
@@ -105,7 +109,9 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 			Bson query = eq("fullName", player.getFullName());
 			Document setData = Document.parse(player.toJSON());
-			setData.put("bornDate", dateFormatter.parse(player.getBornDate()));
+			if(player.getBornDate() != null) {
+				setData.put("bornDate", dateFormatter.parse(player.getBornDate()));
+			}
 			Document updateDocument = new Document("$set", setData);
 			System.out.println("Update document: " + updateDocument);
 			mongoCollection.updateOne(query, updateDocument);
