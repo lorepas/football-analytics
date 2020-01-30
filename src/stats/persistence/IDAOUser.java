@@ -6,5 +6,7 @@ import stats.model.User;
 
 public interface IDAOUser {
 	public boolean login(User user) throws DAOException, IOException;
+
+	public void putUser(User user) throws DAOException;
 	
 }

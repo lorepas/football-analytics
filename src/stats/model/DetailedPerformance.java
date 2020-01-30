@@ -129,6 +129,30 @@ public class DetailedPerformance {
 	public void setMinutesPlayed(double minutesPlayed) {
 		this.minutesPlayed = minutesPlayed;
 	}
+	public DetailedPerformance(String season, String team, Integer goalConceded, Integer cleanSheets, Integer assists,
+			Integer penalityGoals, Double minutesPerGoal, int calls, int presences, double averagePoints, int goals,
+			int ownGoals, int substitutionOn, int substitutionOff, int yellowCards, int doubleYellowCards, int redCards,
+			double minutesPlayed) {
+		super();
+		this.season = season;
+		this.team = team;
+		this.goalConceded = goalConceded;
+		this.cleanSheets = cleanSheets;
+		this.assists = assists;
+		this.penalityGoals = penalityGoals;
+		this.minutesPerGoal = minutesPerGoal;
+		this.calls = calls;
+		this.presences = presences;
+		this.averagePoints = averagePoints;
+		this.goals = goals;
+		this.ownGoals = ownGoals;
+		this.substitutionOn = substitutionOn;
+		this.substitutionOff = substitutionOff;
+		this.yellowCards = yellowCards;
+		this.doubleYellowCards = doubleYellowCards;
+		this.redCards = redCards;
+		this.minutesPlayed = minutesPlayed;
+	}
 	
 	
 

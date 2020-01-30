@@ -37,4 +37,10 @@ public class DAOUserMongo implements IDAOUser{
 		}
 	}
 
+	@Override
+	public void putUser(User user) throws DAOException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
