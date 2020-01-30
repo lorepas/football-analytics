@@ -123,12 +123,6 @@
                                               <NumberAxis side="LEFT" />
                                             </yAxis>
                                           </BarChart>
-                                          <TableView fx:id="tableMatches" prefHeight="200.0" prefWidth="200.0">
-                                            <columns>
-                                              <TableColumn prefWidth="75.0" text="C1" />
-                                              <TableColumn prefWidth="75.0" text="C2" />
-                                            </columns>
-                                          </TableView>
                                           <Label fx:id="labelYoungest" text="Label" GridPane.columnIndex="1">
                                              <GridPane.margin>
                                                 <Insets left="115.0" top="170.0" />
@@ -167,6 +161,37 @@
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
+                                          </Label>
+                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                                          <Label fx:id="labelMostWinning" text="MOST WINNING TEAM" textFill="#bbb6b6" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                                             <GridPane.margin>
+                                                <Insets top="10.0" />
+                                             </GridPane.margin>
+                                             <font>
+                                                <Font name="System Bold Italic" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Label" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+                                             <padding>
+                                                <Insets top="10.0" />
+                                             </padding>
+                                             <GridPane.margin>
+                                                <Insets right="70.0" top="10.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="labelMostLosing" text="MOST LOSING TEAM" textFill="#bbb6b6" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font name="System Bold Italic" size="18.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets top="10.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label text="Label" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                             <GridPane.margin>
+                                                <Insets right="70.0" top="10.0" />
+                                             </GridPane.margin>
                                           </Label>
                                        </children>
                                     </GridPane>
@@ -324,7 +349,7 @@
                                                 </ComboBox>
                                              </top>
                                              <center>
-                                                <ListView fx:id="listPlayer" accessibleRole="PARENT" onEditStart="#ActionRetrievePlayer" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
+                                                <ListView fx:id="listPlayer" accessibleRole="PARENT" onEditStart="#ActionRetrievePlayer" onMouseClicked="#ActionRetrievePlayer" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
                                                    <BorderPane.margin>
                                                       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                                    </BorderPane.margin>
@@ -378,7 +403,7 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <LineChart GridPane.rowIndex="2">
+                                    <LineChart fx:id="lineChartTrend" animated="false" style="-fx-title-side: #bbb6b6;" GridPane.rowIndex="2">
                                       <xAxis>
                                         <CategoryAxis side="BOTTOM" />
                                       </xAxis>
@@ -386,6 +411,99 @@
                                         <NumberAxis side="LEFT" />
                                       </yAxis>
                                     </LineChart>
+                                    <TableView fx:id="tablePlayers" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                       <columns>
+                                          <TableColumn fx:id="columnSeason" prefWidth="59.0" text="SEASON" />
+                                          <TableColumn fx:id="columnTeam" prefWidth="75.0" text="TEAM" />
+                                          <TableColumn fx:id="columnCalls" prefWidth="75.0" text="CALLS" />
+                                          <TableColumn fx:id="columnPresences" prefWidth="75.0" text="PRECENCES" />
+                                          <TableColumn fx:id="columnAveragePoints" prefWidth="75.0" text="AVG POINTS" />
+                                          <TableColumn fx:id="columnGoals" prefWidth="75.0" text="GOALS" />
+                                          <TableColumn fx:id="columnOwnGoals" prefWidth="75.0" text="OWN GOALS" />
+                                          <TableColumn fx:id="columnSobstitutionOn" prefWidth="75.0" text="SUBS ON" />
+                                          <TableColumn fx:id="columnSobstitutionOff" prefWidth="75.0" text="SUBS OFF" />
+                                          <TableColumn fx:id="columnYellowCards" prefWidth="75.0" text="YELLOW CARDS" />
+                                          <TableColumn fx:id="columnDoubleYellowCards" prefWidth="75.0" text="DB YELLOW CARDS" />
+                                          <TableColumn fx:id="columnRedCards" prefWidth="75.0" text="RED CARDS" />
+                                          <TableColumn fx:id="columnMinutesPlayed" prefWidth="75.0" text="MIN. PLAYED" />
+                                       </columns>
+                                    </TableView>
+                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.valignment="CENTER">
+                                       <image>
+                                          <Image url="@../../resources/standard%20player.jpg" />
+                                       </image>
+                                       <GridPane.margin>
+                                          <Insets left="50.0" top="30.0" />
+                                       </GridPane.margin>
+                                    </ImageView>
+                                    <Label fx:id="labelNamePlayer" textFill="#bbb6b6">
+                                       <GridPane.margin>
+                                          <Insets bottom="180.0" left="50.0" />
+                                       </GridPane.margin>
+                                       <font>
+                                          <Font size="30.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Date of birth:" textFill="#bbb6b6">
+                                       <GridPane.margin>
+                                          <Insets bottom="140.0" left="180.0" top="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Citizenship:" textFill="#bbb6b6">
+                                       <GridPane.margin>
+                                          <Insets left="180.0" top="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Position:" textFill="#bbb6b6">
+                                       <GridPane.margin>
+                                          <Insets bottom="-140.0" left="180.0" top="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="labelDateBirth">
+                                       <GridPane.margin>
+                                          <Insets bottom="140.0" left="260.0" top="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="labelCitizenshipPlayer" onDragDetected="#ActionRetrievePlayer">
+                                       <GridPane.margin>
+                                          <Insets left="260.0" top="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="labelPositionPlayer">
+                                       <GridPane.margin>
+                                          <Insets bottom="-140.0" left="260.0" top="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="League:" textFill="#bbb6b6">
+                                       <GridPane.margin>
+                                          <Insets bottom="140.0" left="400.0" top="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Team:" textFill="#bbb6b6">
+                                       <GridPane.margin>
+                                          <Insets left="400.0" top="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Market Value:" textFill="#bbb6b6">
+                                       <GridPane.margin>
+                                          <Insets bottom="-140.0" left="400.0" top="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="labelLeaguePlayer">
+                                       <GridPane.margin>
+                                          <Insets bottom="140.0" left="460.0" top="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="labelTeamPlayer">
+                                       <GridPane.margin>
+                                          <Insets left="460.0" top="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="labelMarketValuePlayer">
+                                       <GridPane.margin>
+                                          <Insets bottom="-140.0" left="500.0" top="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
                                  </children>
                               </GridPane>
                            </center>
@@ -428,6 +546,30 @@
                                  </center>
                               </BorderPane>
                            </left>
+                           <center>
+                              <GridPane BorderPane.alignment="CENTER">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints fillHeight="false" maxHeight="331.0" minHeight="10.0" prefHeight="97.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="574.0" minHeight="10.0" prefHeight="572.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <TableView fx:id="matchesResults" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                      <columns>
+                                        <TableColumn prefWidth="75.0" text="C1" />
+                                        <TableColumn prefWidth="75.0" text="C2" />
+                                      </columns>
+                                    </TableView>
+                                    <Label fx:id="labelResultMatch" text="Label" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </Label>
+                                 </children>
+                              </GridPane>
+                           </center>
                         </BorderPane>
                      </children>
                   </AnchorPane>
