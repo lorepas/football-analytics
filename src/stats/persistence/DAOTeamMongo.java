@@ -15,6 +15,7 @@ import org.bson.conversions.Bson;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientSettings;
+import com.mongodb.MongoException;
 import com.mongodb.MongoWriteException;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClients;
@@ -33,8 +34,9 @@ public class DAOTeamMongo implements IDAOTeam {
 	
 	@Override
 	public boolean exists(Team team) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
+		MongoClient mongoClient = null;
 		try {
+			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
 			Document filter = new Document();
@@ -45,32 +47,38 @@ public class DAOTeamMongo implements IDAOTeam {
 			} else {
 				return false;
 			}
-		} catch (MongoWriteException mwe) {
+		} catch (MongoException mwe) {
 			throw new DAOException(mwe);
 		} finally {
-			mongoClient.close();
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
 	}
 
 	@Override
 	public void createTeam(Team team) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
+		MongoClient mongoClient = null;
 		try {
+			mongoClient = Utils.getMongoClient();
 			Document obj = Document.parse(team.toJSON());
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
 			mongoCollection.insertOne(obj);
-		} catch(MongoWriteException mwe) {
+		} catch(MongoException mwe) {
 			throw new DAOException(mwe);
 		} finally {
-			mongoClient.close();
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
 	}
 	
 	@Override
 	public void createListOfTeams(List<Team> teams) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
+		MongoClient mongoClient = null;
 		try {
+			mongoClient = Utils.getMongoClient();
 			List<Document> documents = new ArrayList<>();
 			for (Team team : teams) {
 				Document obj = Document.parse(team.toJSON());
@@ -80,7 +88,7 @@ public class DAOTeamMongo implements IDAOTeam {
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
 			mongoCollection.insertMany(documents);
-		} catch(MongoWriteException mwe) {
+		} catch(MongoException mwe) {
 			throw new DAOException(mwe);
 		} finally {
 			mongoClient.close();
@@ -90,8 +98,9 @@ public class DAOTeamMongo implements IDAOTeam {
 
 	@Override
 	public void updateTeam(String fullName, Team team) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
+		MongoClient mongoClient = null;
 		try {
+			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("team");
 			Bson query = eq("fullName", team.getFullName());
@@ -100,74 +109,103 @@ public class DAOTeamMongo implements IDAOTeam {
 			System.out.println("Update document: " + updateDocument);
 			mongoCollection.updateOne(query, updateDocument);
 			System.out.println("Query: " + query);
-		} catch(MongoWriteException mwe) {
+		} catch(MongoException mwe) {
 			throw new DAOException(mwe);
 		} finally {
-			mongoClient.close();
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
 		
 	}
 
 	@Override
 	public void deleteTeam(Team team) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
+		MongoClient mongoClient = null;
 		try {
+			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
 			Document query = new Document();
 			query.append("fullName", team.getFullName());
 			mongoCollection.deleteOne(query);
-		} catch(MongoWriteException mwe) {
+		} catch(MongoException mwe) {
 			throw new DAOException(mwe);
 		} finally {
-			mongoClient.close();
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
 	}
 
 	@Override
 	public List<Team> retrieveTeams(String name) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
-		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-		Document query = new Document();
-		query.append("name", Pattern.compile(".*" + name + ".*" , Pattern.CASE_INSENSITIVE));
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("teams").find(query).iterator();
+		MongoClient mongoClient = null;
+		MongoCursor<Document> cursor = null;
 		List<Team> teams = new ArrayList<Team>();
 		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document query = new Document();
+			query.append("name", Pattern.compile(".*" + name + ".*" , Pattern.CASE_INSENSITIVE));
+			cursor = mongoDatabase.getCollection("teams").find(query).iterator();
 			while (cursor.hasNext()) { 
 				teams.add(Team.teamFromJson(cursor.next().toJson()));
 			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
 		} finally {
-			cursor.close(); 
+			if(cursor != null) {
+				cursor.close(); 
+			}
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
-        mongoClient.close();
 		return teams;
 	}
 
 	@Override
 	public List<Team> retrieveAllTeams() throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
-		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("teams").find().iterator();
+		MongoClient mongoClient = null;
+		MongoCursor<Document> cursor = null;
 		List<Team> teams = new ArrayList<Team>();
 		try {
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			cursor = mongoDatabase.getCollection("teams").find().iterator();
+			mongoClient = Utils.getMongoClient();
 			while (cursor.hasNext()) { 
 				teams.add(Team.teamFromJson(cursor.next().toJson()));
 			}
 		} finally {
-			cursor.close(); 
+			if(cursor != null) {
+				cursor.close(); 
+			}
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
-        mongoClient.close();
+        
 		return teams;
 	}
 	
-	public void getTeamTotalMarketValue(Team team) {
-		MongoClient mongoClient = Utils.getMongoClient();
-		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").aggregate(
-				Arrays.asList(
-						Aggregates.match(Filters.eq("team",team.getFullName())),
-						Aggregates.group("$team", Accumulators.sum("marketValue", "$marketValue"))
-				)).iterator();
+	public void getTeamTotalMarketValue(Team team) throws DAOException {
+		MongoClient mongoClient = null;
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").aggregate(
+					Arrays.asList(
+							Aggregates.match(Filters.eq("team",team.getFullName())),
+							Aggregates.group("$team", Accumulators.sum("marketValue", "$marketValue"))
+					)).iterator();
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
 	}
 
 }

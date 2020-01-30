@@ -50,7 +50,9 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		} catch (MongoException mwe) {
 			throw new DAOException(mwe);
 		} finally {
-			mongoClient.close();
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
 	}
 
@@ -72,7 +74,9 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		} catch (ParseException e) {
 			throw new DAOException(e);
 		} finally {
-			mongoClient.close();
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
 	}
 	
@@ -96,7 +100,9 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		} catch(ParseException pe) {
 			throw new DAOException(pe);
 		} finally {
-			mongoClient.close();
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
 	}
 
@@ -122,7 +128,9 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		} catch (ParseException e) {
 			throw new DAOException(e);
 		} finally {
-			mongoClient.close();
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
 	}
 
@@ -139,7 +147,9 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		} catch(MongoException mwe) {
 			throw new DAOException(mwe);
 		} finally {
-			mongoClient.close();
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
 	}
 
@@ -195,8 +205,12 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		} catch(MongoException me) {
 			throw new DAOException(me);
 		} finally {
-			cursor.close(); 
-			mongoClient.close();
+			if(cursor != null) {
+				cursor.close();
+			}
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
 		return players;
 	}

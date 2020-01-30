@@ -171,8 +171,8 @@ public class DAOLeagueMongo implements IDAOLeague{
 			if(mongoClient != null) {
 				mongoClient.close();
 			}
-			return leagues;
 		}
+		return leagues;
 	}
 
 	
