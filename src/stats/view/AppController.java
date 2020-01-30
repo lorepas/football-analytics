@@ -169,7 +169,7 @@ public class AppController {
 			}
 		} catch(DAOException e) {
 			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
-			alert.showAndWait();
+			alert.show();
 		}
 		
 		

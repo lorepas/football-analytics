@@ -203,160 +203,234 @@ public class DAOPlayerMongo implements IDAOPlayer {
 
 	@Override
 	public Player retrieveYoungerPlayer() throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
-		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-		Document sort = new Document();
-		sort.append("bornDate", 1);
-		Document filter = new Document();
-		filter.append("bornDate", new Document().put("$exists", true));
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+		MongoClient mongoClient = null;
 		Player player = null;
-		if(cursor.hasNext()) {
-			player = Player.playerFromJson(cursor.next().toJson());
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document sort = new Document();
+			sort.append("bornDate", 1);
+			Document filter = new Document();
+			filter.append("bornDate", new Document().put("$exists", true));
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+			if(cursor.hasNext()) {
+				player = Player.playerFromJson(cursor.next().toJson());
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
-		mongoClient.close();
 		return player;
 	}
 
 	@Override
 	public Player retrieveOlderPlayer() throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
-		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-		Document sort = new Document();
-		sort.append("bornDate", -1);
-		Document filter = new Document();
-		filter.append("bornDate", new Document().put("$exists", true));
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+		MongoClient mongoClient = null;
 		Player player = null;
-		if(cursor.hasNext()) {
-			player = Player.playerFromJson(cursor.next().toJson());
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document sort = new Document();
+			sort.append("bornDate", -1);
+			Document filter = new Document();
+			filter.append("bornDate", new Document().put("$exists", true));
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+			if(cursor.hasNext()) {
+				player = Player.playerFromJson(cursor.next().toJson());
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
-		mongoClient.close();
 		return player;
 	}
 
 	@Override
 	public Player retrieveMostValuedPlayer() throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
-		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-		Document sort = new Document();
-		sort.append("marketValue", -1);
-		Document filter = new Document();
-		filter.append("marketValue", new Document().put("$exists", true));
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+		MongoClient mongoClient = null;
 		Player player = null;
-		if(cursor.hasNext()) {
-			player = Player.playerFromJson(cursor.next().toJson());
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document sort = new Document();
+			sort.append("marketValue", -1);
+			Document filter = new Document();
+			filter.append("marketValue", new Document().put("$exists", true));
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+			
+			if(cursor.hasNext()) {
+				player = Player.playerFromJson(cursor.next().toJson());
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
-		mongoClient.close();
 		return player;
 	}
 
 	@Override
 	public Player retrieveYougerPlayer(League league) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
-		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-		Document sort = new Document();
-		sort.append("bornDate", 1);
-		Document filter = new Document();
-		filter.append("bornDate", new Document().put("$exists", true));
-		filter.append("league", league.getFullName());
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+		MongoClient mongoClient = null;
 		Player player = null;
-		if(cursor.hasNext()) {
-			player = Player.playerFromJson(cursor.next().toJson());
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document sort = new Document();
+			sort.append("bornDate", 1);
+			Document filter = new Document();
+			filter.append("bornDate", new Document().put("$exists", true));
+			filter.append("league", league.getFullName());
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+			if(cursor.hasNext()) {
+				player = Player.playerFromJson(cursor.next().toJson());
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
-		mongoClient.close();
 		return player;
 	}
 
 	@Override
 	public Player retrieveOlderPlayer(League league) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
-		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-		Document sort = new Document();
-		sort.append("bornDate", -1);
-		Document filter = new Document();
-		filter.append("bornDate", new Document().put("$exists", true));
-		filter.append("league", league.getFullName());
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+		MongoClient mongoClient = null;
 		Player player = null;
-		if(cursor.hasNext()) {
-			player = Player.playerFromJson(cursor.next().toJson());
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document sort = new Document();
+			sort.append("bornDate", -1);
+			Document filter = new Document();
+			filter.append("bornDate", new Document().put("$exists", true));
+			filter.append("league", league.getFullName());
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+			if(cursor.hasNext()) {
+				player = Player.playerFromJson(cursor.next().toJson());
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
-		mongoClient.close();
 		return player;
 	}
 
 	@Override
 	public Player retrieveMostValuedPlayer(League league) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
-		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-		Document sort = new Document();
-		sort.append("marketValue", -1);
-		Document filter = new Document();
-		filter.append("marketValue", new Document().put("$exists", true));
-		filter.append("league", league.getFullName());
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+		MongoClient mongoClient = null;
 		Player player = null;
-		if(cursor.hasNext()) {
-			player = Player.playerFromJson(cursor.next().toJson());
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document sort = new Document();
+			sort.append("marketValue", -1);
+			Document filter = new Document();
+			filter.append("marketValue", new Document().put("$exists", true));
+			filter.append("league", league.getFullName());
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+			if(cursor.hasNext()) {
+				player = Player.playerFromJson(cursor.next().toJson());
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
-		mongoClient.close();
 		return player;
 	}
 
 	@Override
 	public Player retrieveYougerPlayer(Team team) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
-		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-		Document sort = new Document();
-		sort.append("bornDate", 1);
-		Document filter = new Document();
-		filter.append("bornDate", new Document().put("$exists", true));
-		filter.append("team", team.getName());
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+		MongoClient mongoClient = null;
 		Player player = null;
-		if(cursor.hasNext()) {
-			player = Player.playerFromJson(cursor.next().toJson());
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document sort = new Document();
+			sort.append("bornDate", 1);
+			Document filter = new Document();
+			filter.append("bornDate", new Document().put("$exists", true));
+			filter.append("team", team.getName());
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+			if(cursor.hasNext()) {
+				player = Player.playerFromJson(cursor.next().toJson());
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
-		mongoClient.close();
 		return player;
 	}
 
 	@Override
 	public Player retrieveOlderPlayer(Team team) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
-		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-		Document sort = new Document();
-		sort.append("bornDate", -1);
-		Document filter = new Document();
-		filter.append("bornDate", new Document().put("$exists", true));
-		filter.append("team", team.getName());
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+		MongoClient mongoClient = null;
 		Player player = null;
-		if(cursor.hasNext()) {
-			player = Player.playerFromJson(cursor.next().toJson());
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document sort = new Document();
+			sort.append("bornDate", -1);
+			Document filter = new Document();
+			filter.append("bornDate", new Document().put("$exists", true));
+			filter.append("team", team.getName());
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+			if(cursor.hasNext()) {
+				player = Player.playerFromJson(cursor.next().toJson());
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
-		mongoClient.close();
+		
 		return player;
 	}
 
 	@Override
 	public Player retrieveMostValuedPlayer(Team team) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
-		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-		Document sort = new Document();
-		sort.append("marketValue", -1);
-		Document filter = new Document();
-		filter.append("marketValue", new Document().put("$exists", true));
-		filter.append("league", team.getFullName());
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+		MongoClient mongoClient = null;
 		Player player = null;
-		if(cursor.hasNext()) {
-			player = Player.playerFromJson(cursor.next().toJson());
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document sort = new Document();
+			sort.append("marketValue", -1);
+			Document filter = new Document();
+			filter.append("marketValue", new Document().put("$exists", true));
+			filter.append("league", team.getFullName());
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
+			if(cursor.hasNext()) {
+				player = Player.playerFromJson(cursor.next().toJson());
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
-		mongoClient.close();
 		return player;
 	}
 
