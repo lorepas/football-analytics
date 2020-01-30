@@ -5,6 +5,7 @@ import java.util.List;
 import org.bson.Document;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoException;
 import com.mongodb.MongoWriteException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -19,8 +20,9 @@ public class DAOMatchMongo implements IDAOMatch{
 
 	@Override
 	public boolean exists(Match match) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
+		MongoClient mongoClient = null;
 		try {
+			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("league");
 			Document filter = new Document();
@@ -32,7 +34,7 @@ public class DAOMatchMongo implements IDAOMatch{
 			} else {
 				return false;
 			}
-		} catch (MongoWriteException mwe) {
+		} catch (MongoException mwe) {
 			throw new DAOException(mwe);
 		} finally {
 			mongoClient.close();

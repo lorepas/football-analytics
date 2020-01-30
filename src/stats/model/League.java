@@ -3,6 +3,8 @@ package stats.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 public class League {
 
 	private String fullName;
@@ -36,6 +38,16 @@ public class League {
 	
 	public void setMatches(List<Match> matches) {
 		this.matches = matches;
+	}
+	
+	public String toJSON() {
+		Gson g = new Gson();
+		return g.toJson(this);
+	}
+	
+	public static League leagueFromJson(String jsonString) {
+		Gson g = new Gson();
+		return g.fromJson(jsonString, League.class);
 	}
 	
 }

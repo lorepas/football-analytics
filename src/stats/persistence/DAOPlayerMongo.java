@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoException;
 import com.mongodb.MongoSocketOpenException;
 import com.mongodb.MongoWriteException;
 import com.mongodb.client.MongoCollection;
@@ -33,8 +34,9 @@ public class DAOPlayerMongo implements IDAOPlayer {
 	
 	@Override
 	public boolean exists(Player player) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
+		MongoClient mongoClient = null;
 		try {
+			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("players");
 			Document filter = new Document();
@@ -45,7 +47,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			} else {
 				return false;
 			}
-		} catch (MongoWriteException mwe) {
+		} catch (MongoException mwe) {
 			throw new DAOException(mwe);
 		} finally {
 			mongoClient.close();
@@ -54,8 +56,9 @@ public class DAOPlayerMongo implements IDAOPlayer {
 
 	@Override
 	public void createPlayer(Player player) throws DAOException{
-		MongoClient mongoClient = Utils.getMongoClient();
+		MongoClient mongoClient = null;
 		try {
+			mongoClient = Utils.getMongoClient();
 			Document obj = Document.parse(player.toJSON());
 			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 			if(player.getBornDate() != null) {
@@ -64,7 +67,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("players");
 			mongoCollection.insertOne(obj);
-		} catch(MongoWriteException mwe) {
+		} catch(MongoException mwe) {
 			throw new DAOException(mwe);
 		} catch (ParseException e) {
 			throw new DAOException(e);
@@ -75,6 +78,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 	
 	@Override
 	public void createListOfPlayers(List<Player> players) throws DAOException {
+		MongoClient mongoClient = null;
 		try {
 			List<Document> documents = new ArrayList<>();
 			for (Player player : players) {
@@ -83,27 +87,24 @@ public class DAOPlayerMongo implements IDAOPlayer {
 				obj.put("bornDate", dateFormatter.parse(player.getBornDate()));
 				documents.add(obj);
 			}
-			MongoClient mongoClient = Utils.getMongoClient();
-//			ClusterDescription clusterDescription = new ClusterDe;
-//			if(clusterDescription.getType() == ClusterType.UNKNOWN) {
-//				throw new DAOException("Connection refused: you should connect with VPN");
-//			}
+			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("players");
 			mongoCollection.insertMany(documents);
-		} catch(MongoWriteException mwe) {
+		} catch(MongoException mwe) {
 			throw new DAOException(mwe);
-		} catch(MongoSocketOpenException msoe) {
-			throw new DAOException(msoe);
 		} catch(ParseException pe) {
 			throw new DAOException(pe);
+		} finally {
+			mongoClient.close();
 		}
 	}
 
 	@Override
 	public void updatePlayer(String fullName, Player player) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
+		MongoClient mongoClient = null;
 		try {
+			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("players");
 			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -116,7 +117,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			System.out.println("Update document: " + updateDocument);
 			mongoCollection.updateOne(query, updateDocument);
 			System.out.println("Query: " + query);
-		} catch(MongoWriteException mwe) {
+		} catch(MongoException mwe) {
 			throw new DAOException(mwe);
 		} catch (ParseException e) {
 			throw new DAOException(e);
@@ -127,14 +128,15 @@ public class DAOPlayerMongo implements IDAOPlayer {
 
 	@Override
 	public void deletePlayer(String playerName, Player player) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
+		MongoClient mongoClient = null;
 		try {
+			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("players");
 			Document query = new Document();
 			query.append("fullName", player.getFullName());
 			mongoCollection.deleteOne(query);
-		} catch(MongoWriteException mwe) {
+		} catch(MongoException mwe) {
 			throw new DAOException(mwe);
 		} finally {
 			mongoClient.close();
@@ -143,13 +145,15 @@ public class DAOPlayerMongo implements IDAOPlayer {
 
 	@Override
 	public List<Player> retrievePlayers(String surname) throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
-		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-		Document query = new Document();
-		query.append("surname", Pattern.compile(".*" + surname + ".*" , Pattern.CASE_INSENSITIVE));
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(query).iterator();
+		MongoClient mongoClient = null;
+		MongoCursor<Document> cursor = null;
 		List<Player> players = new ArrayList<Player>();
 		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document query = new Document();
+			query.append("surname", Pattern.compile(".*" + surname + ".*" , Pattern.CASE_INSENSITIVE));
+			cursor = mongoDatabase.getCollection("players").find(query).iterator();
 			while (cursor.hasNext()) { 
 				Document document = cursor.next();
 				System.out.println(document.get("bornDate"));
@@ -162,27 +166,38 @@ public class DAOPlayerMongo implements IDAOPlayer {
 				Player player = Player.playerFromJson(json);
 				players.add(player);
 			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
 		} finally {
-			cursor.close(); 
+			if(cursor != null) {
+				cursor.close(); 
+			}
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
 		}
-        mongoClient.close();
 		return players;
+		
 	}
 
 	@Override
 	public List<Player> retrieveAllPlayers() throws DAOException {
-		MongoClient mongoClient = Utils.getMongoClient();
-		MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-		MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find().iterator();
+		MongoClient mongoClient = null;
+		MongoCursor<Document> cursor = null;
 		List<Player> players = new ArrayList<Player>();
 		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			cursor = mongoDatabase.getCollection("players").find().iterator();
 			while (cursor.hasNext()) { 
 				players.add(Player.playerFromJson(cursor.next().toJson()));
 			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
 		} finally {
 			cursor.close(); 
+			mongoClient.close();
 		}
-        mongoClient.close();
 		return players;
 	}
 
