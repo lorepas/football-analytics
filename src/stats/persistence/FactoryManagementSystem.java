@@ -1,6 +1,7 @@
 package stats.persistence;
 
 import org.iq80.leveldb.DB;
+import org.iq80.leveldb.Logger;
 import org.iq80.leveldb.Options;
 
 
@@ -25,7 +26,14 @@ public class FactoryManagementSystem {
 	
 	public DB getLevelDBStore() throws DAOException {
 		if(this.levelDBStore == null) {
+			Logger logger = new Logger() {
+				  public void log(String message) {
+				    System.out.println(message);
+				  }
+			};
 			Options options = new Options();
+			options.logger(logger);
+			options.createIfMissing(true);
 			try {
 				File file = new File("levelDBStore");
 				this.levelDBStore = factory.open(file, options);

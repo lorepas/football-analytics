@@ -12,7 +12,7 @@ public class DAOUserKV implements IDAOUser{
 	public void putUser(User user) throws DAOException {
 		try {
 			DB levelDB = FactoryManagementSystem.getSharedinstance().getLevelDBStore();
-			String key = "user:$"+user.getUsername();
+			String key = "user:"+user.getUsername();
 			String value = user.getPwd();
 			levelDB.put(key.getBytes(), value.getBytes());
 			System.out.println("User inserted: "+key+" "+value);
@@ -30,11 +30,11 @@ public class DAOUserKV implements IDAOUser{
 			while (keyIterator.hasNext()) {
 				String key = new String(keyIterator.peekNext().getKey());
 				String[] keySplit = key.split(":");
-				String username = keySplit[1].substring(1);
+				String username = keySplit[1];
 				if (!keySplit[0].equals("user")) {
 					break;
 				}
-				if (keySplit[1].substring(1).equals(String.valueOf(user.getUsername()))) {
+				if (username.equals(String.valueOf(user.getUsername()))) {
 					String storedValue = new String(FactoryManagementSystem.getSharedinstance().getLevelDBStore().get(key.getBytes()));
 					if(storedValue.equals(String.valueOf(user.getPwd()))) {
 						res = true;
