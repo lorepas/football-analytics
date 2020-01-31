@@ -39,6 +39,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import stats.App;
 import stats.model.DetailedPerformance;
+import stats.model.DetailedPerformanceTable;
 import stats.model.MarketValue;
 import stats.model.Match;
 import stats.model.Player;
@@ -78,25 +79,25 @@ public class AppController {
 	@FXML Label labelLeaguePlayer;
 	@FXML Label labelTeamPlayer;
 	@FXML Label labelMarketValuePlayer;
-	@FXML TableView<DetailedPerformance> tablePlayers;
-	@FXML TableColumn<DetailedPerformance, String> columnSeason;
-	@FXML TableColumn<DetailedPerformance, String> columnTeam;
-	@FXML TableColumn<DetailedPerformance, Integer> columnGoalConceded;
-	@FXML TableColumn<DetailedPerformance, Integer> columnCleanSheets;
-	@FXML TableColumn<DetailedPerformance, Integer> columnAssists;
-	@FXML TableColumn<DetailedPerformance, Integer> columnPenaltyGoals;
-	@FXML TableColumn<DetailedPerformance, Double> columnMinutesPerGoal;
-	@FXML TableColumn<DetailedPerformance, Integer> columnCalls;
-	@FXML TableColumn<DetailedPerformance, Integer> columnPresences;
-	@FXML TableColumn<DetailedPerformance, Double> columnAveragePoints;
-	@FXML TableColumn<DetailedPerformance, Integer> columnGoals;
-	@FXML TableColumn<DetailedPerformance, Integer> columnOwnGoals;
-	@FXML TableColumn<DetailedPerformance, Integer> columnSobstitutionOn;
-	@FXML TableColumn<DetailedPerformance, Integer> columnSobstitutionOff;
-	@FXML TableColumn<DetailedPerformance, Integer> columnYellowCards;
-	@FXML TableColumn<DetailedPerformance, Integer> columnDoubleYellowCards;
-	@FXML TableColumn<DetailedPerformance, Integer> columnRedCards;
-	@FXML TableColumn<DetailedPerformance, Double> columnMinutesPlayed;
+	@FXML TableView<DetailedPerformanceTable> tablePlayers;
+	@FXML TableColumn<DetailedPerformanceTable, String> columnSeason;
+	@FXML TableColumn<DetailedPerformanceTable, String> columnTeam;
+	@FXML TableColumn<DetailedPerformanceTable, Integer> columnGoalConceded;
+	@FXML TableColumn<DetailedPerformanceTable, Integer> columnCleanSheets;
+	@FXML TableColumn<DetailedPerformanceTable, Integer> columnAssists;
+	@FXML TableColumn<DetailedPerformanceTable, Integer> columnPenaltyGoals;
+	@FXML TableColumn<DetailedPerformanceTable, Double> columnMinutesPerGoal;
+	@FXML TableColumn<DetailedPerformanceTable, Integer> columnCalls;
+	@FXML TableColumn<DetailedPerformanceTable, Integer> columnPresences;
+	@FXML TableColumn<DetailedPerformanceTable, Double> columnAveragePoints;
+	@FXML TableColumn<DetailedPerformanceTable, Integer> columnGoals;
+	@FXML TableColumn<DetailedPerformanceTable, Integer> columnOwnGoals;
+	@FXML TableColumn<DetailedPerformanceTable, Integer> columnSobstitutionOn;
+	@FXML TableColumn<DetailedPerformanceTable, Integer> columnSobstitutionOff;
+	@FXML TableColumn<DetailedPerformanceTable, Integer> columnYellowCards;
+	@FXML TableColumn<DetailedPerformanceTable, Integer> columnDoubleYellowCards;
+	@FXML TableColumn<DetailedPerformanceTable, Integer> columnRedCards;
+	@FXML TableColumn<DetailedPerformanceTable, Double> columnMinutesPlayed;
 	@FXML LineChart<String, Double> lineChartTrend;
 	@FXML TableView<Match> matchesResults;
 	@FXML Label labelResultMatch;
@@ -118,6 +119,46 @@ public class AppController {
 		
 	}
 	
+	public void initializedTable(Player playerSelected) {
+		List<DetailedPerformance> detailedPerformances = playerSelected.getDetailedPerformances();
+		ObservableList<DetailedPerformanceTable> list = FXCollections.observableArrayList();
+		for(DetailedPerformance dp: detailedPerformances) {
+			list.add(new DetailedPerformanceTable(dp));
+		}
+		columnSeason.setCellValueFactory(cellData -> cellData.getValue().getSeason());
+		columnTeam.setCellValueFactory(cellData -> cellData.getValue().getTeam());
+		columnCalls.setCellValueFactory(cellData -> cellData.getValue().getCalls().asObject());
+		columnPresences.setCellValueFactory(cellData -> cellData.getValue().getPresences().asObject());
+		columnAveragePoints.setCellValueFactory(cellData -> cellData.getValue().getAveragePoints().asObject());
+		columnGoals.setCellValueFactory(cellData -> cellData.getValue().getGoals().asObject());
+		columnOwnGoals.setCellValueFactory(cellData -> cellData.getValue().getOwnGoals().asObject());
+		columnSobstitutionOn.setCellValueFactory(cellData -> cellData.getValue().getSubstitutionOn().asObject());
+		columnSobstitutionOff.setCellValueFactory(cellData -> cellData.getValue().getSubstitutionOff().asObject());
+		columnYellowCards.setCellValueFactory(cellData -> cellData.getValue().getYellowCards().asObject());
+		columnDoubleYellowCards.setCellValueFactory(cellData -> cellData.getValue().getDoubleYellowCards().asObject());
+		columnRedCards.setCellValueFactory(cellData -> cellData.getValue().getRedCards().asObject());
+		columnMinutesPlayed.setCellValueFactory(cellData -> cellData.getValue().getMinutesPlayed().asObject());
+		columnAssists.setCellValueFactory(cellData -> cellData.getValue().getAssists().asObject());
+		columnCleanSheets.setCellValueFactory(cellData -> cellData.getValue().getCleanSheets().asObject());	
+		columnGoalConceded.setCellValueFactory(cellData -> cellData.getValue().getGoalConceded().asObject());
+		columnMinutesPerGoal.setCellValueFactory(cellData -> cellData.getValue().getMinutesPerGoal().asObject());
+		columnPenaltyGoals.setCellValueFactory(cellData -> cellData.getValue().getPenalityGoals().asObject());
+		if(playerSelected.getRole().equals("Portiere")) {
+			columnCleanSheets.setVisible(true);
+			columnGoalConceded.setVisible(true);
+			columnAssists.setVisible(false);
+			columnPenaltyGoals.setVisible(false);
+			columnMinutesPerGoal.setVisible(false);
+		}else {
+			columnCleanSheets.setVisible(false);
+			columnGoalConceded.setVisible(false);
+			columnAssists.setVisible(true);
+			columnPenaltyGoals.setVisible(true);
+			columnMinutesPerGoal.setVisible(true);
+		}
+		tablePlayers.setItems(list);
+	}
+	
 	
 	public void onClickEventOnPlayer(MouseEvent event) {
         Player playerSelected = listPlayer.getSelectionModel().getSelectedItem();
@@ -136,24 +177,12 @@ public class AppController {
 		XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
 		List<MarketValue> listMarketValue = playerSelected.getMarketValueHistory();
 		for (MarketValue value : listMarketValue)  {
-			series.getData().add(new XYChart.Data<String, Double>(value.getDateString(),value.getMarketValue()));
-			
-		
+			series.getData().add(new XYChart.Data<String, Double>(value.getDateString(),value.getMarketValue()));		
 		}
 		lineChartTrend.setTitle("TREND MARKET VALUE");
 		series.setName("MARKET VALUE");
 		lineChartTrend.getData().addAll(series);
-		List<DetailedPerformance> detailedPerformances = playerSelected.getDetailedPerformances();
-		
-		//ASSISTS,PENALTYGOALS, MINUTESPERGOAL (GIOCATORE)
-		//GOALSCONCEDDED,CLEANSHEET ( PORTIERE)
-		for (DetailedPerformance performance : detailedPerformances) {
-			//tablePlayers.add
-			
-		}
-		
-		
-        
+		initializedTable(playerSelected);
     }
 	
 	public void ActionRetrievePlayer(ActionEvent event) {

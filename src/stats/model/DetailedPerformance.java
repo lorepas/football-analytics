@@ -4,11 +4,11 @@ public class DetailedPerformance {
 
 	private String season;
 	private String team;
-	private Integer goalConceded;
-	private Integer cleanSheets;
-	private Integer assists;
-	private Integer penalityGoals;
-	private Double minutesPerGoal;
+	private int goalConceded;
+	private int cleanSheets;
+	private int assists;
+	private int penalityGoals;
+	private double minutesPerGoal;
 	private int calls;
 	private int presences;
 	private double averagePoints;
@@ -27,19 +27,19 @@ public class DetailedPerformance {
 	public String getTeam() {
 		return team;
 	}
-	public Integer getGoalConceded() {
+	public int getGoalConceded() {
 		return goalConceded;
 	}
-	public Integer getCleanSheets() {
+	public int getCleanSheets() {
 		return cleanSheets;
 	}
-	public Integer getAssists() {
+	public int getAssists() {
 		return assists;
 	}
-	public Integer getPenalityGoals() {
+	public int getPenalityGoals() {
 		return penalityGoals;
 	}
-	public Double getMinutesPerGoal() {
+	public double getMinutesPerGoal() {
 		return minutesPerGoal;
 	}
 	public int getCalls() {
@@ -133,7 +133,6 @@ public class DetailedPerformance {
 			Integer penalityGoals, Double minutesPerGoal, int calls, int presences, double averagePoints, int goals,
 			int ownGoals, int substitutionOn, int substitutionOff, int yellowCards, int doubleYellowCards, int redCards,
 			double minutesPlayed) {
-		super();
 		this.season = season;
 		this.team = team;
 		this.goalConceded = goalConceded;

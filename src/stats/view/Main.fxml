@@ -426,6 +426,11 @@
                                           <TableColumn fx:id="columnDoubleYellowCards" prefWidth="75.0" text="DB YELLOW CARDS" />
                                           <TableColumn fx:id="columnRedCards" prefWidth="75.0" text="RED CARDS" />
                                           <TableColumn fx:id="columnMinutesPlayed" prefWidth="75.0" text="MIN. PLAYED" />
+                                          <TableColumn fx:id="columnAssists" prefWidth="75.0" text="ASSISTS" visible="false" />
+                                          <TableColumn fx:id="columnCleanSheets" prefWidth="75.0" text="CLEAN SHEETS" visible="false" />
+                                          <TableColumn fx:id="columnGoalConceded" prefWidth="75.0" text="GOL CONCEDED" visible="false" />
+                                          <TableColumn fx:id="columnMinutesPerGoal" prefWidth="75.0" text="MIN. PER GOALS" visible="false" />
+                                          <TableColumn fx:id="columnPenaltyGoals" prefWidth="75.0" text="PENALTY GOALS" visible="false" />
                                        </columns>
                                     </TableView>
                                     <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.valignment="CENTER">
