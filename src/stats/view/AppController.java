@@ -4,10 +4,12 @@ import java.awt.Button;
 import java.awt.TextField;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -18,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,6 +32,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -46,7 +50,7 @@ import stats.model.Player;
 import stats.model.Team;
 import stats.persistence.DAOException;
 
-public class AppController {
+public class AppController implements Initializable{
 	
 	@FXML javafx.scene.control.Button searchButton;
 	@FXML javafx.scene.control.TextField fieldTeam;
@@ -101,7 +105,21 @@ public class AppController {
 	@FXML LineChart<String, Double> lineChartTrend;
 	@FXML TableView<Match> matchesResults;
 	@FXML Label labelResultMatch;
+	@FXML ComboBox<String> comboBoxLeaguesPlayer;
+	@FXML ComboBox<String> comboBoxTeamsPlayer;
 	
+	
+	public ObservableList<String> retriveTeamFromComboBoxPlayer() throws DAOException {
+		System.out.println("*");
+		List<Team> listSearchedTeams = App.sharedInstance.getDaoTeam().retrieveAllTeams();
+		List<String> listTeamName = new ArrayList<String>();
+		for(Team t: listSearchedTeams) {
+			System.out.println(t.getFullName());
+			listTeamName.add(t.getFullName());
+		}
+		ObservableList<String> list = FXCollections.observableArrayList(listTeamName);
+		return list;
+	}
 	
 	
 	
@@ -326,6 +344,20 @@ public class AppController {
 		}
 		
 	
+	}
+
+
+
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+		try {
+			comboBoxTeamsPlayer.setItems(retriveTeamFromComboBoxPlayer());
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

@@ -337,12 +337,12 @@
                                  <center>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
                                        <top>
-                                          <ComboBox accessibleRole="PARENT" prefWidth="150.0" promptText="LEAGUES" BorderPane.alignment="CENTER" />
+                                          <ComboBox fx:id="comboBoxLeaguesPlayer" accessibleRole="PARENT" prefWidth="150.0" promptText="LEAGUES" BorderPane.alignment="CENTER" />
                                        </top>
                                        <center>
                                           <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
                                              <top>
-                                                <ComboBox accessibleRole="PARENT" prefWidth="150.0" promptText="TEAMS" BorderPane.alignment="CENTER">
+                                                <ComboBox fx:id="comboBoxTeamsPlayer" accessibleRole="PARENT" prefWidth="150.0" promptText="TEAMS" BorderPane.alignment="CENTER">
                                                    <BorderPane.margin>
                                                       <Insets top="10.0" />
                                                    </BorderPane.margin>
@@ -410,6 +410,9 @@
                                       <yAxis>
                                         <NumberAxis side="LEFT" />
                                       </yAxis>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
                                     </LineChart>
                                     <TableView fx:id="tablePlayers" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                                        <columns>
