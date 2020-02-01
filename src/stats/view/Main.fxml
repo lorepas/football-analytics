@@ -414,26 +414,26 @@
                                           <Insets />
                                        </opaqueInsets>
                                     </LineChart>
-                                    <TableView fx:id="tablePlayers" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                    <TableView fx:id="tablePlayers" maxWidth="3000.0" prefHeight="3000.0" prefWidth="200.0" GridPane.rowIndex="1">
                                        <columns>
-                                          <TableColumn fx:id="columnSeason" prefWidth="59.0" text="SEASON" />
-                                          <TableColumn fx:id="columnTeam" prefWidth="75.0" text="TEAM" />
-                                          <TableColumn fx:id="columnCalls" prefWidth="75.0" text="CALLS" />
-                                          <TableColumn fx:id="columnPresences" prefWidth="75.0" text="PRECENCES" />
-                                          <TableColumn fx:id="columnAveragePoints" prefWidth="75.0" text="AVG POINTS" />
-                                          <TableColumn fx:id="columnGoals" prefWidth="75.0" text="GOALS" />
-                                          <TableColumn fx:id="columnOwnGoals" prefWidth="75.0" text="OWN GOALS" />
-                                          <TableColumn fx:id="columnSobstitutionOn" prefWidth="75.0" text="SUBS ON" />
-                                          <TableColumn fx:id="columnSobstitutionOff" prefWidth="75.0" text="SUBS OFF" />
-                                          <TableColumn fx:id="columnYellowCards" prefWidth="75.0" text="YELLOW CARDS" />
-                                          <TableColumn fx:id="columnDoubleYellowCards" prefWidth="75.0" text="DB YELLOW CARDS" />
-                                          <TableColumn fx:id="columnRedCards" prefWidth="75.0" text="RED CARDS" />
-                                          <TableColumn fx:id="columnMinutesPlayed" prefWidth="75.0" text="MIN. PLAYED" />
-                                          <TableColumn fx:id="columnAssists" prefWidth="75.0" text="ASSISTS" visible="false" />
-                                          <TableColumn fx:id="columnCleanSheets" prefWidth="75.0" text="CLEAN SHEETS" visible="false" />
-                                          <TableColumn fx:id="columnGoalConceded" prefWidth="75.0" text="GOL CONCEDED" visible="false" />
-                                          <TableColumn fx:id="columnMinutesPerGoal" prefWidth="75.0" text="MIN. PER GOALS" visible="false" />
-                                          <TableColumn fx:id="columnPenaltyGoals" prefWidth="75.0" text="PENALTY GOALS" visible="false" />
+                                          <TableColumn fx:id="columnSeason" maxWidth="200.0" prefWidth="200.0" text="SEASON" />
+                                          <TableColumn fx:id="columnTeam" maxWidth="200.0" prefWidth="200.0" resizable="false" text="TEAM" />
+                                          <TableColumn fx:id="columnCalls" maxWidth="200.0" prefWidth="200.0" resizable="false" text="CALLS" />
+                                          <TableColumn fx:id="columnPresences" maxWidth="200.0" prefWidth="200.0" resizable="false" text="PRECENCES" />
+                                          <TableColumn fx:id="columnAveragePoints" maxWidth="200.0" prefWidth="200.0" resizable="false" text="AVG POINTS" />
+                                          <TableColumn fx:id="columnGoals" maxWidth="200.0" prefWidth="200.0" resizable="false" text="GOALS" />
+                                          <TableColumn fx:id="columnOwnGoals" maxWidth="200.0" prefWidth="200.0" resizable="false" text="OWN GOALS" />
+                                          <TableColumn fx:id="columnSobstitutionOn" maxWidth="200.0" prefWidth="200.0" resizable="false" text="SUBS ON" />
+                                          <TableColumn fx:id="columnSobstitutionOff" maxWidth="200.0" prefWidth="200.0" resizable="false" text="SUBS OFF" />
+                                          <TableColumn fx:id="columnYellowCards" maxWidth="200.0" prefWidth="200.0" resizable="false" text="YELLOW CARDS" />
+                                          <TableColumn fx:id="columnDoubleYellowCards" maxWidth="200.0" prefWidth="200.0" resizable="false" text="DB YELLOW CARDS" />
+                                          <TableColumn fx:id="columnRedCards" maxWidth="200.0" prefWidth="200.0" resizable="false" text="RED CARDS" />
+                                          <TableColumn fx:id="columnMinutesPlayed" maxWidth="200.0" prefWidth="200.0" resizable="false" text="MIN. PLAYED" />
+                                          <TableColumn fx:id="columnAssists" maxWidth="200.0" prefWidth="200.0" resizable="false" text="ASSISTS" visible="false" />
+                                          <TableColumn fx:id="columnCleanSheets" maxWidth="200.0" prefWidth="200.0" resizable="false" text="CLEAN SHEETS" visible="false" />
+                                          <TableColumn fx:id="columnGoalConceded" maxWidth="200.0" prefWidth="200.0" resizable="false" text="GOL CONCEDED" visible="false" />
+                                          <TableColumn fx:id="columnMinutesPerGoal" maxWidth="200.0" prefWidth="200.0" resizable="false" text="MIN. PER GOALS" visible="false" />
+                                          <TableColumn fx:id="columnPenaltyGoals" maxWidth="200.0" prefWidth="200.0" resizable="false" text="PENALTY GOALS" visible="false" />
                                        </columns>
                                     </TableView>
                                     <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.valignment="CENTER">
