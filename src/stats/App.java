@@ -121,6 +121,8 @@ public class App extends Application {
 //			match.setScoreAway(1);
 //			league.getMatches().add(match);
 //			this.getDaoLeagueGraph().create(league);
+//			this.getDaoLeagueGraph().retrieve(league.getFullName());
+//			System.out.println("Exists = " + exists);
 			LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 			Logger mongoLogger = loggerContext.getLogger("org.mongodb.driver");
 			mongoLogger.setLevel(Level.OFF);

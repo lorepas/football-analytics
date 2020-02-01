@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Query;
+import org.neo4j.driver.Record;
+import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
+import org.neo4j.driver.Value;
 import org.neo4j.driver.exceptions.ClientException;
 import static org.neo4j.driver.Values.parameters;
 
@@ -20,8 +23,38 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 
 	@Override
 	public boolean exists(League league) throws DAOException {
-		// TODO Auto-generated method stub
-		return false;
+		Driver driver = null;
+		Session session = null;
+		Transaction transaction = null;
+		boolean value = false;
+		try {
+			driver = Utils.getNEO4JDriver();
+			session = driver.session();
+			transaction = session.beginTransaction();
+			String existsQuery = "MATCH (league:League {fullName: $fullName})";
+			existsQuery += "RETURN count(league)";
+			Query existsLeague = new Query(existsQuery);
+			Result rs = transaction.run(existsLeague);
+			if(rs.single().get(0).asInt() == 1) {
+				value = true;
+			}
+			transaction.commit();
+		} catch(ClientException ce) {
+			if(transaction != null) {
+				if(transaction.isOpen()) {
+					transaction.rollback();
+				}
+			}
+			throw new DAOException(ce);
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+			if(driver != null) {
+				driver.close();
+			}
+		}
+		return value;
 	}
 
 	@Override
@@ -60,8 +93,32 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 
 	@Override
 	public void delete(League league) throws DAOException {
-		// TODO Auto-generated method stub
-		
+		Driver driver = null;
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			driver = Utils.getNEO4JDriver();
+			session = driver.session();
+			transaction = session.beginTransaction();
+			String deleteLeagueNode = "MATCH (league:League { fullName: $fullName })";
+			deleteLeagueNode += "DETACH DELETE league";
+			Query createLeagueNode = new Query(deleteLeagueNode, 
+					parameters("fullName", league.getFullName()));
+			transaction.run(createLeagueNode);
+			transaction.commit();
+		} catch(ClientException ce) {
+			if(transaction != null) {
+				transaction.rollback();
+			}
+			throw new DAOException(ce);
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+			if(driver != null) {
+				driver.close();
+			}
+		}
 	}
 
 	@Override
@@ -72,8 +129,40 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 
 	@Override
 	public League retrieve(String fullName) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
+		Driver driver = null;
+		Session session = null;
+		Transaction transaction = null;
+		League league = new League();
+		try {
+			driver = Utils.getNEO4JDriver();
+			session = driver.session();
+			transaction = session.beginTransaction();
+			String existsQuery = "MATCH (league:League {fullName: $fullName})";
+			existsQuery += "RETURN league";
+			Query existsLeague = new Query(existsQuery, parameters("fullName", fullName));
+			Result rs = transaction.run(existsLeague);
+			Record record = rs.single();
+//			Value value = record.fields().
+//			league.setFullName(rs.single().get(0).asString());
+//			league.setYear(rs.single().get(1).asString());
+			System.out.println("League: " + league.getFullName());
+			transaction.commit();
+		} catch(ClientException ce) {
+			if(transaction != null) {
+				if(transaction.isOpen()) {
+					transaction.rollback();
+				}
+			}
+			throw new DAOException(ce);
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+			if(driver != null) {
+				driver.close();
+			}
+		}
+		return league;
 	}
 
 	@Override

@@ -170,9 +170,10 @@ public class DAOPlayerMongo implements IDAOPlayer {
 				Document document = cursor.next();
 				System.out.println(document.get("bornDate"));
 				Date bornDate = (Date) document.get("bornDate");
-				String dateString = new SimpleDateFormat("dd/MM/yyyy").format(bornDate);
-				document.put("bornDate", dateString);
-				
+				if(bornDate != null) {
+					String dateString = new SimpleDateFormat("dd/MM/yyyy").format(bornDate);
+					document.put("bornDate", dateString);
+				}
 				String json = document.toJson();
 				System.out.println(json);
 				Player player = Player.playerFromJson(json);
