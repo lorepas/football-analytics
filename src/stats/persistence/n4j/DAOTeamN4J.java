@@ -1,12 +1,21 @@
 package stats.persistence.n4j;
 
+import static org.neo4j.driver.Values.parameters;
+
 import java.util.List;
+
+import org.neo4j.driver.Driver;
+import org.neo4j.driver.Query;
+import org.neo4j.driver.Session;
+import org.neo4j.driver.Transaction;
+import org.neo4j.driver.exceptions.ClientException;
 
 import stats.model.Team;
 import stats.persistence.DAOException;
 import stats.persistence.IDAOTeam;
+import stats.utility.Utils;
 
-public class DAOTeamN4J implements IDAOTeam {
+public class DAOTeamN4J implements IDAOTeamGraph {
 
 	@Override
 	public boolean exists(Team team) throws DAOException {
@@ -16,8 +25,30 @@ public class DAOTeamN4J implements IDAOTeam {
 
 	@Override
 	public void createTeam(Team team) throws DAOException {
-		// TODO Auto-generated method stub
-
+		Driver driver = null;
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			driver = Utils.getNEO4JDriver();
+			session = driver.session();
+			transaction = session.beginTransaction();
+			String query = "CREATE(:Team {fullName: $fullName})";
+			Query createTeamNode = new Query(query, 
+					parameters("fullName", team.getFullName()));
+			transaction.run(createTeamNode);
+			transaction.commit();
+		} catch(ClientException ce) {
+			if(transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+			if(driver != null) {
+				driver.close();
+			}
+		}
 	}
 
 	@Override

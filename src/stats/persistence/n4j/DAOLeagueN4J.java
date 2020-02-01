@@ -9,6 +9,7 @@ import org.neo4j.driver.Transaction;
 import org.neo4j.driver.exceptions.ClientException;
 import static org.neo4j.driver.Values.parameters;
 
+import stats.App;
 import stats.model.League;
 import stats.model.Match;
 import stats.persistence.DAOException;
@@ -31,27 +32,26 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 			driver = Utils.getNEO4JDriver();
 			session = driver.session();
 			transaction = session.beginTransaction();
-			Query createLeagueNode = new Query("CREATE(:League {name: $name, season: $season})", parameters("name", league.getName(), "season", league.getYear()));
+			Query createLeagueNode = new Query("CREATE(:League {fullName: $fullName, name: $name, season: $season})", 
+					parameters("fullName", league.getFullName(), "name", league.getName(), "season", league.getYear()));
 			transaction.run(createLeagueNode);
 			transaction.commit();
-			for (Match match : league.getMatches()) {
-				//Crea nuovo match nel graph
-				//Collega i due team alla league alla league
-			}
 		} catch(ClientException ce) {
 			if(transaction != null) {
 				transaction.rollback();
 			}
+			throw new DAOException(ce);
 		} finally {
-			if(transaction != null) {
-				transaction.commit();
-			}
 			if(session != null) {
 				session.close();
 			}
 			if(driver != null) {
 				driver.close();
 			}
+		}
+		for (Match match : league.getMatches()) {
+			App.getSharedInstance().getDaoMatchGraph().create(match);
+			//Collega i due team alla league alla league
 		}
 		
 	}

@@ -12,6 +12,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import stats.model.League;
+import stats.model.Match;
 import stats.model.User;
 import stats.persistence.DAOUserKV;
 import stats.persistence.IDAOLeague;
@@ -26,7 +27,11 @@ import stats.persistence.mongo.DAOPlayerMongo;
 import stats.persistence.mongo.DAOTeamMongo;
 import stats.persistence.mongo.DAOUserMongo;
 import stats.persistence.n4j.DAOLeagueN4J;
+import stats.persistence.n4j.DAOMatchN4J;
+import stats.persistence.n4j.DAOTeamN4J;
 import stats.persistence.n4j.IDAOLeagueGraph;
+import stats.persistence.n4j.IDAOMatchGraph;
+import stats.persistence.n4j.IDAOTeamGraph;
 import stats.view.AppController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -45,6 +50,8 @@ public class App extends Application {
 	private IDAOMatch daoMatch = new DAOMatchMongo();
 	private IDAOUser daoUserKV = new DAOUserKV();
 	private IDAOLeagueGraph daoLeagueGraph = new DAOLeagueN4J();
+	private IDAOMatchGraph daoMatchGraph = new DAOMatchN4J();
+	private IDAOTeamGraph daoTeamGraph = new DAOTeamN4J();
 	private ReadFromFile readFromFile = new ReadFromFile();
 	private Stage primaryStage;
 	
@@ -72,6 +79,18 @@ public class App extends Application {
 	public IDAOMatch getDaoMatch() {
 		return daoMatch;
 	}
+	
+	public IDAOLeagueGraph getDaoLeagueGraph() {
+		return daoLeagueGraph;
+	}
+	
+	public IDAOMatchGraph getDaoMatchGraph() {
+		return daoMatchGraph;
+	}
+	
+	public IDAOTeamGraph getDaoTeamGraph() {
+		return daoTeamGraph;
+	}
 
 	public AppController getAppController() {
 		return appController;
@@ -92,6 +111,16 @@ public class App extends Application {
 //			user.setUsername("user");
 //			user.setPwd("nalf10");
 //			App.getSharedInstance().getDaoUserKV().putUser(user);
+			League league = new League();
+			league.setFullName("Toscana Prima Categoria Girone B");
+			league.setYear("2019-20");
+			Match match = new Match();
+			match.setNameHome("Capanne");
+			match.setNameAway("Calci");
+			match.setScoreHome(1);
+			match.setScoreAway(1);
+			league.getMatches().add(match);
+			this.getDaoLeagueGraph().create(league);
 			LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 			Logger rootLogger = loggerContext.getLogger("org.mongodb.driver");
 			rootLogger.setLevel(Level.OFF);
