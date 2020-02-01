@@ -173,9 +173,9 @@ public class DAOTeamMongo implements IDAOTeam {
 		MongoCursor<Document> cursor = null;
 		List<Team> teams = new ArrayList<Team>();
 		try {
+			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			cursor = mongoDatabase.getCollection("teams").find().iterator();
-			mongoClient = Utils.getMongoClient();
 			while (cursor.hasNext()) { 
 				teams.add(Team.teamFromJson(cursor.next().toJson()));
 			}
