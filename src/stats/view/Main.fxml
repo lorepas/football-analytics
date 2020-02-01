@@ -403,7 +403,7 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <LineChart fx:id="lineChartTrend" animated="false" style="-fx-title-side: #bbb6b6;" GridPane.rowIndex="2">
+                                    <LineChart fx:id="lineChartTrend" animated="false" GridPane.rowIndex="2">
                                       <xAxis>
                                         <CategoryAxis side="BOTTOM" />
                                       </xAxis>
