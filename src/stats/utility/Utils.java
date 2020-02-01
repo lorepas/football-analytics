@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.neo4j.driver.AuthToken;
+import org.neo4j.driver.AuthTokens;
+import org.neo4j.driver.Driver;
+import org.neo4j.driver.GraphDatabase;
+import org.neo4j.driver.Session;
+
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoException;
 import com.mongodb.ServerAddress;
@@ -32,6 +38,12 @@ public class Utils {
 			throw new MongoException("Mongo is down: you should connect with a VPN");
 		}
 		return mongoClient;
+	}
+	
+	public static Driver getNEO4JDriver() {
+		AuthToken authToken = AuthTokens.basic("neo4j", "huDfac-hyrmo4-fomviw");
+        Driver driver = GraphDatabase.driver("bolt://172.16.0.140:7687", authToken);
+        return driver;
 	}
 	
  }

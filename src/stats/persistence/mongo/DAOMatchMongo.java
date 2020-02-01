@@ -44,37 +44,37 @@ public class DAOMatchMongo implements IDAOMatch{
 	}
 
 	@Override
-	public void createMatch(Match match) {
+	public void create(Match match) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void createListOfMatches(List<Match> matches) throws DAOException {
+	public void create(List<Match> matches) throws DAOException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateMatch(Match match) throws DAOException {
+	public void update(Match match) throws DAOException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void deleteMatch(Match match) {
+	public void delete(Match match) throws DAOException{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public List<Player> retrieveMatches(League league) throws DAOException {
+	public List<Player> retrieve(League league) throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Player> retrieveMatches() throws DAOException {
+	public List<Player> retrieve() throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}

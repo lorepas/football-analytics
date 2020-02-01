@@ -9,10 +9,10 @@ import stats.model.Player;
 public interface IDAOMatch {
 	
 	public boolean exists(Match match) throws DAOException;
-	public void createMatch(Match match) throws DAOException;
-	public void createListOfMatches(List<Match> matches) throws DAOException;
-	public void updateMatch(Match match) throws DAOException;
-	public void deleteMatch(Match match) throws DAOException;
-	public List<Player> retrieveMatches(League league)throws DAOException;
-	public List<Player> retrieveMatches() throws DAOException;
+	public void create(Match match) throws DAOException;
+	public void create(List<Match> matches) throws DAOException;
+	public void update(Match match) throws DAOException;
+	public void delete(Match match) throws DAOException;
+	public List<Player> retrieve(League league)throws DAOException;
+	public List<Player> retrieve() throws DAOException;
 }

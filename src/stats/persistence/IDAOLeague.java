@@ -8,10 +8,11 @@ import stats.model.Player;
 public interface IDAOLeague {
 
 	public boolean exists(League league) throws DAOException;
-	public void createLeague(League league) throws DAOException;
-	public void createListOfLeagues(List<League> leagues) throws DAOException;
-	public void updateLeague(League league) throws DAOException;
-	public void deleteLeague(League league) throws DAOException;
-	public List<League> retrieveLeagues()throws DAOException;
+	public void create(League league) throws DAOException;
+	public void create(List<League> leagues) throws DAOException;
+	public void update(League league) throws DAOException;
+	public void delete(League league) throws DAOException;
+	public List<League> retrieve() throws DAOException;
+	public League retrieve(String fullName) throws DAOException;
 	
 }

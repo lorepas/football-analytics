@@ -51,7 +51,7 @@ public class DAOLeagueMongo implements IDAOLeague{
 	}
 
 	@Override
-	public void createLeague(League league) throws DAOException {
+	public void create(League league) throws DAOException {
 		MongoClient mongoClient = null;
 		try {
 			mongoClient = Utils.getMongoClient();
@@ -76,7 +76,7 @@ public class DAOLeagueMongo implements IDAOLeague{
 	}
 
 	@Override
-	public void createListOfLeagues(List<League> leagues) throws DAOException {
+	public void create(List<League> leagues) throws DAOException {
 		MongoClient mongoClient = null;
 		try {
 			List<Document> documents = new ArrayList<>();
@@ -104,7 +104,7 @@ public class DAOLeagueMongo implements IDAOLeague{
 	}
 
 	@Override
-	public void updateLeague(League league) throws DAOException {
+	public void update(League league) throws DAOException {
 		MongoClient mongoClient = null;
 		try {
 			mongoClient = Utils.getMongoClient();
@@ -132,7 +132,7 @@ public class DAOLeagueMongo implements IDAOLeague{
 	}
 
 	@Override
-	public void deleteLeague(League league) throws DAOException {
+	public void delete(League league) throws DAOException {
 		MongoClient mongoClient = null;
 		try {
 			mongoClient = Utils.getMongoClient();
@@ -153,7 +153,7 @@ public class DAOLeagueMongo implements IDAOLeague{
 	}
 
 	@Override
-	public List<League> retrieveLeagues() throws DAOException {
+	public List<League> retrieve() throws DAOException {
 		MongoClient mongoClient = null;
 		MongoCursor<Document> cursor = null;
 		List<League> leagues = new ArrayList<League>();
@@ -175,6 +175,12 @@ public class DAOLeagueMongo implements IDAOLeague{
 			}
 		}
 		return leagues;
+	}
+
+	@Override
+	public League retrieve(String fullName) throws DAOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

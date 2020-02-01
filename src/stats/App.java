@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import stats.model.League;
 import stats.model.User;
 import stats.persistence.DAOUserKV;
 import stats.persistence.IDAOLeague;
@@ -24,6 +25,8 @@ import stats.persistence.mongo.DAOMatchMongo;
 import stats.persistence.mongo.DAOPlayerMongo;
 import stats.persistence.mongo.DAOTeamMongo;
 import stats.persistence.mongo.DAOUserMongo;
+import stats.persistence.n4j.DAOLeagueN4J;
+import stats.persistence.n4j.IDAOLeagueGraph;
 import stats.view.AppController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -40,8 +43,8 @@ public class App extends Application {
 	private IDAOPlayer daoPlayer = new DAOPlayerMongo();
 	private IDAOLeague daoLeague = new DAOLeagueMongo();
 	private IDAOMatch daoMatch = new DAOMatchMongo();
-	private IDAOUser daoUser = new DAOUserMongo();
 	private IDAOUser daoUserKV = new DAOUserKV();
+	private IDAOLeagueGraph daoLeagueGraph = new DAOLeagueN4J();
 	private ReadFromFile readFromFile = new ReadFromFile();
 	private Stage primaryStage;
 	
@@ -69,10 +72,6 @@ public class App extends Application {
 	public IDAOMatch getDaoMatch() {
 		return daoMatch;
 	}
-	public IDAOUser getDaoUser() {
-		return daoUser;
-	}
-
 
 	public AppController getAppController() {
 		return appController;

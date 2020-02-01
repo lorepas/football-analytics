@@ -24,6 +24,10 @@ public class League {
 		return year;
 	}
 	
+	public List<Match> getMatches() {
+		return matches;
+	}
+	
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
