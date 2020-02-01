@@ -12,6 +12,7 @@ import static org.neo4j.driver.Values.parameters;
 import stats.App;
 import stats.model.League;
 import stats.model.Match;
+import stats.model.Team;
 import stats.persistence.DAOException;
 import stats.utility.Utils;
 
@@ -51,7 +52,8 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 		}
 		for (Match match : league.getMatches()) {
 			App.getSharedInstance().getDaoMatchGraph().create(match);
-			//Collega i due team alla league alla league
+			this.enrollTeam(league, match.getNameHome());
+			this.enrollTeam(league, match.getNameAway());
 		}
 		
 	}
@@ -84,6 +86,50 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 	public void create(List<League> leagues) throws DAOException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void enrollTeam(League league, String teamFullName) {
+		Driver driver = null;
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			driver = Utils.getNEO4JDriver();
+			session = driver.session();
+			transaction = session.beginTransaction();
+			String query = "MATCH (team:Team {fullName: $teamFullName})";
+			query += "MATCH (league:League {fullName: $leagueFullName})";
+			query += "CREATE (team)-[:ENROLLED_IN {season: $season}]->(league)";
+			Query createMatchRelationship = new Query(query, 
+					parameters("teamFullName", teamFullName, "leagueFullName", league.getFullName(), 
+							"season", league.getYear()));
+			transaction.run(createMatchRelationship);
+			transaction.commit();
+		} catch(ClientException ce) {
+			if(transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+			if(driver != null) {
+				driver.close();
+			}
+		}
+		
+	}
+
+	@Override
+	public int numberOfEnrolledTeams(League league) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<Team> enrolledTeams(League league) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

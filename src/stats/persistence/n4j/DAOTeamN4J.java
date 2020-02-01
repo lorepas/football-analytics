@@ -81,4 +81,22 @@ public class DAOTeamN4J implements IDAOTeamGraph {
 		return null;
 	}
 
+	@Override
+	public int numberOfWonMatches(Team team) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int numberOfDrawnMatches(Team team) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int numberOfLostMatches(Team team) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
