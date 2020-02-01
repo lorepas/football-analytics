@@ -1,4 +1,4 @@
-package stats.persistence;
+package stats.persistence.mongo;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -17,6 +17,8 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 
 import stats.model.League;
+import stats.persistence.DAOException;
+import stats.persistence.IDAOLeague;
 import stats.utility.Utils;
 
 public class DAOLeagueMongo implements IDAOLeague{

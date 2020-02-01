@@ -1,4 +1,4 @@
-package stats.persistence;
+package stats.persistence.mongo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,6 +28,8 @@ import stats.model.DetailedPerformance;
 import stats.model.League;
 import stats.model.Player;
 import stats.model.Team;
+import stats.persistence.DAOException;
+import stats.persistence.IDAOPlayer;
 import stats.utility.Utils;
 
 public class DAOPlayerMongo implements IDAOPlayer {

@@ -1,4 +1,4 @@
-package stats.persistence;
+package stats.persistence.mongo;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -28,6 +28,8 @@ import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 
 import stats.model.Team;
+import stats.persistence.DAOException;
+import stats.persistence.IDAOTeam;
 import stats.utility.Utils;
 
 public class DAOTeamMongo implements IDAOTeam {

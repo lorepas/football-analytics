@@ -1,10 +1,12 @@
-package stats.persistence;
+package stats.persistence.n4j;
 
 import java.util.List;
 
 import stats.model.League;
 import stats.model.Match;
 import stats.model.Player;
+import stats.persistence.DAOException;
+import stats.persistence.IDAOMatch;
 
 public class DAOMatchN4J implements IDAOMatch {
 
