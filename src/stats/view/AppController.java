@@ -2,6 +2,7 @@ package stats.view;
 
 import java.awt.Button;
 import java.awt.TextField;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -11,11 +12,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.imageio.ImageIO;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -38,6 +42,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -49,6 +55,7 @@ import stats.model.Match;
 import stats.model.Player;
 import stats.model.Team;
 import stats.persistence.DAOException;
+import stats.utility.Utils;
 
 public class AppController implements Initializable{
 	
@@ -107,6 +114,7 @@ public class AppController implements Initializable{
 	@FXML Label labelResultMatch;
 	@FXML ComboBox<String> comboBoxLeaguesPlayer;
 	@FXML ComboBox<String> comboBoxTeamsPlayer;
+	@FXML ImageView imageShield;
 	
 	
 	public ObservableList<String> retriveTeamFromComboBoxPlayer() throws DAOException {
@@ -127,15 +135,48 @@ public class AppController implements Initializable{
 	public void ActionRetrieveTeam(ActionEvent event) {
 		try {
 			String text = fieldTeam.getText();
-			List<Team> listSearchedTeams = App.sharedInstance.getDaoTeam().retrieveTeams(text);
-			ObservableList list = FXCollections.observableArrayList(listSearchedTeams);
-			listTeams.setItems(list);
+			if (text.isEmpty()) {
+				Alert alert = new Alert(AlertType.WARNING, " Empty field", ButtonType.CLOSE);
+				alert.showAndWait();
+			} else {
+				List<Team> listSearchedTeams = App.sharedInstance.getDaoTeam().retrieveTeams(text);
+				ObservableList list = FXCollections.observableArrayList(listSearchedTeams);
+				listTeams.setItems(list);
+				listTeams.setOnMouseClicked(e->onClickEventOnTeam(e));
+				if (listSearchedTeams.isEmpty()) {
+					Alert alert = new Alert(AlertType.WARNING, "No team selected", ButtonType.CLOSE);
+					alert.showAndWait();
+			}
+			
+			}
 		} catch(DAOException e) {
 			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
 			alert.showAndWait();
 		}
 		
 	}
+	public void onClickEventOnTeam(MouseEvent event)  {
+		Team teamSelected = listTeams.getSelectionModel().getSelectedItem();
+		if (teamSelected.getFullName().isEmpty()) {
+    		labelNameTeam.setText(teamSelected.getName().toUpperCase());
+    	} else {
+    		labelNameTeam.setText(teamSelected.getFullName().toUpperCase());
+    	}
+		try {
+			Utils.decode(teamSelected.getShield());
+			Image image = new Image("file:shardImage.png");
+			imageShield.setImage(image);;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		//imageShield = ImageIO.read(input)
+//		imageShield = SwingFXUtils.toFXImage(bufferedImage, null);
+		//Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+		//imageShield.setImage(image);
+		
+	}
+	
 	
 	public void initializedTable(Player playerSelected) {
 		List<DetailedPerformance> detailedPerformances = playerSelected.getDetailedPerformances();
@@ -206,14 +247,20 @@ public class AppController implements Initializable{
 	public void ActionRetrievePlayer(ActionEvent event) {
 		try {
 			String textPlayer = fieldPlayer.getText();
-			List<Player> listSearchedPlayers = App.sharedInstance.getDaoPlayer().retrievePlayers(textPlayer);
-			ObservableList listP = FXCollections.observableArrayList(listSearchedPlayers);
-			listPlayer.setItems(listP);
-			listPlayer.setOnMouseClicked(e->onClickEventOnPlayer(e));
-			if (listSearchedPlayers.isEmpty()) {
-				Alert alert = new Alert(AlertType.WARNING, "No player selected", ButtonType.CLOSE);
+			if (textPlayer.isEmpty()) {
+				Alert alert = new Alert(AlertType.WARNING, " Empty field", ButtonType.CLOSE);
 				alert.showAndWait();
+			} else {
+				List<Player> listSearchedPlayers = App.sharedInstance.getDaoPlayer().retrievePlayers(textPlayer);
+				ObservableList listP = FXCollections.observableArrayList(listSearchedPlayers);
+				listPlayer.setItems(listP);
+				listPlayer.setOnMouseClicked(e->onClickEventOnPlayer(e));
+				if (listSearchedPlayers.isEmpty()) {
+					Alert alert = new Alert(AlertType.WARNING, "No player selected", ButtonType.CLOSE);
+					alert.showAndWait();
+				}
 			}
+			
 		} catch(DAOException e) {
 			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
 			alert.show();

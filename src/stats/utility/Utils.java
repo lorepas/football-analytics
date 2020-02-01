@@ -1,8 +1,15 @@
 package stats.utility;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.neo4j.driver.AuthToken;
 import org.neo4j.driver.AuthTokens;
@@ -45,5 +52,10 @@ public class Utils {
         Driver driver = GraphDatabase.driver("bolt://172.16.0.140:7687", authToken);
         return driver;
 	}
-	
+	public static void decode(String s) throws IOException  {
+		byte[] bytes = Base64.getDecoder().decode(s);
+		BufferedImage img = ImageIO.read(new ByteArrayInputStream(bytes));
+		ImageIO.write(img, "png", new File("shardImage.png") );
+		
+	}
  }

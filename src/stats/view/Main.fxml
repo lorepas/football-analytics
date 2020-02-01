@@ -300,7 +300,9 @@
                                     </Label>
                                     <PieChart fx:id="pieChartForeign" maxHeight="221.0" maxWidth="334.0" prefHeight="221.0" prefWidth="334.0" title="PERCENTAGE OF FOREIGN PLAYERS" GridPane.rowIndex="2" />
                                     <PieChart fx:id="pieChartResults" prefHeight="273.0" prefWidth="332.0" title="PERCENTAGE OF MATCHES &#10;WON,DRAWN AND LOST" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    
+                                          <ImageView fx:id="imageShield" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    
                                     <Label text="MARKET VALUE" textFill="#bbb6b6">
                                        <GridPane.margin>
                                           <Insets left="50.0" top="180.0" />
@@ -314,10 +316,13 @@
                                           <Insets left="200.0" top="180.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="labelNameTeam" text="Label">
+                                    <Label fx:id="labelNameTeam" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                        <GridPane.margin>
                                           <Insets bottom="180.0" left="50.0" />
                                        </GridPane.margin>
+                                       <font>
+                                          <Font name="System Bold Italic" size="24.0" />
+                                       </font>
                                     </Label>
                                  </children>
                               </GridPane>
