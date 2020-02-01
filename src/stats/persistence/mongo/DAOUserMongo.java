@@ -1,4 +1,4 @@
-package stats.persistence;
+package stats.persistence.mongo;
 
 import org.bson.Document;
 
@@ -9,6 +9,8 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 
 import stats.model.User;
+import stats.persistence.DAOException;
+import stats.persistence.IDAOUser;
 import stats.utility.Utils;
 
 public class DAOUserMongo implements IDAOUser{

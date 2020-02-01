@@ -1,4 +1,4 @@
-package stats.persistence;
+package stats.persistence.mongo;
 
 import java.util.List;
 
@@ -14,6 +14,8 @@ import com.mongodb.client.MongoDatabase;
 import stats.model.League;
 import stats.model.Match;
 import stats.model.Player;
+import stats.persistence.DAOException;
+import stats.persistence.IDAOMatch;
 import stats.utility.Utils;
 
 public class DAOMatchMongo implements IDAOMatch{

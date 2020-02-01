@@ -66,7 +66,7 @@
                                  <bottom>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <Button fx:id="buttonUpdateLeague" mnemonicParsing="false" text="UPDATE" visible="false" />
+                                          <Button fx:id="buttonUpdateLeague" mnemonicParsing="false" onAction="#ActionUpdateLeague" text="UPDATE" visible="false" />
                                           <Button fx:id="buttonDeleteLeague" mnemonicParsing="false" text="DELETE" visible="false">
                                              <HBox.margin>
                                                 <Insets left="30.0" />
@@ -229,12 +229,12 @@
                                        <bottom>
                                           <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                              <children>
-                                                <Button fx:id="buttonUpdateTeam" mnemonicParsing="false" text="UPDATE" visible="false" />
                                                 <Button fx:id="buttonDeleteTeam" mnemonicParsing="false" text="DELETE" visible="false">
                                                    <HBox.margin>
                                                       <Insets left="30.0" />
                                                    </HBox.margin>
                                                 </Button>
+                                                <Button fx:id="buttonUpdateTeam" mnemonicParsing="false" onAction="#ActionUpdateTeams" text="UPDATE" visible="false" />
                                              </children>
                                           </HBox>
                                        </bottom>
@@ -358,7 +358,7 @@
                                              <bottom>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                                    <children>
-                                                      <Button fx:id="buttoUpdatePlayer" mnemonicParsing="false" text="UPDATE" visible="false" />
+                                                      <Button fx:id="buttoUpdatePlayer" mnemonicParsing="false" onAction="#ActionUpdatePlayers" text="UPDATE" visible="false" />
                                                       <Button fx:id="buttonDeletePlayer" mnemonicParsing="false" text="DELETE" visible="false">
                                                          <HBox.margin>
                                                             <Insets left="30.0" />
