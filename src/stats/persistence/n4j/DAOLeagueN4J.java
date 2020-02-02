@@ -1,6 +1,9 @@
 package stats.persistence.n4j;
 
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Query;
@@ -10,6 +13,10 @@ import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
 import org.neo4j.driver.Value;
 import org.neo4j.driver.exceptions.ClientException;
+import org.neo4j.driver.internal.InternalNode;
+import org.neo4j.driver.types.Node;
+import org.neo4j.driver.util.Pair;
+
 import static org.neo4j.driver.Values.parameters;
 
 import stats.App;
@@ -141,10 +148,13 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 			existsQuery += "RETURN league";
 			Query existsLeague = new Query(existsQuery, parameters("fullName", fullName));
 			Result rs = transaction.run(existsLeague);
-			Record record = rs.single();
-//			Value value = record.fields().
-//			league.setFullName(rs.single().get(0).asString());
-//			league.setYear(rs.single().get(1).asString());
+			List<Pair<String, Value>> list = rs.single().fields();
+			//TODO: Re-factor the following code
+			for (Pair<String, Value> pair : list) {
+				Value value = pair.value();
+				Iterable<Value> values = value.asNode().values();
+				league.setFullName(values.iterator().next().asString());
+			}
 			System.out.println("League: " + league.getFullName());
 			transaction.commit();
 		} catch(ClientException ce) {
