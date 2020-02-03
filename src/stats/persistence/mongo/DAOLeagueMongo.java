@@ -4,10 +4,12 @@ import static com.mongodb.client.model.Filters.eq;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import com.mongodb.MongoSocketOpenException;
@@ -17,6 +19,8 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 
 import stats.model.League;
+import stats.model.Player;
+import stats.model.Team;
 import stats.persistence.DAOException;
 import stats.persistence.IDAOLeague;
 import stats.utility.Utils;
@@ -29,17 +33,15 @@ public class DAOLeagueMongo implements IDAOLeague{
 		try {
 			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("league");
+			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("leagues");
 			Document filter = new Document();
-			filter.append("fullName", league.getFullName());
+			filter.append("fullName", league.getFullname());
 			MongoCursor<Document> cursor = mongoCollection.find(filter).iterator();
 			if(cursor.hasNext()) {
 				return true;
 			} else {
 				return false;
 			}
-		} catch (MongoWriteException mwe) {
-			throw new DAOException(mwe);
 		} catch (MongoException me) {
 			throw new DAOException(me);
 		} finally {
@@ -51,20 +53,14 @@ public class DAOLeagueMongo implements IDAOLeague{
 	}
 
 	@Override
-	public void create(League league) throws DAOException {
+	public void createLeague(League league) throws DAOException {
 		MongoClient mongoClient = null;
 		try {
 			mongoClient = Utils.getMongoClient();
 			Document obj = Document.parse(league.toJSON());
-//			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-//			if(player.getBornDate() != null) {
-//				obj.put("bornDate", dateFormatter.parse(player.getBornDate()));
-//			}
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("leagues");
 			mongoCollection.insertOne(obj);
-		} catch(MongoWriteException mwe) {
-			throw new DAOException(mwe);
 		} catch (MongoException me) {
 			throw new DAOException(me);
 		} finally {
@@ -76,25 +72,19 @@ public class DAOLeagueMongo implements IDAOLeague{
 	}
 
 	@Override
-	public void create(List<League> leagues) throws DAOException {
+	public void createListOfLeagues(List<League> leagues) throws DAOException {
 		MongoClient mongoClient = null;
 		try {
+			mongoClient = Utils.getMongoClient();
 			List<Document> documents = new ArrayList<>();
 			for (League league : leagues) {
-//				SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 				Document obj = Document.parse(league.toJSON());
-//				obj.put("bornDate", dateFormatter.parse(player.getBornDate()));
 				documents.add(obj);
 			}
-			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("leagues");
 			mongoCollection.insertMany(documents);
-		} catch(MongoWriteException mwe) {
-			throw new DAOException(mwe);
-		} catch(MongoSocketOpenException msoe) {
-			throw new DAOException(msoe);
-		}  catch (MongoException me) {
+		} catch (MongoException me) {
 			throw new DAOException(me);
 		} finally {
 			if(mongoClient != null) {
@@ -104,31 +94,26 @@ public class DAOLeagueMongo implements IDAOLeague{
 	}
 
 	@Override
-	public void update(League league) throws DAOException {
+	public void updateLeague(String fullName, League league) throws DAOException {
 		MongoClient mongoClient = null;
 		try {
 			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("leagues");
-//			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-			Bson query = eq("fullName", league.getFullName());
+			Bson query = eq("fullName", league.getFullname());
 			Document setData = Document.parse(league.toJSON());
-//			if(player.getBornDate() != null) {
-//				setData.put("bornDate", dateFormatter.parse(player.getBornDate()));
-//			}
 			Document updateDocument = new Document("$set", setData);
 			System.out.println("Update document: " + updateDocument);
 			mongoCollection.updateOne(query, updateDocument);
 			System.out.println("Query: " + query);
-		} catch(MongoWriteException mwe) {
+		} catch(MongoException mwe) {
 			throw new DAOException(mwe);
-		} catch (MongoException me) {
-			throw new DAOException(me);
 		} finally {
 			if(mongoClient != null) {
 				mongoClient.close();
 			}
 		}
+		
 	}
 
 	@Override
@@ -139,10 +124,8 @@ public class DAOLeagueMongo implements IDAOLeague{
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("leagues");
 			Document query = new Document();
-			query.append("fullName", league.getFullName());
+			query.append("fullname", league.getFullname());
 			mongoCollection.deleteOne(query);
-		} catch(MongoWriteException mwe) {
-			throw new DAOException(mwe);
 		} catch (MongoException me) {
 			throw new DAOException(me);
 		} finally {
@@ -153,7 +136,7 @@ public class DAOLeagueMongo implements IDAOLeague{
 	}
 
 	@Override
-	public List<League> retrieve() throws DAOException {
+	public List<League> retrieveAllLeagues() throws DAOException {
 		MongoClient mongoClient = null;
 		MongoCursor<Document> cursor = null;
 		List<League> leagues = new ArrayList<League>();
@@ -178,10 +161,30 @@ public class DAOLeagueMongo implements IDAOLeague{
 	}
 
 	@Override
-	public League retrieve(String fullName) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<League> retrieveLeagues(String name) throws DAOException {
+		MongoClient mongoClient = null;
+		MongoCursor<Document> cursor = null;
+		List<League> leagues = new ArrayList<League>();
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document query = new Document();
+			query.append("name", Pattern.compile(".*" + name + ".*" , Pattern.CASE_INSENSITIVE));
+			cursor = mongoDatabase.getCollection("leagues").find(query).iterator();
+			while (cursor.hasNext()) { 
+				leagues.add(League.leagueFromJson(cursor.next().toJson()));
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(cursor != null) {
+				cursor.close(); 
+			}
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return leagues;
 	}
-
 	
 }

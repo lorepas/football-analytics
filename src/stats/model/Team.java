@@ -10,7 +10,7 @@ public class Team {
 	private String name;
 	private String fullName;
 	private int rosterSize;
-//	private String link;
+	private String league;
 	private String shield;
 	private String nation;
 	private List<String> players = new ArrayList<>();
@@ -64,11 +64,18 @@ public class Team {
 		Gson g = new Gson();
 		return g.fromJson(jsonString, Team.class);
 	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(name);
 		return builder.toString();
+	}
+	public String getLeague() {
+		return league;
+	}
+	public void setLeague(String league) {
+		this.league = league;
 	}
 	
 	

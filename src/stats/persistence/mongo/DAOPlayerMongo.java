@@ -192,6 +192,43 @@ public class DAOPlayerMongo implements IDAOPlayer {
 		return players;
 		
 	}
+	
+	@Override
+	public List<Player> retrievePlayersFromTeam(String team) throws DAOException {
+		MongoClient mongoClient = null;
+		MongoCursor<Document> cursor = null;
+		List<Player> players = new ArrayList<Player>();
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document query = new Document();
+			query.append("team", Pattern.compile(".*" + team + ".*" , Pattern.CASE_INSENSITIVE));
+			cursor = mongoDatabase.getCollection("players").find(query).iterator();
+			while (cursor.hasNext()) { 
+				Document document = cursor.next();
+				Date bornDate = (Date) document.get("bornDate");
+				if(bornDate != null) {
+					String dateString = new SimpleDateFormat("dd/MM/yyyy").format(bornDate);
+					document.put("bornDate", dateString);
+				}
+				String json = document.toJson();
+				Player player = Player.playerFromJson(json);
+				players.add(player);
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(cursor != null) {
+				cursor.close(); 
+			}
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return players;
+		
+	}
+
 
 	@Override
 	public List<Player> retrieveAllPlayers() throws DAOException {
@@ -305,7 +342,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			sort.append("bornDate", 1);
 			Document filter = new Document();
 			filter.append("bornDate", new Document().put("$exists", true));
-			filter.append("league", league.getFullName());
+			filter.append("league", league.getFullname());
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
 			if(cursor.hasNext()) {
 				player = Player.playerFromJson(cursor.next().toJson());
@@ -331,7 +368,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			sort.append("bornDate", -1);
 			Document filter = new Document();
 			filter.append("bornDate", new Document().put("$exists", true));
-			filter.append("league", league.getFullName());
+			filter.append("league", league.getFullname());
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
 			if(cursor.hasNext()) {
 				player = Player.playerFromJson(cursor.next().toJson());
@@ -357,7 +394,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			sort.append("marketValue", -1);
 			Document filter = new Document();
 			filter.append("marketValue", new Document().put("$exists", true));
-			filter.append("league", league.getFullName());
+			filter.append("league", league.getFullname());
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
 			if(cursor.hasNext()) {
 				player = Player.playerFromJson(cursor.next().toJson());

@@ -65,7 +65,7 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 	}
 
 	@Override
-	public void create(League league) throws DAOException {
+	public void createLeague(League league) throws DAOException {
 		Driver driver = null;
 		Session session = null;
 		Transaction transaction = null;
@@ -74,7 +74,7 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 			session = driver.session();
 			transaction = session.beginTransaction();
 			Query createLeagueNode = new Query("CREATE(:League {fullName: $fullName, name: $name, season: $season})", 
-					parameters("fullName", league.getFullName(), "name", league.getName(), "season", league.getYear()));
+					parameters("fullName", league.getFullname(), "name", league.getName(), "season", league.getYear()));
 			transaction.run(createLeagueNode);
 			transaction.commit();
 		} catch(ClientException ce) {
@@ -110,7 +110,7 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 			String deleteLeagueNode = "MATCH (league:League { fullName: $fullName })";
 			deleteLeagueNode += "DETACH DELETE league";
 			Query createLeagueNode = new Query(deleteLeagueNode, 
-					parameters("fullName", league.getFullName()));
+					parameters("fullName", league.getFullname()));
 			transaction.run(createLeagueNode);
 			transaction.commit();
 		} catch(ClientException ce) {
@@ -128,11 +128,6 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 		}
 	}
 
-	@Override
-	public void update(League league) throws DAOException {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public League retrieve(String fullName) throws DAOException {
@@ -153,9 +148,9 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 			for (Pair<String, Value> pair : list) {
 				Value value = pair.value();
 				Iterable<Value> values = value.asNode().values();
-				league.setFullName(values.iterator().next().asString());
+				league.setFullname(values.iterator().next().asString());
 			}
-			System.out.println("League: " + league.getFullName());
+			System.out.println("League: " + league.getFullname());
 			transaction.commit();
 		} catch(ClientException ce) {
 			if(transaction != null) {
@@ -176,16 +171,11 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 	}
 
 	@Override
-	public List<League> retrieve() throws DAOException {
+	public List<League> retrieve(){
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public void create(List<League> leagues) throws DAOException {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void enrollTeam(League league, String teamFullName) {
@@ -200,7 +190,7 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 			query += "MATCH (league:League {fullName: $leagueFullName})";
 			query += "CREATE (team)-[:ENROLLED_IN {season: $season}]->(league)";
 			Query createMatchRelationship = new Query(query, 
-					parameters("teamFullName", teamFullName, "leagueFullName", league.getFullName(), 
+					parameters("teamFullName", teamFullName, "leagueFullName", league.getFullname(), 
 							"season", league.getYear()));
 			transaction.run(createMatchRelationship);
 			transaction.commit();
@@ -227,6 +217,30 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 
 	@Override
 	public List<Team> enrolledTeams(League league) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<League> retrieveAllLeagues() throws DAOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void createListOfLeagues(List<League> leagues) throws DAOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateLeague(String fullName, League league) throws DAOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<League> retrieveLeagues(String fullName) throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}

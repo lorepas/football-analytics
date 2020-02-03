@@ -104,7 +104,7 @@ public class DAOTeamMongo implements IDAOTeam {
 		try {
 			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("team");
+			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("teams");
 			Bson query = eq("fullName", team.getFullName());
 			Document setData = Document.parse(team.toJSON());
 			Document updateDocument = new Document("$set", setData);
@@ -188,6 +188,33 @@ public class DAOTeamMongo implements IDAOTeam {
 			}
 		}
         
+		return teams;
+	}
+	
+	@Override
+	public List<Team> retrieveTeamsFromLeague(String league) throws DAOException {
+		MongoClient mongoClient = null;
+		MongoCursor<Document> cursor = null;
+		List<Team> teams = new ArrayList<Team>();
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document query = new Document();
+			query.append("league", Pattern.compile(".*" + league + ".*" , Pattern.CASE_INSENSITIVE));
+			cursor = mongoDatabase.getCollection("teams").find(query).iterator();
+			while (cursor.hasNext()) {
+				teams.add(Team.teamFromJson(cursor.next().toJson()));
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(cursor != null) {
+				cursor.close(); 
+			}
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
 		return teams;
 	}
 	

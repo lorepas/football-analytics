@@ -7,13 +7,14 @@ import com.google.gson.Gson;
 
 public class League {
 
-	private String fullName;
+	private String fullname;
 	private String name;
 	private String year;
+	private String link;
 	private List<Match> matches = new ArrayList<Match>();
 	
-	public String getFullName() {
-		return fullName;
+	public String getFullname() {
+		return fullname;
 	}
 	
 	public String getName() {
@@ -28,8 +29,8 @@ public class League {
 		return matches;
 	}
 	
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setFullname(String fullName) {
+		this.fullname = fullName;
 	}
 	
 	public void setName(String name) {
@@ -52,6 +53,21 @@ public class League {
 	public static League leagueFromJson(String jsonString) {
 		Gson g = new Gson();
 		return g.fromJson(jsonString, League.class);
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(fullname);
+		return builder.toString();
 	}
 	
 }

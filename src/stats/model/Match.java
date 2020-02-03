@@ -26,7 +26,10 @@ public class Match {
 		 
 	private int completedPassessHome;
 	private int completedPassesAway;
-		 
+	
+	private int totalPassessHome;
+	private int totalPassesAway;	
+	
 	private int goalAttemptsHome;
 	private int goalAttemptsAway;
 		 
@@ -48,6 +51,7 @@ public class Match {
 	private int scoreHome;
 	private int scoreAway;
 	
+	private String round;
 	
 	public String getPossesionBallHome() {
 		return possesionBallHome;
@@ -229,6 +233,30 @@ public class Match {
 	}
 	public void setScoreAway(int scoreAway) {
 		this.scoreAway = scoreAway;
+	}
+
+	public String getRound() {
+		return round;
+	}
+
+	public void setRound(String round) {
+		this.round = round;
+	}
+
+	public int getTotalPassessHome() {
+		return totalPassessHome;
+	}
+
+	public void setTotalPassessHome(int totalPassessHome) {
+		this.totalPassessHome = totalPassessHome;
+	}
+
+	public int getTotalPassesAway() {
+		return totalPassesAway;
+	}
+
+	public void setTotalPassesAway(int totalPassesAway) {
+		this.totalPassesAway = totalPassesAway;
 	}
 	
 }

@@ -17,10 +17,13 @@ import javax.imageio.ImageIO;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,10 +39,14 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
@@ -50,6 +57,7 @@ import javafx.stage.Stage;
 import stats.App;
 import stats.model.DetailedPerformance;
 import stats.model.DetailedPerformanceTable;
+import stats.model.League;
 import stats.model.MarketValue;
 import stats.model.Match;
 import stats.model.Player;
@@ -65,6 +73,9 @@ public class AppController implements Initializable{
 	@FXML javafx.scene.control.Button searchPlayerButton;
 	@FXML javafx.scene.control.TextField fieldPlayer;
 	@FXML ListView<Player> listPlayer;
+	@FXML javafx.scene.control.Button searchLeague;
+	@FXML javafx.scene.control.TextField fieldLeague;
+	@FXML ListView<League> listLeague;
 	@FXML javafx.scene.control.Button buttonUpdateTeam;
 	@FXML javafx.scene.control.Button buttonLogin;
 	@FXML javafx.scene.control.Button buttonUpdateLeague;
@@ -112,21 +123,52 @@ public class AppController implements Initializable{
 	@FXML LineChart<String, Double> lineChartTrend;
 	@FXML TableView<Match> matchesResults;
 	@FXML Label labelResultMatch;
-	@FXML ComboBox<String> comboBoxLeaguesPlayer;
-	@FXML ComboBox<String> comboBoxTeamsPlayer;
+	@FXML ComboBox<League> comboBoxLeaguesPlayer;
+	@FXML ComboBox<Team> comboBoxTeamsPlayer;
+	@FXML ComboBox<League> comboBoxLeaguesTeam;
 	@FXML ImageView imageShield;
+	@FXML Tab playerTab;
+	@FXML TabPane tabPane;
+	ObservableList comboDefault = FXCollections.observableArrayList();
 	
-	
-	public ObservableList<String> retriveTeamFromComboBoxPlayer() throws DAOException {
-		System.out.println("*");
-		List<Team> listSearchedTeams = App.sharedInstance.getDaoTeam().retrieveAllTeams();
-		List<String> listTeamName = new ArrayList<String>();
-		for(Team t: listSearchedTeams) {
-			System.out.println(t.getFullName());
-			listTeamName.add(t.getFullName());
+	public ObservableList<League> retriveLeagueFromComboBoxPlayer(){
+		List<League> listSearchedLeagues = null;
+		try {
+			listSearchedLeagues = App.sharedInstance.getDaoLeague().retrieveAllLeagues();
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		ObservableList<String> list = FXCollections.observableArrayList(listTeamName);
+		ObservableList<League> list = FXCollections.observableArrayList(listSearchedLeagues);
 		return list;
+	}
+	
+	public void ActionRetriveTeamFromComboBoxTeam(Event event) throws DAOException {
+		League leagueSelected = comboBoxLeaguesTeam.getValue();
+		ObservableList list = FXCollections.observableArrayList(App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelected.getName()));
+		listTeams.setItems(list);
+		if (list.isEmpty()) {
+			Alert alert = new Alert(AlertType.WARNING, "No teams in the league", ButtonType.CLOSE);
+			alert.showAndWait();
+		}
+	}
+	
+	
+	public void ActionRetriveTeamFromComboBoxPlayer(ActionEvent e) throws DAOException {
+		League leagueSelected = comboBoxLeaguesPlayer.getValue();
+		List<Team> listSearchedTeams = App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelected.getName());
+		ObservableList<Team> list = FXCollections.observableArrayList(listSearchedTeams);
+		comboBoxTeamsPlayer.setItems(list);
+	}
+	
+	public void ActionRetrivePlayerFromComboBoxPlayer(ActionEvent e) throws DAOException {
+		Team teamSelected = comboBoxTeamsPlayer.getValue();
+		ObservableList<Player> listSearchedPlayers = FXCollections.observableArrayList(App.sharedInstance.getDaoPlayer().retrievePlayersFromTeam(teamSelected.getFullName()));
+		listPlayer.setItems(listSearchedPlayers);
+		if (listSearchedPlayers.isEmpty()) {
+			Alert alert = new Alert(AlertType.WARNING, "No players in the team", ButtonType.CLOSE);
+			alert.showAndWait();
+		}
 	}
 	
 	
@@ -136,7 +178,7 @@ public class AppController implements Initializable{
 		try {
 			String text = fieldTeam.getText();
 			if (text.isEmpty()) {
-				Alert alert = new Alert(AlertType.WARNING, " Empty field", ButtonType.CLOSE);
+				Alert alert = new Alert(AlertType.WARNING, "Empty field", ButtonType.CLOSE);
 				alert.showAndWait();
 			} else {
 				List<Team> listSearchedTeams = App.sharedInstance.getDaoTeam().retrieveTeams(text);
@@ -146,8 +188,7 @@ public class AppController implements Initializable{
 				if (listSearchedTeams.isEmpty()) {
 					Alert alert = new Alert(AlertType.WARNING, "No team selected", ButtonType.CLOSE);
 					alert.showAndWait();
-			}
-			
+				}
 			}
 		} catch(DAOException e) {
 			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
@@ -170,11 +211,6 @@ public class AppController implements Initializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		//imageShield = ImageIO.read(input)
-//		imageShield = SwingFXUtils.toFXImage(bufferedImage, null);
-		//Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-		//imageShield.setImage(image);
-		
 	}
 	
 	
@@ -272,28 +308,63 @@ public class AppController implements Initializable{
 	
 	//TODO
 	public void ActionRetrieveLeague(ActionEvent event) {
-//		try {
-//			
-//			
-//		} catch(DAOException e) {
-//			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
-//			alert.showAndWait();
-//		}
+		try {
+			String text = fieldLeague.getText();
+			if (text.isEmpty()) {
+				Alert alert = new Alert(AlertType.WARNING, "Empty field", ButtonType.CLOSE);
+				alert.showAndWait();
+			} else {
+				List<League> listSearchedLeagues = App.sharedInstance.getDaoLeague().retrieveLeagues(text);
+				ObservableList<League> list = FXCollections.observableArrayList(listSearchedLeagues);
+				listLeague.setItems(list);
+				if (listSearchedLeagues.isEmpty()) {
+					Alert alert = new Alert(AlertType.WARNING, "No League selected", ButtonType.CLOSE);
+					alert.showAndWait();
+			}
+			
+			}
+		} catch(DAOException e) {
+			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
+			alert.showAndWait();
+		}
 		
 	}
 	
 	
 	//TODO
 	public void ActionUpdateLeague(ActionEvent event) {
-//		try {
-//			
-//		} catch(DAOException e) {
-//			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
-//			alert.showAndWait();
-//		}
-//		
+		try {
+			System.out.println("UPDATE LEAGUE OK");
+			FileChooser chooser = new FileChooser();
+			File file = chooser.showOpenDialog(App.getSharedInstance().getPrimaryStage());
+			if (file != null) {
+				String filePath = file.getAbsolutePath();
+				String json = App.getSharedInstance().getReadFromFile().readLocalJSON(filePath);
+				if(!json.contains("matches") && !json.contains("year") && !json.contains("link")) {
+					Alert alert = new Alert(AlertType.ERROR, "File is not in the correct format", ButtonType.CLOSE);
+					alert.showAndWait();
+					return;
+				}
+				League league = new Gson().fromJson(json, League.class);
+				if(App.getSharedInstance().getDaoLeague().exists(league)) {
+					App.getSharedInstance().getDaoLeague().updateLeague(league.getFullname(), league);
+					System.out.println(league.getName() + " already exists");
+				} else {
+					App.getSharedInstance().getDaoLeague().createLeague(league);
+					System.out.println(league.getName() + " doesn't exist");
+				}
+			} else {
+				System.out.println("File is null");
+			}
+		} catch(DAOException e) {
+			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
+			alert.showAndWait();
+		} catch(JsonSyntaxException jse) {
+			Alert alert = new Alert(AlertType.ERROR, "The file isn't in the correct format", ButtonType.CLOSE);
+			alert.showAndWait();
 		}
-	//TODO
+	}
+
 	public void ActionUpdateTeams(ActionEvent event) {
 		try {
 			System.out.println("UPDATE TEAM OK");
@@ -389,22 +460,22 @@ public class AppController implements Initializable{
 			alert.showAndWait();
 			
 		}
-		
-	
 	}
-
-
-
+	
+	public void ActionDeleteLeague(ActionEvent e) throws DAOException {
+		League leagueSelected = listLeague.getSelectionModel().getSelectedItem();
+		System.out.println(leagueSelected.getName());
+		App.getSharedInstance().getDaoLeague().delete(leagueSelected);
+		System.out.println("DELETE OK");
+	}
+	
+	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		try {
-			comboBoxTeamsPlayer.setItems(retriveTeamFromComboBoxPlayer());
-		} catch (DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		comboBoxTeamsPlayer.setItems(comboDefault);
+		comboBoxLeaguesPlayer.setItems(retriveLeagueFromComboBoxPlayer());
+		comboBoxLeaguesTeam.setItems(retriveLeagueFromComboBoxPlayer());
 	}
 	
 	

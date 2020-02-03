@@ -24,5 +24,6 @@ public interface IDAOPlayer {
 	public Player retrieveYougerPlayer(Team team) throws DAOException;
 	public Player retrieveOlderPlayer(Team team) throws DAOException;
 	public Player retrieveMostValuedPlayer(Team team) throws DAOException;
+	List<Player> retrievePlayersFromTeam(String team) throws DAOException;
 	
 }

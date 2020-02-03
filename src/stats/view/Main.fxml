@@ -38,7 +38,7 @@
                            <left>
                               <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
                                  <center>
-                                    <ListView accessibleRole="PARENT" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
+                                    <ListView fx:id="listLeague" accessibleRole="PARENT" onEditStart="#ActionRetrieveLeague" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
                                           <Insets bottom="10.0" left="10.0" right="10.0" />
                                        </BorderPane.margin>
@@ -47,7 +47,7 @@
                                  <top>
                                     <HBox prefHeight="66.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <TextField prefHeight="27.0" prefWidth="110.0" promptText="Search a League...">
+                                          <TextField fx:id="fieldLeague" onAction="#ActionRetrieveLeague" prefHeight="27.0" prefWidth="110.0" promptText="Search a League...">
                                              <HBox.margin>
                                                 <Insets left="10.0" top="10.0" />
                                              </HBox.margin>
@@ -55,7 +55,7 @@
                                                 <Font name="Baghdad Regular" size="11.0" />
                                              </font>
                                           </TextField>
-                                          <Button mnemonicParsing="false" text="SEARCH">
+                                          <Button fx:id="searchLeague" mnemonicParsing="false" onAction="#ActionRetrieveLeague" text="SEARCH">
                                              <HBox.margin>
                                                 <Insets left="10.0" top="10.0" />
                                              </HBox.margin>
@@ -67,7 +67,7 @@
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                        <children>
                                           <Button fx:id="buttonUpdateLeague" mnemonicParsing="false" onAction="#ActionUpdateLeague" text="UPDATE" visible="false" />
-                                          <Button fx:id="buttonDeleteLeague" mnemonicParsing="false" text="DELETE" visible="false">
+                                          <Button fx:id="buttonDeleteLeague" mnemonicParsing="false" onAction="#ActionDeleteLeague" text="DELETE" visible="false">
                                              <HBox.margin>
                                                 <Insets left="30.0" />
                                              </HBox.margin>
@@ -212,13 +212,6 @@
                               <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
                                  <center>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
-                                       <top>
-                                          <ComboBox accessibleRole="PARENT" prefWidth="150.0" promptText="LEAGUES" BorderPane.alignment="CENTER">
-                                             <BorderPane.margin>
-                                                <Insets bottom="10.0" />
-                                             </BorderPane.margin>
-                                          </ComboBox>
-                                       </top>
                                        <center>
                                           <ListView fx:id="listTeams" accessibleRole="PARENT" onEditStart="#ActionRetrieveTeam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
                                              <BorderPane.margin>
@@ -238,12 +231,19 @@
                                              </children>
                                           </HBox>
                                        </bottom>
+                                       <top>
+                                          <ComboBox fx:id="comboBoxLeaguesTeam" accessibleRole="PARENT" onAction="#ActionRetriveTeamFromComboBoxTeam" prefWidth="150.0" promptText="LEAGUES" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets bottom="10.0" />
+                                             </BorderPane.margin>
+                                          </ComboBox>
+                                       </top>
                                     </BorderPane>
                                  </center>
                                  <top>
                                     <Pane prefHeight="67.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <HBox prefHeight="100.0" prefWidth="200.0">
+                                          <HBox prefHeight="64.0" prefWidth="200.0">
                                              <children>
                                                 <TextField fx:id="fieldTeam" onAction="#ActionRetrieveTeam" prefHeight="27.0" prefWidth="109.0" promptText="Search a Team...">
                                                    <HBox.margin>
@@ -342,12 +342,12 @@
                                  <center>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
                                        <top>
-                                          <ComboBox fx:id="comboBoxLeaguesPlayer" accessibleRole="PARENT" prefWidth="150.0" promptText="LEAGUES" BorderPane.alignment="CENTER" />
+                                          <ComboBox fx:id="comboBoxLeaguesPlayer" accessibleRole="PARENT" onAction="#ActionRetriveTeamFromComboBoxPlayer" prefWidth="150.0" promptText="LEAGUES" BorderPane.alignment="CENTER" />
                                        </top>
                                        <center>
                                           <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
                                              <top>
-                                                <ComboBox fx:id="comboBoxTeamsPlayer" accessibleRole="PARENT" prefWidth="150.0" promptText="TEAMS" BorderPane.alignment="CENTER">
+                                                <ComboBox fx:id="comboBoxTeamsPlayer" accessibleRole="PARENT" onAction="#ActionRetrivePlayerFromComboBoxPlayer" prefWidth="150.0" promptText="TEAMS" BorderPane.alignment="CENTER">
                                                    <BorderPane.margin>
                                                       <Insets top="10.0" />
                                                    </BorderPane.margin>
