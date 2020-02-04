@@ -27,6 +27,7 @@ import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 
+import stats.model.Player;
 import stats.model.Team;
 import stats.persistence.DAOException;
 import stats.persistence.IDAOTeam;
@@ -218,8 +219,10 @@ public class DAOTeamMongo implements IDAOTeam {
 		return teams;
 	}
 	
-	public void getTeamTotalMarketValue(Team team) throws DAOException {
+	@Override
+	public double getTeamTotalMarketValue(Team team) throws DAOException {
 		MongoClient mongoClient = null;
+		double res = 0.0;
 		try {
 			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
@@ -227,14 +230,20 @@ public class DAOTeamMongo implements IDAOTeam {
 					Arrays.asList(
 							Aggregates.match(Filters.eq("team",team.getFullName())),
 							Aggregates.group("$team", Accumulators.sum("marketValue", "$marketValue"))
-					)).iterator();
+					)).cursor();
+			if(cursor.hasNext()) {
+				Player t = Player.playerFromJson(cursor.next().toJson());
+				res = t.getMarketValue();
+			}
 		} catch(MongoException me) {
 			throw new DAOException(me);
 		} finally {
+	
 			if(mongoClient != null) {
 				mongoClient.close();
 			}
 		}
+		return res;
 	}
 
 }

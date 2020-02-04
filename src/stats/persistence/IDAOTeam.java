@@ -14,5 +14,6 @@ public interface IDAOTeam {
 	public List<Team> retrieveTeams(String surname)throws DAOException;
 	public List<Team> retrieveAllTeams() throws DAOException;
 	List<Team> retrieveTeamsFromLeague(String name) throws DAOException;
+	double getTeamTotalMarketValue(Team team) throws DAOException;
 	
 }

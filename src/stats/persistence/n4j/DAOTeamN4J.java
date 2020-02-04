@@ -105,4 +105,11 @@ public class DAOTeamN4J implements IDAOTeamGraph {
 		return null;
 	}
 
+	@Override
+	public double getTeamTotalMarketValue(Team team) throws DAOException {
+		return 0;
+		// TODO Auto-generated method stub
+		
+	}
+
 }

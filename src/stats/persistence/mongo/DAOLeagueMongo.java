@@ -35,7 +35,7 @@ public class DAOLeagueMongo implements IDAOLeague{
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("leagues");
 			Document filter = new Document();
-			filter.append("fullName", league.getFullname());
+			filter.append("fullname", league.getFullname());
 			MongoCursor<Document> cursor = mongoCollection.find(filter).iterator();
 			if(cursor.hasNext()) {
 				return true;
@@ -100,7 +100,7 @@ public class DAOLeagueMongo implements IDAOLeague{
 			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("leagues");
-			Bson query = eq("fullName", league.getFullname());
+			Bson query = eq("fullname", league.getFullname());
 			Document setData = Document.parse(league.toJSON());
 			Document updateDocument = new Document("$set", setData);
 			System.out.println("Update document: " + updateDocument);

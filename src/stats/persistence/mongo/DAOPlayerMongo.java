@@ -342,7 +342,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			sort.append("bornDate", 1);
 			Document filter = new Document();
 			filter.append("bornDate", new Document().put("$exists", true));
-			filter.append("league", league.getFullname());
+			filter.append("league", league.getName());
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
 			if(cursor.hasNext()) {
 				player = Player.playerFromJson(cursor.next().toJson());
@@ -368,7 +368,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			sort.append("bornDate", -1);
 			Document filter = new Document();
 			filter.append("bornDate", new Document().put("$exists", true));
-			filter.append("league", league.getFullname());
+			filter.append("league", league.getName());
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
 			if(cursor.hasNext()) {
 				player = Player.playerFromJson(cursor.next().toJson());
@@ -394,7 +394,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			sort.append("marketValue", -1);
 			Document filter = new Document();
 			filter.append("marketValue", new Document().put("$exists", true));
-			filter.append("league", league.getFullname());
+			filter.append("league", league.getName());
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
 			if(cursor.hasNext()) {
 				player = Player.playerFromJson(cursor.next().toJson());

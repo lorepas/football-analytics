@@ -5,6 +5,8 @@ import java.awt.TextField;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -153,7 +155,6 @@ public class AppController implements Initializable{
 		}
 	}
 	
-	
 	public void ActionRetriveTeamFromComboBoxPlayer(ActionEvent e) throws DAOException {
 		League leagueSelected = comboBoxLeaguesPlayer.getValue();
 		List<Team> listSearchedTeams = App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelected.getName());
@@ -170,9 +171,6 @@ public class AppController implements Initializable{
 			alert.showAndWait();
 		}
 	}
-	
-	
-	
 	
 	public void ActionRetrieveTeam(ActionEvent event) {
 		try {
@@ -196,13 +194,27 @@ public class AppController implements Initializable{
 		}
 		
 	}
-	public void onClickEventOnTeam(MouseEvent event)  {
+	public void onClickEventOnTeam(MouseEvent event){
 		Team teamSelected = listTeams.getSelectionModel().getSelectedItem();
 		if (teamSelected.getFullName().isEmpty()) {
     		labelNameTeam.setText(teamSelected.getName().toUpperCase());
     	} else {
     		labelNameTeam.setText(teamSelected.getFullName().toUpperCase());
     	}
+		try {
+			double res = App.sharedInstance.getDaoTeam().getTeamTotalMarketValue(teamSelected);
+			BigDecimal resRound = new BigDecimal(res);
+			if(res > Math.pow(10,6)) {
+				BigDecimal div = new BigDecimal(Math.pow(10, 6));
+				BigDecimal marketValue = resRound.divide(div);
+				labelMarketValue.setText(String.valueOf(marketValue)+" mln €");
+			}else {
+				labelMarketValue.setText(String.valueOf(resRound)+" €");
+			}
+		} catch (DAOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			Utils.decode(teamSelected.getShield());
 			Image image = new Image("file:shardImage.png");
@@ -212,7 +224,6 @@ public class AppController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-	
 	
 	public void initializedTable(Player playerSelected) {
 		List<DetailedPerformance> detailedPerformances = playerSelected.getDetailedPerformances();
@@ -254,6 +265,16 @@ public class AppController implements Initializable{
 		tablePlayers.setItems(list);
 	}
 	
+	public void onClickEventOnLeague(MouseEvent event){
+//		League leagueSelected = listLeague.getSelectionModel().getSelectedItem();
+//		try {
+//			Player player = App.sharedInstance.getDaoPlayer().retrieveOlderPlayer();
+//			labelOldest.setText(player.getFullName());
+//		} catch (DAOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+	}
 	
 	public void onClickEventOnPlayer(MouseEvent event) {
         Player playerSelected = listPlayer.getSelectionModel().getSelectedItem();
@@ -305,7 +326,6 @@ public class AppController implements Initializable{
 		
 		}
 	
-	
 	//TODO
 	public void ActionRetrieveLeague(ActionEvent event) {
 		try {
@@ -317,11 +337,11 @@ public class AppController implements Initializable{
 				List<League> listSearchedLeagues = App.sharedInstance.getDaoLeague().retrieveLeagues(text);
 				ObservableList<League> list = FXCollections.observableArrayList(listSearchedLeagues);
 				listLeague.setItems(list);
+				listLeague.setOnMouseClicked(e->onClickEventOnLeague(e));
 				if (listSearchedLeagues.isEmpty()) {
 					Alert alert = new Alert(AlertType.WARNING, "No League selected", ButtonType.CLOSE);
 					alert.showAndWait();
-			}
-			
+				}
 			}
 		} catch(DAOException e) {
 			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
@@ -329,7 +349,6 @@ public class AppController implements Initializable{
 		}
 		
 	}
-	
 	
 	//TODO
 	public void ActionUpdateLeague(ActionEvent event) {
@@ -468,14 +487,13 @@ public class AppController implements Initializable{
 		App.getSharedInstance().getDaoLeague().delete(leagueSelected);
 		System.out.println("DELETE OK");
 	}
-	
-	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		comboBoxTeamsPlayer.setItems(comboDefault);
 		comboBoxLeaguesPlayer.setItems(retriveLeagueFromComboBoxPlayer());
 		comboBoxLeaguesTeam.setItems(retriveLeagueFromComboBoxPlayer());
+		listLeague.setItems(retriveLeagueFromComboBoxPlayer());
 	}
 	
 	
