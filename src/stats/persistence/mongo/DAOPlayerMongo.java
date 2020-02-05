@@ -240,7 +240,17 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			cursor = mongoDatabase.getCollection("players").find().iterator();
 			while (cursor.hasNext()) { 
-				players.add(Player.playerFromJson(cursor.next().toJson()));
+				Document document = cursor.next();
+				System.out.println(document.get("bornDate"));
+				Date bornDate = (Date) document.get("bornDate");
+				if(bornDate != null) {
+					String dateString = new SimpleDateFormat("dd/MM/yyyy").format(bornDate);
+					document.put("bornDate", dateString);
+				}
+				String json = document.toJson();
+				System.out.println(json);
+				Player player = Player.playerFromJson(json);
+				players.add(player);
 			}
 		} catch(MongoException me) {
 			throw new DAOException(me);
@@ -265,10 +275,19 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			Document sort = new Document();
 			sort.append("bornDate", 1);
 			Document filter = new Document();
-			filter.append("bornDate", new Document().put("$exists", true));
+			filter.append("bornDate", new Document().append("$exists", true));
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
 			if(cursor.hasNext()) {
-				player = Player.playerFromJson(cursor.next().toJson());
+				Document document = cursor.next();
+				System.out.println(document.get("bornDate"));
+				Date bornDate = (Date) document.get("bornDate");
+				if(bornDate != null) {
+					String dateString = new SimpleDateFormat("dd/MM/yyyy").format(bornDate);
+					document.put("bornDate", dateString);
+				}
+				String json = document.toJson();
+				System.out.println(json);
+				player = Player.playerFromJson(json);
 			}
 		} catch(MongoException me) {
 			throw new DAOException(me);
@@ -290,13 +309,24 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			Document sort = new Document();
 			sort.append("bornDate", -1);
 			Document filter = new Document();
-			filter.append("bornDate", new Document().put("$exists", true));
+			filter.append("bornDate", new Document().append("$exists", true));
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
 			if(cursor.hasNext()) {
-				player = Player.playerFromJson(cursor.next().toJson());
+				Document document = cursor.next();
+				System.out.println(document.get("bornDate"));
+				Date bornDate = (Date) document.get("bornDate");
+				if(bornDate != null) {
+					String dateString = new SimpleDateFormat("dd/MM/yyyy").format(bornDate);
+					document.put("bornDate", dateString);
+				}
+				String json = document.toJson();
+				System.out.println(json);
+				player = Player.playerFromJson(json);
 			}
 		} catch(MongoException me) {
 			throw new DAOException(me);
+		} catch(IllegalStateException ie) {
+			throw new DAOException(ie);
 		} finally {
 			if(mongoClient != null) {
 				mongoClient.close();
@@ -315,11 +345,19 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			Document sort = new Document();
 			sort.append("marketValue", -1);
 			Document filter = new Document();
-			filter.append("marketValue", new Document().put("$exists", true));
+			filter.append("marketValue", new Document().append("$exists", true));
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
-			
 			if(cursor.hasNext()) {
-				player = Player.playerFromJson(cursor.next().toJson());
+				Document document = cursor.next();
+				System.out.println(document.get("bornDate"));
+				Date bornDate = (Date) document.get("bornDate");
+				if(bornDate != null) {
+					String dateString = new SimpleDateFormat("dd/MM/yyyy").format(bornDate);
+					document.put("bornDate", dateString);
+				}
+				String json = document.toJson();
+				System.out.println(json);
+				player = Player.playerFromJson(json);
 			}
 		} catch(MongoException me) {
 			throw new DAOException(me);
@@ -341,11 +379,20 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			Document sort = new Document();
 			sort.append("bornDate", 1);
 			Document filter = new Document();
-			filter.append("bornDate", new Document().put("$exists", true));
+			filter.append("bornDate", new Document().append("$exists", true));
 			filter.append("league", league.getName());
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
 			if(cursor.hasNext()) {
-				player = Player.playerFromJson(cursor.next().toJson());
+				Document document = cursor.next();
+				System.out.println(document.get("bornDate"));
+				Date bornDate = (Date) document.get("bornDate");
+				if(bornDate != null) {
+					String dateString = new SimpleDateFormat("dd/MM/yyyy").format(bornDate);
+					document.put("bornDate", dateString);
+				}
+				String json = document.toJson();
+				System.out.println(json);
+				player = Player.playerFromJson(json);
 			}
 		} catch(MongoException me) {
 			throw new DAOException(me);
@@ -367,11 +414,20 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			Document sort = new Document();
 			sort.append("bornDate", -1);
 			Document filter = new Document();
-			filter.append("bornDate", new Document().put("$exists", true));
+			filter.append("bornDate", new Document().append("$exists", true));
 			filter.append("league", league.getName());
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
 			if(cursor.hasNext()) {
-				player = Player.playerFromJson(cursor.next().toJson());
+				Document document = cursor.next();
+				System.out.println(document.get("bornDate"));
+				Date bornDate = (Date) document.get("bornDate");
+				if(bornDate != null) {
+					String dateString = new SimpleDateFormat("dd/MM/yyyy").format(bornDate);
+					document.put("bornDate", dateString);
+				}
+				String json = document.toJson();
+				System.out.println(json);
+				player = Player.playerFromJson(json);
 			}
 		} catch(MongoException me) {
 			throw new DAOException(me);
@@ -393,11 +449,20 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			Document sort = new Document();
 			sort.append("marketValue", -1);
 			Document filter = new Document();
-			filter.append("marketValue", new Document().put("$exists", true));
+			filter.append("marketValue", new Document().append("$exists", true));
 			filter.append("league", league.getName());
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
 			if(cursor.hasNext()) {
-				player = Player.playerFromJson(cursor.next().toJson());
+				Document document = cursor.next();
+				System.out.println(document.get("bornDate"));
+				Date bornDate = (Date) document.get("bornDate");
+				if(bornDate != null) {
+					String dateString = new SimpleDateFormat("dd/MM/yyyy").format(bornDate);
+					document.put("bornDate", dateString);
+				}
+				String json = document.toJson();
+				System.out.println(json);
+				player = Player.playerFromJson(json);
 			}
 		} catch(MongoException me) {
 			throw new DAOException(me);
@@ -419,11 +484,20 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			Document sort = new Document();
 			sort.append("bornDate", 1);
 			Document filter = new Document();
-			filter.append("bornDate", new Document().put("$exists", true));
+			filter.append("bornDate", new Document().append("$exists", true));
 			filter.append("team", team.getName());
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
 			if(cursor.hasNext()) {
-				player = Player.playerFromJson(cursor.next().toJson());
+				Document document = cursor.next();
+				System.out.println(document.get("bornDate"));
+				Date bornDate = (Date) document.get("bornDate");
+				if(bornDate != null) {
+					String dateString = new SimpleDateFormat("dd/MM/yyyy").format(bornDate);
+					document.put("bornDate", dateString);
+				}
+				String json = document.toJson();
+				System.out.println(json);
+				player = Player.playerFromJson(json);
 			}
 		} catch(MongoException me) {
 			throw new DAOException(me);
@@ -445,11 +519,20 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			Document sort = new Document();
 			sort.append("bornDate", -1);
 			Document filter = new Document();
-			filter.append("bornDate", new Document().put("$exists", true));
+			filter.append("bornDate", new Document().append("$exists", true));
 			filter.append("team", team.getName());
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
 			if(cursor.hasNext()) {
-				player = Player.playerFromJson(cursor.next().toJson());
+				Document document = cursor.next();
+				System.out.println(document.get("bornDate"));
+				Date bornDate = (Date) document.get("bornDate");
+				if(bornDate != null) {
+					String dateString = new SimpleDateFormat("dd/MM/yyyy").format(bornDate);
+					document.put("bornDate", dateString);
+				}
+				String json = document.toJson();
+				System.out.println(json);
+				player = Player.playerFromJson(json);
 			}
 		} catch(MongoException me) {
 			throw new DAOException(me);
@@ -472,11 +555,20 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			Document sort = new Document();
 			sort.append("marketValue", -1);
 			Document filter = new Document();
-			filter.append("marketValue", new Document().put("$exists", true));
+			filter.append("marketValue", new Document().append("$exists", true));
 			filter.append("league", team.getFullName());
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").find(filter).sort(sort).limit(1).iterator();
 			if(cursor.hasNext()) {
-				player = Player.playerFromJson(cursor.next().toJson());
+				Document document = cursor.next();
+				System.out.println(document.get("bornDate"));
+				Date bornDate = (Date) document.get("bornDate");
+				if(bornDate != null) {
+					String dateString = new SimpleDateFormat("dd/MM/yyyy").format(bornDate);
+					document.put("bornDate", dateString);
+				}
+				String json = document.toJson();
+				System.out.println(json);
+				player = Player.playerFromJson(json);
 			}
 		} catch(MongoException me) {
 			throw new DAOException(me);
