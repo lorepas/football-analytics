@@ -131,6 +131,7 @@ public class AppController implements Initializable{
 	@FXML ImageView imageShield;
 	@FXML Tab playerTab;
 	@FXML TabPane tabPane;
+	@FXML Label labelLeague;
 	ObservableList comboDefault = FXCollections.observableArrayList();
 	
 	public ObservableList<League> retriveLeagueFromComboBoxPlayer(){
@@ -149,6 +150,7 @@ public class AppController implements Initializable{
 		League leagueSelected = comboBoxLeaguesTeam.getValue();
 		ObservableList list = FXCollections.observableArrayList(App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelected.getName()));
 		listTeams.setItems(list);
+		listTeams.setOnMouseClicked(e->onClickEventOnTeam(e));
 		if (list.isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING, "No teams in the league", ButtonType.CLOSE);
 			alert.showAndWait();
@@ -160,6 +162,7 @@ public class AppController implements Initializable{
 		List<Team> listSearchedTeams = App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelected.getName());
 		ObservableList<Team> list = FXCollections.observableArrayList(listSearchedTeams);
 		comboBoxTeamsPlayer.setItems(list);
+		
 	}
 	
 	public void ActionRetrivePlayerFromComboBoxPlayer(ActionEvent event) throws DAOException {
@@ -208,9 +211,9 @@ public class AppController implements Initializable{
 			if(res > Math.pow(10,6)) {
 				BigDecimal div = new BigDecimal(Math.pow(10, 6));
 				BigDecimal marketValue = resRound.divide(div);
-				labelMarketValue.setText(String.valueOf(marketValue)+" mln �");
+				labelMarketValue.setText(String.valueOf(marketValue)+" mln \u20ac");
 			}else {
-				labelMarketValue.setText(String.valueOf(resRound)+" �");
+				labelMarketValue.setText(String.valueOf(resRound)+" \u20ac");
 			}
 		} catch (DAOException e1) {
 			// TODO Auto-generated catch block
@@ -268,11 +271,14 @@ public class AppController implements Initializable{
 	
 	public void onClickEventOnLeague(MouseEvent event){
 		League leagueSelected = listLeague.getSelectionModel().getSelectedItem();
+		labelLeague.setText(leagueSelected.getFullname().toUpperCase());
 		try {
 			Player playerOldest = App.sharedInstance.getDaoPlayer().retrieveOlderPlayer(leagueSelected);
 			labelOldest.setText(playerOldest.getFullName());
 			Player playerYoungest = App.sharedInstance.getDaoPlayer().retrieveYougerPlayer(leagueSelected);
 			labelYoungest.setText(playerYoungest.getFullName());
+			Player playerMostPaid = App.getSharedInstance().getDaoPlayer().retrieveMostValuedPlayer(leagueSelected);
+			labelHigest.setText(playerMostPaid.getFullName().toUpperCase());
 		} catch (DAOException e) {
 		// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -370,10 +376,19 @@ public class AppController implements Initializable{
 				League league = new Gson().fromJson(json, League.class);
 				if(App.getSharedInstance().getDaoLeague().exists(league)) {
 					App.getSharedInstance().getDaoLeague().updateLeague(league.getFullname(), league);
+					//
+					listLeague.getItems().add(league);
+					comboBoxLeaguesPlayer.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+					comboBoxLeaguesTeam.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+					//
 					System.out.println(league.getName() + " already exists");
 				} else {
 					App.getSharedInstance().getDaoLeague().createLeague(league);
+					listLeague.getItems().add(league);
+					comboBoxLeaguesPlayer.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+					comboBoxLeaguesTeam.getItems().addAll(retriveLeagueFromComboBoxPlayer());
 					System.out.println(league.getName() + " doesn't exist");
+					
 				}
 			} else {
 				System.out.println("File is null");
@@ -405,9 +420,11 @@ public class AppController implements Initializable{
 				for (Team team : teams) {
 					if(App.getSharedInstance().getDaoTeam().exists(team)) {
 						App.getSharedInstance().getDaoTeam().updateTeam(team.getFullName(), team);
+						//listTeams.getItems().add(team);
 						System.out.println(team.getFullName() + " already exists");
 					} else {
 						App.getSharedInstance().getDaoTeam().createTeam(team);
+						//listTeams.getItems().add(team);
 						System.out.println(team.getFullName() + " doesn't exist");
 					}
 				}
@@ -488,6 +505,9 @@ public class AppController implements Initializable{
 		League leagueSelected = listLeague.getSelectionModel().getSelectedItem();
 		System.out.println(leagueSelected.getName());
 		App.getSharedInstance().getDaoLeague().delete(leagueSelected);
+		listLeague.getItems().remove(leagueSelected);
+		comboBoxLeaguesPlayer.setItems(retriveLeagueFromComboBoxPlayer());
+		comboBoxLeaguesTeam.setItems(retriveLeagueFromComboBoxPlayer());
 		System.out.println("DELETE OK");
 	}
 
