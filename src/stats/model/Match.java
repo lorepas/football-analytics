@@ -3,6 +3,8 @@ package stats.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 import javafx.beans.property.SimpleStringProperty;
 
 public class Match {
@@ -266,63 +268,107 @@ public class Match {
 		this.totalPassesAway = totalPassesAway;
 	}
 	
-	public List<MatchPerformanceTable> getListOfStatistics()
-	{
+	public static Match matchFromJson(String jsonString) {
+		Gson g = new Gson();
+		return g.fromJson(jsonString, Match.class);
+	}
+	
+	
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(nameHome + " ");
+		builder.append(scoreHome + " - ");
+		builder.append(scoreAway +  " ");
+		builder.append(nameAway );
+		return builder.toString();
+	}
+
+	public List<MatchPerformanceTable> getListOfStatistics(){
+		
 		List<MatchPerformanceTable> statistics = new ArrayList<MatchPerformanceTable>();
 		
-		MatchPerformanceTable ballPossession = new MatchPerformanceTable();
+		MatchPerformanceTable ballPossession = new MatchPerformanceTable(); //
+		MatchPerformanceTable shotsOnGoal = new MatchPerformanceTable(); //
+		MatchPerformanceTable cornerKiks = new MatchPerformanceTable(); //
+		MatchPerformanceTable getOffside = new MatchPerformanceTable(); //
+		MatchPerformanceTable fouls = new MatchPerformanceTable();//
+		MatchPerformanceTable redCards = new MatchPerformanceTable(); //
+		MatchPerformanceTable yellowCards = new MatchPerformanceTable(); //
+		MatchPerformanceTable completedPasses = new MatchPerformanceTable(); //
+		MatchPerformanceTable totalPasses  = new MatchPerformanceTable(); //
+		MatchPerformanceTable goalAttempts = new MatchPerformanceTable(); //
+		MatchPerformanceTable shotsOffGoal = new MatchPerformanceTable(); //
+		MatchPerformanceTable freeKicks= new MatchPerformanceTable(); //
+		MatchPerformanceTable goalKeeper = new MatchPerformanceTable(); //
+		
 		ballPossession.setHome(new SimpleStringProperty(getPossesionBallHome().toString()));
 		ballPossession.setAway(new SimpleStringProperty(getPossesionBallAway().toString()));
 		ballPossession.setStatic(new SimpleStringProperty("ballPossession")); 
 		
-		ballPossession.setHome(new SimpleStringProperty(String.valueOf(getShotsOnGoalHome())));
-		ballPossession.setAway(new SimpleStringProperty(String.valueOf(getShotsOnGoalAway())));
-		ballPossession.setStatic(new SimpleStringProperty("shotsOnGoal")); 
+		shotsOnGoal.setHome(new SimpleStringProperty(String.valueOf(getShotsOnGoalHome())));
+		shotsOnGoal.setAway(new SimpleStringProperty(String.valueOf(getShotsOnGoalAway())));
+		shotsOnGoal.setStatic(new SimpleStringProperty("shotsOnGoal")); 
 		
-		ballPossession.setHome(new SimpleStringProperty(String.valueOf(getCornerKiksHome())));
-		ballPossession.setAway(new SimpleStringProperty(String.valueOf(getCornerKiksAway())));
-		ballPossession.setStatic(new SimpleStringProperty("cornerKiks")); 
+		cornerKiks.setHome(new SimpleStringProperty(String.valueOf(getCornerKiksHome())));
+		cornerKiks.setAway(new SimpleStringProperty(String.valueOf(getCornerKiksAway())));
+		cornerKiks.setStatic(new SimpleStringProperty("cornerKiks")); 
 		
-		ballPossession.setHome(new SimpleStringProperty(String.valueOf(getOffsideHome())));
-		ballPossession.setAway(new SimpleStringProperty(String.valueOf(getOffsideAway())));
-		ballPossession.setStatic(new SimpleStringProperty("getOffside")); 
+		getOffside.setHome(new SimpleStringProperty(String.valueOf(getOffsideHome())));
+		getOffside.setAway(new SimpleStringProperty(String.valueOf(getOffsideAway())));
+		getOffside.setStatic(new SimpleStringProperty("getOffside")); 
 		
-		ballPossession.setHome(new SimpleStringProperty(String.valueOf(getFoulsHome())));
-		ballPossession.setAway(new SimpleStringProperty(String.valueOf(getFoulsAway())));
-		ballPossession.setStatic(new SimpleStringProperty("fouls")); 
+		fouls.setHome(new SimpleStringProperty(String.valueOf(getFoulsHome())));
+		fouls.setAway(new SimpleStringProperty(String.valueOf(getFoulsAway())));
+		fouls.setStatic(new SimpleStringProperty("fouls")); 
 		
-		ballPossession.setHome(new SimpleStringProperty(String.valueOf(getRedCardsHome())));
-		ballPossession.setAway(new SimpleStringProperty(String.valueOf(getRedCardsAway())));
-		ballPossession.setStatic(new SimpleStringProperty("redCards")); 
+		redCards.setHome(new SimpleStringProperty(String.valueOf(getRedCardsHome())));
+		redCards.setAway(new SimpleStringProperty(String.valueOf(getRedCardsAway())));
+		redCards.setStatic(new SimpleStringProperty("redCards")); 
 		
-		ballPossession.setHome(new SimpleStringProperty(String.valueOf(getYellowCardsHome())));
-		ballPossession.setAway(new SimpleStringProperty(String.valueOf(getYellowCardsAway())));
-		ballPossession.setStatic(new SimpleStringProperty("yellowCards")); 
+		yellowCards.setHome(new SimpleStringProperty(String.valueOf(getYellowCardsHome())));
+		yellowCards.setAway(new SimpleStringProperty(String.valueOf(getYellowCardsAway())));
+		yellowCards.setStatic(new SimpleStringProperty("yellowCards")); 
 		
-		ballPossession.setHome(new SimpleStringProperty(String.valueOf(getCompletedPassessHome())));
-		ballPossession.setAway(new SimpleStringProperty(String.valueOf(getCompletedPassesAway())));
-		ballPossession.setStatic(new SimpleStringProperty("completedPasses")); 
+		completedPasses.setHome(new SimpleStringProperty(String.valueOf(getCompletedPassessHome())));
+		completedPasses.setAway(new SimpleStringProperty(String.valueOf(getCompletedPassesAway())));
+		completedPasses.setStatic(new SimpleStringProperty("completedPasses")); 
 		
-		ballPossession.setHome(new SimpleStringProperty(String.valueOf(getTotalPassessHome())));
-		ballPossession.setAway(new SimpleStringProperty(String.valueOf(getTotalPassesAway())));
-		ballPossession.setStatic(new SimpleStringProperty("totalPasses")); 
+		totalPasses.setHome(new SimpleStringProperty(String.valueOf(getTotalPassessHome())));
+		totalPasses.setAway(new SimpleStringProperty(String.valueOf(getTotalPassesAway())));
+		totalPasses.setStatic(new SimpleStringProperty("totalPasses")); 
 		
-		ballPossession.setHome(new SimpleStringProperty(String.valueOf(getGoalAttemptsHome())));
-		ballPossession.setAway(new SimpleStringProperty(String.valueOf(getGoalAttemptsAway())));
-		ballPossession.setStatic(new SimpleStringProperty("goalAttempts")); 
+		goalAttempts.setHome(new SimpleStringProperty(String.valueOf(getGoalAttemptsHome())));
+		goalAttempts.setAway(new SimpleStringProperty(String.valueOf(getGoalAttemptsAway())));
+		goalAttempts.setStatic(new SimpleStringProperty("goalAttempts")); 
 		
-		ballPossession.setHome(new SimpleStringProperty(String.valueOf(getShotsOffGoalHome())));
-		ballPossession.setAway(new SimpleStringProperty(String.valueOf(getShotsOffGoalAway())));
-		ballPossession.setStatic(new SimpleStringProperty("shotsOffGoal"));  
+		shotsOffGoal.setHome(new SimpleStringProperty(String.valueOf(getShotsOffGoalHome())));
+		shotsOffGoal.setAway(new SimpleStringProperty(String.valueOf(getShotsOffGoalAway())));
+		shotsOffGoal.setStatic(new SimpleStringProperty("shotsOffGoal"));  
 
-		ballPossession.setHome(new SimpleStringProperty(String.valueOf(getFreeKicksHome())));
-		ballPossession.setAway(new SimpleStringProperty(String.valueOf(getFreeKicksAway())));
-		ballPossession.setStatic(new SimpleStringProperty("freeKicks"));  
+		freeKicks.setHome(new SimpleStringProperty(String.valueOf(getFreeKicksHome())));
+		freeKicks.setAway(new SimpleStringProperty(String.valueOf(getFreeKicksAway())));
+		freeKicks.setStatic(new SimpleStringProperty("freeKicks"));  
 		
 
-		ballPossession.setHome(new SimpleStringProperty(String.valueOf(getGoalkeeperSavedH())));
-		ballPossession.setAway(new SimpleStringProperty(String.valueOf(getGoalkeeperSavedA())));
-		ballPossession.setStatic(new SimpleStringProperty("goalKeeper"));  //
+		goalKeeper.setHome(new SimpleStringProperty(String.valueOf(getGoalkeeperSavedH())));
+		goalKeeper.setAway(new SimpleStringProperty(String.valueOf(getGoalkeeperSavedA())));
+		goalKeeper.setStatic(new SimpleStringProperty("goalKeeper"));  
+		
+		statistics.add(ballPossession);
+		statistics.add(shotsOnGoal);
+		statistics.add(cornerKiks);
+		statistics.add(getOffside);
+		statistics.add(fouls);
+		statistics.add(redCards);
+		statistics.add(yellowCards);
+		statistics.add(completedPasses);
+		statistics.add(totalPasses);
+		statistics.add(goalAttempts);
+		statistics.add(shotsOffGoal);
+		statistics.add(freeKicks);
+		statistics.add(goalKeeper);
 		
 		return statistics;
 	}

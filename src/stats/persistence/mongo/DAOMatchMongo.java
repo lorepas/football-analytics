@@ -1,5 +1,6 @@
 package stats.persistence.mongo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
@@ -77,6 +78,36 @@ public class DAOMatchMongo implements IDAOMatch{
 	public List<Player> retrieve() throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public List<Match> retrieveAllMatches() throws DAOException {
+		MongoClient mongoClient = null;
+		MongoCursor<Document> cursor = null;
+		List<Match> matches = new ArrayList<Match>();
+		List<League> leagues = new ArrayList<League>();
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			cursor = mongoDatabase.getCollection("leagues").find().iterator();
+			while (cursor.hasNext()) {
+				leagues.add(League.leagueFromJson(cursor.next().toJson()));
+			}
+			for (League league : leagues) {
+				matches.addAll(league.getMatches());
+			}
+			
+		} catch(MongoException me){
+			throw new DAOException(me);
+		} finally {
+			if(cursor != null) {
+				cursor.close();
+			}
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return matches;
 	}
 
 }

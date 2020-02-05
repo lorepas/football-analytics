@@ -50,6 +50,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -62,6 +63,7 @@ import stats.model.DetailedPerformanceTable;
 import stats.model.League;
 import stats.model.MarketValue;
 import stats.model.Match;
+import stats.model.MatchPerformanceTable;
 import stats.model.Player;
 import stats.model.Team;
 import stats.persistence.DAOException;
@@ -123,15 +125,20 @@ public class AppController implements Initializable{
 	@FXML TableColumn<DetailedPerformanceTable, Integer> columnRedCards;
 	@FXML TableColumn<DetailedPerformanceTable, Double> columnMinutesPlayed;
 	@FXML LineChart<String, Double> lineChartTrend;
-	@FXML TableView<Match> matchesResults;
+	@FXML TableView<MatchPerformanceTable> matchesResults;
+	@FXML TableColumn<MatchPerformanceTable, String> columnHome;
+	@FXML TableColumn<MatchPerformanceTable, String> columnStatistics;
+	@FXML TableColumn<MatchPerformanceTable, String> columnAway;
 	@FXML Label labelResultMatch;
 	@FXML ComboBox<League> comboBoxLeaguesPlayer;
 	@FXML ComboBox<Team> comboBoxTeamsPlayer;
 	@FXML ComboBox<League> comboBoxLeaguesTeam;
+	@FXML ComboBox<League> comboBoxLeaguesMatches;
 	@FXML ImageView imageShield;
 	@FXML Tab playerTab;
 	@FXML TabPane tabPane;
 	@FXML Label labelLeague;
+	@FXML ListView<Match> listMatches;
 	ObservableList comboDefault = FXCollections.observableArrayList();
 	
 	public ObservableList<League> retriveLeagueFromComboBoxPlayer(){
@@ -478,6 +485,37 @@ public class AppController implements Initializable{
 		
 	}
 	
+	public void ActionRetrieveMatch(ActionEvent event) {
+		try {
+			List<Match> allMatches = App.getSharedInstance().getDaoMatch().retrieveAllMatches();
+			if (allMatches.isEmpty()) {
+				Alert alert = new Alert(AlertType.WARNING, " The list is empty" , ButtonType.CLOSE);
+				alert.show();
+			} else {
+				ObservableList<Match> list = FXCollections.observableArrayList(allMatches);
+				listMatches.setItems(list);
+				listMatches.setOnMouseClicked(e -> onClickEventOnMatches(e));
+			}
+		} catch (DAOException e) {
+			
+			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
+			alert.show();
+		}
+	}
+	public void onClickEventOnMatches(MouseEvent event) {
+		Match match = listMatches.getSelectionModel().getSelectedItem();
+		labelResultMatch.setText(match.toString().toUpperCase());
+		inizializeTableMatches(match);
+	}
+	public void inizializeTableMatches(Match match) {
+		List<MatchPerformanceTable> matchPerformanceTables = match.getListOfStatistics();
+		columnHome.setCellValueFactory(cellData -> cellData.getValue().getHome());
+		columnStatistics.setCellValueFactory(cellData -> cellData.getValue().getStatistic());
+		columnAway.setCellValueFactory(cellData-> cellData.getValue().getAway());
+		ObservableList<MatchPerformanceTable> list = FXCollections.observableArrayList(matchPerformanceTables);
+		matchesResults.setItems(list);
+	}
+	
 	public void ActionToLogin(ActionEvent event) throws IOException {
 		if (this.buttonLogin.getText().equalsIgnoreCase("LOGIN")) {
 			Parent login = FXMLLoader.load(getClass().getResource("Login.fxml"));
@@ -516,6 +554,7 @@ public class AppController implements Initializable{
 		comboBoxTeamsPlayer.setItems(comboDefault);
 		comboBoxLeaguesPlayer.setItems(retriveLeagueFromComboBoxPlayer());
 		comboBoxLeaguesTeam.setItems(retriveLeagueFromComboBoxPlayer());
+		comboBoxLeaguesMatches.setItems(retriveLeagueFromComboBoxPlayer());
 		listLeague.setItems(retriveLeagueFromComboBoxPlayer());
 	}
 	

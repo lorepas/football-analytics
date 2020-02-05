@@ -45,3 +45,6 @@
   -fx-text-fill: #bbb6b6;
 
  }
+.table-column {
+  -fx-alignment: CENTER;
+}
