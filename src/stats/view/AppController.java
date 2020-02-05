@@ -162,10 +162,11 @@ public class AppController implements Initializable{
 		comboBoxTeamsPlayer.setItems(list);
 	}
 	
-	public void ActionRetrivePlayerFromComboBoxPlayer(ActionEvent e) throws DAOException {
+	public void ActionRetrivePlayerFromComboBoxPlayer(ActionEvent event) throws DAOException {
 		Team teamSelected = comboBoxTeamsPlayer.getValue();
 		ObservableList<Player> listSearchedPlayers = FXCollections.observableArrayList(App.sharedInstance.getDaoPlayer().retrievePlayersFromTeam(teamSelected.getFullName()));
 		listPlayer.setItems(listSearchedPlayers);
+		listPlayer.setOnMouseClicked(e->onClickEventOnPlayer(e));
 		if (listSearchedPlayers.isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING, "No players in the team", ButtonType.CLOSE);
 			alert.showAndWait();
