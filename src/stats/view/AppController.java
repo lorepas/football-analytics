@@ -157,7 +157,14 @@ public class AppController implements Initializable{
 		League leagueSelected = comboBoxLeaguesTeam.getValue();
 		ObservableList list = FXCollections.observableArrayList(App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelected.getName()));
 		listTeams.setItems(list);
-		listTeams.setOnMouseClicked(e->onClickEventOnTeam(e));
+		listTeams.setOnMouseClicked(e->{
+			try {
+				onClickEventOnTeam(e);
+			} catch (DAOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 		if (list.isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING, "No teams in the league", ButtonType.CLOSE);
 			alert.showAndWait();
@@ -193,7 +200,14 @@ public class AppController implements Initializable{
 				List<Team> listSearchedTeams = App.sharedInstance.getDaoTeam().retrieveTeams(text);
 				ObservableList list = FXCollections.observableArrayList(listSearchedTeams);
 				listTeams.setItems(list);
-				listTeams.setOnMouseClicked(e->onClickEventOnTeam(e));
+				listTeams.setOnMouseClicked(e->{
+					try {
+						onClickEventOnTeam(e);
+					} catch (DAOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				});
 				if (listSearchedTeams.isEmpty()) {
 					Alert alert = new Alert(AlertType.WARNING, "No team selected", ButtonType.CLOSE);
 					alert.showAndWait();
@@ -205,15 +219,16 @@ public class AppController implements Initializable{
 		}
 		
 	}
-	public void onClickEventOnTeam(MouseEvent event){
+	public void onClickEventOnTeam(MouseEvent event) throws DAOException{
 		Team teamSelected = listTeams.getSelectionModel().getSelectedItem();
+		App.sharedInstance.getDaoTeam().retriveNativePlayers(teamSelected);
 		if (teamSelected.getFullName().isEmpty()) {
     		labelNameTeam.setText(teamSelected.getName().toUpperCase());
     	} else {
     		labelNameTeam.setText(teamSelected.getFullName().toUpperCase());
     	}
 		try {
-			double res = App.sharedInstance.getDaoTeam().getTeamTotalMarketValue(teamSelected);
+			double res = App.sharedInstance.getDaoTeam().retrieveTeamTotalMarketValue(teamSelected);
 			BigDecimal resRound = new BigDecimal(res);
 			if(res > Math.pow(10,6)) {
 				BigDecimal div = new BigDecimal(Math.pow(10, 6));

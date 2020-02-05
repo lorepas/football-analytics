@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientSettings;
@@ -220,7 +221,7 @@ public class DAOTeamMongo implements IDAOTeam {
 	}
 	
 	@Override
-	public double getTeamTotalMarketValue(Team team) throws DAOException {
+	public double retrieveTeamTotalMarketValue(Team team) throws DAOException {
 		MongoClient mongoClient = null;
 		double res = 0.0;
 		try {
@@ -232,8 +233,34 @@ public class DAOTeamMongo implements IDAOTeam {
 							Aggregates.group("$team", Accumulators.sum("marketValue", "$marketValue"))
 					)).cursor();
 			if(cursor.hasNext()) {
-				Player t = Player.playerFromJson(cursor.next().toJson());
-				res = t.getMarketValue();
+				Gson gson = new Gson();
+				res = gson.fromJson(String.valueOf(cursor.next().getDouble("marketValue")), double.class);
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+	
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return res;
+	}
+	
+	@Override
+	public long retriveNativePlayers(Team team) throws DAOException {
+		MongoClient mongoClient = null;
+		long res = 0;
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("teams").aggregate(
+					Arrays.asList(Aggregates.match(eq("fullName", team.getFullName())), Aggregates.lookup("players", "fullName", "team", "join"), Aggregates.unwind("$join"),
+							 Aggregates.group("$join.nation", Accumulators.sum("count", 1L)), 
+							Aggregates.match(eq("_id", team.getNation())))
+					).cursor();
+			if(cursor.hasNext()) {
+				res = (long) cursor.next().get("count");
 			}
 		} catch(MongoException me) {
 			throw new DAOException(me);
