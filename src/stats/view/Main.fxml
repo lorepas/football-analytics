@@ -468,7 +468,7 @@
                                           <Insets left="50.0" top="30.0" />
                                        </GridPane.margin>
                                     </ImageView>
-                                    <Label fx:id="labelNamePlayer" textFill="#bbb6b6">
+                                    <Label fx:id="labelNamePlayer" textFill="WHITE">
                                        <GridPane.margin>
                                           <Insets bottom="180.0" left="50.0" />
                                        </GridPane.margin>

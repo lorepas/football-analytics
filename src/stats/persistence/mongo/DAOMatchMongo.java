@@ -26,7 +26,7 @@ public class DAOMatchMongo implements IDAOMatch{
 		try {
 			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("league");
+			MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("leagues");
 			Document filter = new Document();
 			//TODO: Insert a filter
 			//filter.append("fullName", match.getFullName());
