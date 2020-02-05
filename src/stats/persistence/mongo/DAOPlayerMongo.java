@@ -377,7 +377,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			Document sort = new Document();
-			sort.append("bornDate", 1);
+			sort.append("bornDate", -1);
 			Document filter = new Document();
 			filter.append("bornDate", new Document().append("$exists", true));
 			filter.append("league", league.getName());
@@ -412,7 +412,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
 			Document sort = new Document();
-			sort.append("bornDate", -1);
+			sort.append("bornDate", 1);
 			Document filter = new Document();
 			filter.append("bornDate", new Document().append("$exists", true));
 			filter.append("league", league.getName());

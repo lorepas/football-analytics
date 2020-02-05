@@ -208,9 +208,9 @@ public class AppController implements Initializable{
 			if(res > Math.pow(10,6)) {
 				BigDecimal div = new BigDecimal(Math.pow(10, 6));
 				BigDecimal marketValue = resRound.divide(div);
-				labelMarketValue.setText(String.valueOf(marketValue)+" mln €");
+				labelMarketValue.setText(String.valueOf(marketValue)+" mln ï¿½");
 			}else {
-				labelMarketValue.setText(String.valueOf(resRound)+" €");
+				labelMarketValue.setText(String.valueOf(resRound)+" ï¿½");
 			}
 		} catch (DAOException e1) {
 			// TODO Auto-generated catch block
@@ -267,14 +267,16 @@ public class AppController implements Initializable{
 	}
 	
 	public void onClickEventOnLeague(MouseEvent event){
-//		League leagueSelected = listLeague.getSelectionModel().getSelectedItem();
-//		try {
-//			Player player = App.sharedInstance.getDaoPlayer().retrieveOlderPlayer();
-//			labelOldest.setText(player.getFullName());
-//		} catch (DAOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		League leagueSelected = listLeague.getSelectionModel().getSelectedItem();
+		try {
+			Player playerOldest = App.sharedInstance.getDaoPlayer().retrieveOlderPlayer(leagueSelected);
+			labelOldest.setText(playerOldest.getFullName());
+			Player playerYoungest = App.sharedInstance.getDaoPlayer().retrieveYougerPlayer(leagueSelected);
+			labelYoungest.setText(playerYoungest.getFullName());
+		} catch (DAOException e) {
+		// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void onClickEventOnPlayer(MouseEvent event) {
