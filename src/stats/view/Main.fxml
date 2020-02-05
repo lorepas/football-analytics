@@ -293,10 +293,9 @@
                                 <rowConstraints>
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.valignment="CENTER">
                                        <GridPane.margin>
                                           <Insets left="115.0" />
                                        </GridPane.margin>
@@ -317,12 +316,12 @@
                                           <Insets left="115.0" top="170.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <PieChart fx:id="pieChartForeign" maxHeight="221.0" maxWidth="334.0" prefHeight="221.0" prefWidth="334.0" title="PERCENTAGE OF FOREIGN PLAYERS" GridPane.rowIndex="2" />
-                                    <PieChart fx:id="pieChartResults" prefHeight="273.0" prefWidth="332.0" title="PERCENTAGE OF MATCHES &#10;WON,DRAWN AND LOST" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <PieChart fx:id="pieChartForeign" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="221.0" prefWidth="334.0" title="PERCENTAGE OF FOREIGN PLAYERS" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <PieChart fx:id="pieChartResults" prefHeight="273.0" prefWidth="332.0" title="PERCENTAGE OF MATCHES &#10;WON,DRAWN AND LOST" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     
-                                          <ImageView fx:id="imageShield" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <ImageView fx:id="imageShield" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                     
-                                    <Label text="MARKET VALUE" textFill="#bbb6b6">
+                                    <Label text="MARKET VALUE" textFill="#bbb6b6" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets left="50.0" top="180.0" />
                                        </GridPane.margin>
@@ -330,12 +329,12 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="labelMarketValue" text="Label">
+                                    <Label fx:id="labelMarketValue" text="Label" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets left="200.0" top="180.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="labelNameTeam" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                    <Label fx:id="labelNameTeam" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                                        <GridPane.margin>
                                           <Insets bottom="180.0" left="50.0" />
                                        </GridPane.margin>

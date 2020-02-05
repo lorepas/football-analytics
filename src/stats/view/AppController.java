@@ -36,6 +36,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.LineChart.SortingPolicy;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
@@ -221,12 +222,20 @@ public class AppController implements Initializable{
 	}
 	public void onClickEventOnTeam(MouseEvent event) throws DAOException{
 		Team teamSelected = listTeams.getSelectionModel().getSelectedItem();
-		App.sharedInstance.getDaoTeam().retriveNativePlayers(teamSelected);
 		if (teamSelected.getFullName().isEmpty()) {
     		labelNameTeam.setText(teamSelected.getName().toUpperCase());
     	} else {
     		labelNameTeam.setText(teamSelected.getFullName().toUpperCase());
     	}
+		long nativePlayer = App.sharedInstance.getDaoTeam().retriveNativePlayers(teamSelected);
+		long foreignPlayer = teamSelected.getRosterSize() - nativePlayer;
+		long percentageNativePlayer = (nativePlayer*100) / teamSelected.getRosterSize();
+		long percentageForeignPlayer = (foreignPlayer*100) / teamSelected.getRosterSize();
+		ObservableList<Data> listPie = FXCollections.observableArrayList(
+				new PieChart.Data(percentageNativePlayer + "% NATIVE", nativePlayer),
+				new PieChart.Data(percentageForeignPlayer + "% FOREIGN", foreignPlayer));
+		pieChartForeign.setData(listPie);
+		
 		try {
 			double res = App.sharedInstance.getDaoTeam().retrieveTeamTotalMarketValue(teamSelected);
 			BigDecimal resRound = new BigDecimal(res);
