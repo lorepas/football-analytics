@@ -3,6 +3,7 @@ package stats.persistence.mongo;
 import static com.mongodb.client.model.Filters.eq;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -17,6 +18,9 @@ import com.mongodb.MongoWriteException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Sorts;
 
 import stats.model.League;
 import stats.model.Player;
@@ -185,6 +189,94 @@ public class DAOLeagueMongo implements IDAOLeague{
 			}
 		}
 		return leagues;
+	}
+	
+	public Team retrieveMostWinningHomeTeam(League league) throws DAOException {
+		MongoClient mongoClient = null;
+		Team res = new Team();
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("leagues").aggregate(
+					Arrays.asList(new Document("$unwind", 
+						    new Document("path", "$matches")), 
+						    new Document("$match", 
+						    new Document("fullname", league.getFullname())), 
+						    new Document("$project", 
+						    new Document("matches", 1L)
+						            .append("homeTeam", "$matches.nameHome")
+						            .append("awayTeam", "$matches.nameAway")
+						            .append("result", 
+						    new Document("$cond", Arrays.asList(new Document("$gt", Arrays.asList("$matches.scoreHome", "$matches.scoreAway")), "1", 
+						                    new Document("$cond", Arrays.asList(new Document("$eq", Arrays.asList("$matches.scoreHome", "$matches.scoreAway")), "X", "2")))))), 
+						    new Document("$group", 
+						    new Document("_id", "$matches.nameHome")
+						            .append("homeWins", 
+						    new Document("$sum", 
+						    new Document("$cond", Arrays.asList(new Document("$eq", Arrays.asList("$result", "1")), 1L, 0L))))), 
+						    new Document("$sort", 
+						    new Document("homeWins", -1L)), 
+						    new Document("$limit", 1L))
+					).cursor();
+			if(cursor.hasNext()) {
+//				//res = Player.playerFromJson(cursor.next().toJson());
+				Document document = (Document) cursor.next();
+				String name = document.getString("_id");
+				res.setName(name);
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+	
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return res;
+	}
+
+	@Override
+	public Team retrieveMostWinningAwayTeam(League league) throws DAOException {
+		MongoClient mongoClient = null;
+		Team res = new Team();
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("leagues").aggregate(
+					Arrays.asList(new Document("$unwind", 
+							new Document("path", "$matches")), 
+						    new Document("$match", 
+						    new Document("fullname", league.getFullname())), 
+						    new Document("$project", 
+						    new Document("matches", 1L)
+						            .append("homeTeam", "$matches.nameHome")
+						            .append("awayTeam", "$matches.nameAway")
+						            .append("result", 
+							new Document("$cond", Arrays.asList(new Document("$gt", Arrays.asList("$matches.scoreHome", "$matches.scoreAway")), "1", 
+						                    new Document("$cond", Arrays.asList(new Document("$eq", Arrays.asList("$matches.scoreHome", "$matches.scoreAway")), "X", "2")))))), 
+						    new Document("$group", 
+						    new Document("_id", "$matches.nameAway")
+						            .append("awayWins", 
+						    new Document("$sum", 
+						    new Document("$cond", Arrays.asList(new Document("$eq", Arrays.asList("$result", "2")), 1L, 0L))))), 
+						    new Document("$sort", 
+						    new Document("awayWins", -1L)), 
+						    new Document("$limit", 1L))
+					).cursor();
+			if(cursor.hasNext()) {
+//				//res = Player.playerFromJson(cursor.next().toJson());
+				Document document = (Document) cursor.next();
+				String name = document.getString("_id");
+				res.setName(name);
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return res;
 	}
 	
 }

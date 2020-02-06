@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import stats.model.League;
 import stats.model.Match;
+import stats.model.Team;
 import stats.model.User;
 import stats.persistence.DAOUserKV;
 import stats.persistence.IDAOLeague;
@@ -123,6 +124,13 @@ public class App extends Application {
 //			this.getDaoLeagueGraph().create(league);
 //			this.getDaoLeagueGraph().retrieve(league.getFullName());
 //			System.out.println("Exists = " + exists);
+			League league = new League();
+			league.setFullname("Serie A 2019-20");
+			Team hTeam = this.getDaoLeague().retrieveMostWinningHomeTeam(league);
+			Team aTeam = this.getDaoLeague().retrieveMostWinningAwayTeam(league);
+			System.out.println("Home team: " + hTeam.getName());
+			System.out.println("Away team: " + aTeam.getName());
+			
 			LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 			Logger mongoLogger = loggerContext.getLogger("org.mongodb.driver");
 			mongoLogger.setLevel(Level.OFF);

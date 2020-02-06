@@ -245,5 +245,17 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 		return null;
 	}
 
+	@Override
+	public Team retrieveMostWinningHomeTeam(League league) throws DAOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Team retrieveMostWinningAwayTeam(League league) throws DAOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }
