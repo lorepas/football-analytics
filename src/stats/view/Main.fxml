@@ -173,34 +173,40 @@
                                           </Label>
                                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                                           <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-                                          <Label fx:id="labelMostWinning" text="MOST WINNING TEAM" textFill="#bbb6b6" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                                          <Label text="MOST WINNING HOME TEAM" textFill="#bbb6b6" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                                              <GridPane.margin>
                                                 <Insets top="10.0" />
                                              </GridPane.margin>
                                              <font>
-                                                <Font name="System Bold Italic" size="18.0" />
+                                                <Font name="System Bold Italic" size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label text="Label" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+                                          <Label fx:id="labelMostWinningHomeTeam" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                                              <padding>
                                                 <Insets top="10.0" />
                                              </padding>
                                              <GridPane.margin>
-                                                <Insets right="70.0" top="10.0" />
+                                                <Insets right="10.0" top="5.0" />
                                              </GridPane.margin>
-                                          </Label>
-                                          <Label fx:id="labelMostLosing" text="MOST LOSING TEAM" textFill="#bbb6b6" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                                              <font>
-                                                <Font name="System Bold Italic" size="18.0" />
+                                                <Font name="System Bold" size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="labelMostLosing" text="MOST WINNING AWAY TEAM" textFill="#bbb6b6" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                             <font>
+                                                <Font name="System Bold Italic" size="16.0" />
                                              </font>
                                              <GridPane.margin>
                                                 <Insets top="10.0" />
                                              </GridPane.margin>
                                           </Label>
-                                          <Label text="Label" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                          <Label fx:id="labelMostWinningAwayTeam" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                                              <GridPane.margin>
-                                                <Insets right="70.0" top="10.0" />
+                                                <Insets right="10.0" top="13.0" />
                                              </GridPane.margin>
+                                             <font>
+                                                <Font name="System Bold" size="13.0" />
+                                             </font>
                                           </Label>
                                        </children>
                                     </GridPane>
