@@ -182,7 +182,7 @@ public class AppController implements Initializable{
 	
 	public void ActionRetrivePlayerFromComboBoxPlayer(ActionEvent event) throws DAOException {
 		Team teamSelected = comboBoxTeamsPlayer.getValue();
-		ObservableList<Player> listSearchedPlayers = FXCollections.observableArrayList(App.sharedInstance.getDaoPlayer().retrievePlayersFromTeam(teamSelected.getFullName()));
+		ObservableList<Player> listSearchedPlayers = FXCollections.observableArrayList(App.sharedInstance.getDaoPlayer().retrievePlayersFromTeam(teamSelected));
 		listPlayer.setItems(listSearchedPlayers);
 		listPlayer.setOnMouseClicked(e->onClickEventOnPlayer(e));
 		if (listSearchedPlayers.isEmpty()) {
@@ -324,7 +324,6 @@ public class AppController implements Initializable{
     	} else {
     		labelNamePlayer.setText(playerSelected.getFullName().toUpperCase());
     	}
-    	labelDateBirth.setText(playerSelected.getBornDate());
     	labelCitizenshipPlayer.setText(playerSelected.getNation());
     	labelPositionPlayer.setText(playerSelected.getRole());
     	labelLeaguePlayer.setText(playerSelected.getLeague());

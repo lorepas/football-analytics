@@ -13,6 +13,7 @@ public class Team {
 	private String league;
 	private String shield;
 	private String nation;
+	private String championshipCode;
 	private List<String> players = new ArrayList<>();
 	
 	public String getName() {
@@ -76,6 +77,12 @@ public class Team {
 	}
 	public void setLeague(String league) {
 		this.league = league;
+	}
+	public String getChampionshipCode() {
+		return championshipCode;
+	}
+	public void setChampionshipCode(String championshipCode) {
+		this.championshipCode = championshipCode;
 	}
 	
 	

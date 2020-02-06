@@ -18,6 +18,7 @@ public class Player {
 	private String team;
 	private String nation;
 	private String league;
+	private String championshipCode;
 	List<DetailedPerformance> detailedPerformances = new ArrayList<>();
 	List<MarketValue> marketValueHistory = new ArrayList<>();
 	
@@ -129,6 +130,14 @@ public class Player {
 		StringBuilder builder = new StringBuilder();
 		builder.append(fullName);
 		return builder.toString();
+	}
+
+	public String getChampionshipCode() {
+		return championshipCode;
+	}
+
+	public void setChampionshipCode(String championshipCode) {
+		this.championshipCode = championshipCode;
 	}
 	
 	
