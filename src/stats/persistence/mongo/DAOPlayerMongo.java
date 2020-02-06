@@ -20,6 +20,7 @@ import com.mongodb.MongoWriteException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.mongodb.connection.ClusterDescription;
 import com.mongodb.connection.ClusterType;
 import static com.mongodb.client.model.Filters.eq;
@@ -194,16 +195,17 @@ public class DAOPlayerMongo implements IDAOPlayer {
 	}
 	
 	@Override
-	public List<Player> retrievePlayersFromTeam(String team) throws DAOException {
+	public List<Player> retrievePlayersFromTeam(Team team) throws DAOException {
 		MongoClient mongoClient = null;
 		MongoCursor<Document> cursor = null;
 		List<Player> players = new ArrayList<Player>();
 		try {
 			mongoClient = Utils.getMongoClient();
-			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
-			Document query = new Document();
-			query.append("team", Pattern.compile(".*" + team + ".*" , Pattern.CASE_INSENSITIVE));
-			cursor = mongoDatabase.getCollection("players").find(query).iterator();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");			
+			Bson filter = Filters.and(
+		              Filters.eq("team", Pattern.compile(".*" + team.getFullName() + ".*" , Pattern.CASE_INSENSITIVE)),
+		              Filters.eq("championshipCode", team.getChampionshipCode()));
+			cursor = mongoDatabase.getCollection("players").find(filter).iterator();
 			while (cursor.hasNext()) { 
 				Document document = cursor.next();
 				Date bornDate = (Date) document.get("bornDate");
