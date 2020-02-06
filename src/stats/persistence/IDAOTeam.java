@@ -2,6 +2,7 @@ package stats.persistence;
 
 import java.util.List;
 
+import stats.model.Player;
 import stats.model.Team;
 
 public interface IDAOTeam {
@@ -16,5 +17,6 @@ public interface IDAOTeam {
 	List<Team> retrieveTeamsFromLeague(String name) throws DAOException;
 	double retrieveTeamTotalMarketValue(Team team) throws DAOException;
 	long retriveNativePlayers(Team team) throws DAOException;
+	Player retriveMostRepresentativePlayer(Team team) throws DAOException;
 	
 }

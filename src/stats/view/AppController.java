@@ -235,7 +235,8 @@ public class AppController implements Initializable{
 				new PieChart.Data(percentageNativePlayer + "% NATIVE", nativePlayer),
 				new PieChart.Data(percentageForeignPlayer + "% FOREIGN", foreignPlayer));
 		pieChartForeign.setData(listPie);
-		
+		Player playerMostRepresentative = App.sharedInstance.getDaoTeam().retriveMostRepresentativePlayer(teamSelected);
+		labelMostRepresentative.setText(playerMostRepresentative.getFullName());
 		try {
 			double res = App.sharedInstance.getDaoTeam().retrieveTeamTotalMarketValue(teamSelected);
 			BigDecimal resRound = new BigDecimal(res);

@@ -10,6 +10,7 @@ import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
 import org.neo4j.driver.exceptions.ClientException;
 
+import stats.model.Player;
 import stats.model.Team;
 import stats.persistence.DAOException;
 import stats.persistence.IDAOTeam;
@@ -116,6 +117,12 @@ public class DAOTeamN4J implements IDAOTeamGraph {
 	public long retriveNativePlayers(Team team) throws DAOException {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public Player retriveMostRepresentativePlayer(Team team) throws DAOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

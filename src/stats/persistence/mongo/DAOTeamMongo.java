@@ -27,6 +27,7 @@ import com.mongodb.client.internal.MongoClientImpl;
 import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
 
 import stats.model.Player;
 import stats.model.Team;
@@ -261,6 +262,35 @@ public class DAOTeamMongo implements IDAOTeam {
 					).cursor();
 			if(cursor.hasNext()) {
 				res = (long) cursor.next().get("count");
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+	
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return res;
+	}
+	
+	@Override
+	public Player retriveMostRepresentativePlayer(Team team) throws DAOException {
+		MongoClient mongoClient = null;
+		Player res=null;
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("teams").aggregate(
+					Arrays.asList(Aggregates.match(eq("fullName", team.getFullName())), Aggregates.lookup("players", "fullName", "team", "join"), 
+							Aggregates.unwind("$join"), Aggregates.unwind("$join.detailedPerformances"), Aggregates.group(eq("fullName", "$join.fullName"), 
+									Accumulators.sum("totalPresences", "$join.detailedPerformances.presences")),
+							Aggregates.sort(Sorts.descending("totalPresences")),Aggregates.limit(1))
+					).cursor();
+			if(cursor.hasNext()) {
+				//res = Player.playerFromJson(cursor.next().toJson());
+				Document document = (Document) cursor.next().get("_id");
+				res = Player.playerFromJson(document.toJson());
 			}
 		} catch(MongoException me) {
 			throw new DAOException(me);

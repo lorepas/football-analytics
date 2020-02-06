@@ -311,10 +311,13 @@
                                           <Font size="18.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="labelMostRepresentative" text="Label" GridPane.columnIndex="1">
+                                    <Label fx:id="labelMostRepresentative" GridPane.columnIndex="1">
                                        <GridPane.margin>
-                                          <Insets left="115.0" top="170.0" />
+                                          <Insets left="115.0" top="180.0" />
                                        </GridPane.margin>
+                                       <font>
+                                          <Font name="System Bold" size="16.0" />
+                                       </font>
                                     </Label>
                                     <PieChart fx:id="pieChartForeign" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="221.0" prefWidth="334.0" title="PERCENTAGE OF FOREIGN PLAYERS" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                     <PieChart fx:id="pieChartResults" prefHeight="273.0" prefWidth="332.0" title="PERCENTAGE OF MATCHES &#10;WON,DRAWN AND LOST" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -329,10 +332,13 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="labelMarketValue" text="Label" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                    <Label fx:id="labelMarketValue" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets left="200.0" top="180.0" />
                                        </GridPane.margin>
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
                                     </Label>
                                     <Label fx:id="labelNameTeam" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                                        <GridPane.margin>
