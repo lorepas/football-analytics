@@ -55,6 +55,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -147,6 +148,7 @@ public class AppController implements Initializable{
 	@FXML ListView<Match> listMatches;
 	ObservableList comboDefault = FXCollections.observableArrayList();
 	private League leagueSelectedToRound = null;
+	private League leagueSelectedCombo = null;
 	
 	public ObservableList<League> retriveLeagueFromComboBoxPlayer(){
 		List<League> listSearchedLeagues = null;
@@ -161,8 +163,8 @@ public class AppController implements Initializable{
 	}
 	
 	public void ActionRetriveTeamFromComboBoxTeam(Event event) throws DAOException {
-		League leagueSelected = comboBoxLeaguesTeam.getValue();
-		ObservableList list = FXCollections.observableArrayList(App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelected.getName()));
+		leagueSelectedCombo = comboBoxLeaguesTeam.getValue();
+		ObservableList list = FXCollections.observableArrayList(App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelectedCombo.getName()));
 		listTeams.setItems(list);
 		listTeams.setOnMouseClicked(e->{
 			try {
@@ -241,6 +243,15 @@ public class AppController implements Initializable{
 				new PieChart.Data(percentageNativePlayer + "% NATIVE", nativePlayer),
 				new PieChart.Data(percentageForeignPlayer + "% FOREIGN", foreignPlayer));
 		pieChartForeign.setData(listPie);
+		leagueSelectedCombo = comboBoxLeaguesTeam.getSelectionModel().getSelectedItem();
+		double percentageOfWin = App.getSharedInstance().getDaoTeam().retrievePercentageOfWins(leagueSelectedCombo, teamSelected);
+		double percentageOfDefeats = App.getSharedInstance().getDaoTeam().retrievePercentageOfDefeats(leagueSelectedCombo, teamSelected);
+		double percentageOfDrawn = App.getSharedInstance().getDaoTeam().retrievePercentageOfDraws(leagueSelectedCombo, teamSelected);
+		ObservableList<Data> listPieMatches = FXCollections.observableArrayList(
+				new PieChart.Data(Math.round(percentageOfWin) + "% WIN", percentageOfWin),
+				new PieChart.Data(Math.round(percentageOfDefeats) + "% DEFEATS", percentageOfDefeats),
+				new PieChart.Data(Math.round(percentageOfDrawn) + "% DRAWN", percentageOfDrawn));
+		pieChartResults.setData(listPieMatches);
 		Player playerMostRepresentative = App.sharedInstance.getDaoTeam().retriveMostRepresentativePlayer(teamSelected);
 		labelMostRepresentative.setText(playerMostRepresentative.getFullName());
 		try {
@@ -565,6 +576,8 @@ public class AppController implements Initializable{
 		columnAway.setCellValueFactory(cellData-> cellData.getValue().getAway());
 		ObservableList<MatchPerformanceTable> list = FXCollections.observableArrayList(matchPerformanceTables);
 		matchesResults.setItems(list);
+	
+		
 	}
 	
 	public void ActionToLogin(ActionEvent event) throws IOException {

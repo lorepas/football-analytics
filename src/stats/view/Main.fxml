@@ -599,7 +599,7 @@
                                   <RowConstraints maxHeight="574.0" minHeight="10.0" prefHeight="572.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <TableView fx:id="matchesResults" maxWidth="600.0" prefHeight="600.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                    <TableView fx:id="matchesResults" maxHeight="375.0" maxWidth="600.0" minWidth="375.0" prefHeight="0.0" prefWidth="600.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                       <columns>
                                         <TableColumn fx:id="columnHome" maxWidth="200.0" prefWidth="200.0" text="HOME" />
                                         <TableColumn fx:id="columnStatistics" maxWidth="200.0" prefWidth="200.0" text="STATISTICS" />
