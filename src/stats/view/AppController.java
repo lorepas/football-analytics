@@ -89,9 +89,10 @@ public class AppController implements Initializable{
 	@FXML javafx.scene.control.Button buttoUpdatePlayer;
 	@FXML javafx.scene.control.Button buttonDeletePlayer;
 	@FXML BarChart<Team, Float> barCharLeague;
+	@FXML Label labelMostWinningHomeTeam;
+	@FXML Label labelMostWinningAwayTeam;
 	@FXML Label labelYoungest;
 	@FXML Label labelOldest;
-	@FXML Label labelMostWinning;
 	@FXML Label labelMostLosing;
 	@FXML Label labelHigest;
 	@FXML Label labelNameTeam;
@@ -304,6 +305,13 @@ public class AppController implements Initializable{
 	public void onClickEventOnLeague(MouseEvent event){
 		League leagueSelected = listLeague.getSelectionModel().getSelectedItem();
 		labelLeague.setText(leagueSelected.getFullname().toUpperCase());
+		try {
+			labelMostWinningHomeTeam.setText(App.sharedInstance.getDaoLeague().retrieveMostWinningHomeTeam(leagueSelected).getName());
+			labelMostWinningAwayTeam.setText(App.sharedInstance.getDaoLeague().retrieveMostWinningAwayTeam(leagueSelected).getName());
+		} catch (DAOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			Player playerOldest = App.sharedInstance.getDaoPlayer().retrieveOlderPlayer(leagueSelected);
 			labelOldest.setText(playerOldest.getFullName());

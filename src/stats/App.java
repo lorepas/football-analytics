@@ -135,8 +135,7 @@ public class App extends Application {
 			System.out.println("Away team: " + aTeam.getName());
 			System.out.println("Wins: " + percentageOfWins);
 			System.out.println("Draws: " + percentageOfDraws);
-			System.out.println("Losts: " + percentageOfLosts);
-
+			System.out.println("Losts: " + percentageOfLosts);			
 			LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 			Logger mongoLogger = loggerContext.getLogger("org.mongodb.driver");
 			mongoLogger.setLevel(Level.OFF);
