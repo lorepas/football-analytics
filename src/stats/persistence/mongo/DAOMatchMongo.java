@@ -1,7 +1,9 @@
 package stats.persistence.mongo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.bson.Document;
 
@@ -11,6 +13,9 @@ import com.mongodb.MongoWriteException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Projections;
 
 import stats.model.League;
 import stats.model.Match;
@@ -109,5 +114,75 @@ public class DAOMatchMongo implements IDAOMatch{
 		}
 		return matches;
 	}
+	
+	@Override
+	public List<Match> retrieveMatchesbyRound(int round, League league) throws DAOException {
+		MongoClient mongoClient = null;
+		MongoCursor<Document> cursor = null;
+		List<Match> matches = new ArrayList<Match>();
+		
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			//String roundStr = "Round " + round;
+			//System.out.println("Round: " + roundStr);
+			cursor = mongoDatabase.getCollection("leagues").aggregate(
+					Arrays.asList(new Document("$unwind", 
+							new Document("path", "$matches")), 
+						    new Document("$match", 
+						    new Document("matches.round", "Round " + round)
+						            .append("name", league.getName())), 
+						    new Document("$project", 
+						    new Document("yellowCardsHome", "$matches.yellowCardsHome")
+						            .append("yellowCardsAway", "$matches.yellowCardsAway")
+						            .append("round", "$matches.round")
+						            .append("nameHome", "$matches.nameHome")
+						            .append("nameAway", "$matches.nameAway")
+						            .append("scoreHome", "$matches.scoreHome")
+						            .append("scoreAway", "$matches.scoreAway")
+						            .append("possesionBallHome", "$matches.possesionBallHome")
+						            .append("possesionBallAway", "$matches.possesionBallAway")
+						            .append("date", "$matches.date")
+						            .append("time", "$matches.time")
+						            .append("shotsOnGoalHome", "$matches.shotsOnGoalHome")
+						            .append("shotsOnGoalAway", "$matches.shotsOnGoalAway")
+						            .append("shotsOffGoalHome", "$matches.shotsOffGoalHome")
+						            .append("shotsOffGoalAway", "$matches.shotsOffGoalAway")
+						            .append("cornerKiksHome", "$matches.cornerKiksHome")
+						            .append("cornerKiksAway", "$matches.cornerKiksAway")
+						            .append("offsideHome", "$matches.offsideHome")
+						            .append("offsideAway", "$matches.offsideAway")
+						            .append("foulsHome", "$matches.foulsHome")
+						            .append("foulsAway", "$matches.foulsAway")
+						            .append("redCardsHome", "$matches.redCardsHome")
+						            .append("redCardsAway", "$matches.redCardsAway")
+						            .append("completedPassessHome", "$matches.completedPassessHome")
+						            .append("completedPassesAway", "$matches.completedPassesAway")
+						            .append("goalAttemptsHome", "$matches.goalAttemptsHome")
+						            .append("goalAttemptsAway", "$matches.goalAttemptsAway")
+						            .append("freeKicksHome", "$matches.freeKicksHome")
+						            .append("freeKicksAway", "$matches.freeKicksAway")
+						            .append("goalkeeperSavedH", "$matches.goalkeeperSavedH")
+						            .append("goalkeeperSavedA", "$matches.goalkeeperSavedA")))).cursor();
+			while (cursor.hasNext()) {
+				Match match = Match.matchFromJson(cursor.next().toJson());
+				matches.add(match);
+				
+			}
+		
+			
+		} catch(MongoException me){
+			throw new DAOException(me);
+		} finally {
+			if(cursor != null) {
+				cursor.close();
+			}
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return matches;
+	}
+	
 
 }

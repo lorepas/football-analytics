@@ -9,45 +9,45 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Match {
 
-	private String possesionBallHome; //
-	private String possesionBallAway; //
+	private String possesionBallHome; 
+	private String possesionBallAway; 
 	 
-	private int shotsOnGoalHome; //
-	private int shotsOnGoalAway;//
+	private int shotsOnGoalHome; 
+	private int shotsOnGoalAway;
 		 
 		 
-	private int cornerKiksHome; //
-	private int cornerKiksAway; //
+	private int cornerKiksHome; 
+	private int cornerKiksAway; 
 		 
-	private int offsideHome; //
-	private int offsideAway; //
+	private int offsideHome; 
+	private int offsideAway; 
 		 
-	private int foulsHome; //
-	private int foulsAway; //
+	private int foulsHome; 
+	private int foulsAway; 
 		 
-	private int redCardsHome; //
-	private int redCardsAway; //
+	private int redCardsHome; 
+	private int redCardsAway; 
 		 
-	private int yellowCardsHome; //
-	private int yellowCardsAway; //
+	private int yellowCardsHome; 
+	private int yellowCardsAway; 
 		 
-	private int completedPassessHome; //
-	private int completedPassesAway; //
+	private int completedPassessHome; 
+	private int completedPassesAway; 
 	
 	private int totalPassessHome; //
 	private int totalPassesAway; //
 	
-	private int goalAttemptsHome; //
-	private int goalAttemptsAway; //
+	private int goalAttemptsHome; 
+	private int goalAttemptsAway; 
 		 
-	private int shotsOffGoalHome; //
-	private int shotsOffGoalAway; //
+	private int shotsOffGoalHome; 
+	private int shotsOffGoalAway; 
 		 
-	private int freeKicksHome; //
-	private int freeKicksAway; //
+	private int freeKicksHome; 
+	private int freeKicksAway; 
 		 
-	private int goalkeeperSavedH; //
-	private int goalkeeperSavedA; //
+	private int goalkeeperSavedH; 
+	private int goalkeeperSavedA; 
 	
 //
 	
@@ -305,56 +305,56 @@ public class Match {
 		
 		ballPossession.setHome(new SimpleStringProperty(getPossesionBallHome().toString()));
 		ballPossession.setAway(new SimpleStringProperty(getPossesionBallAway().toString()));
-		ballPossession.setStatic(new SimpleStringProperty("ballPossession")); 
+		ballPossession.setStatic(new SimpleStringProperty("Ball possession")); 
 		
 		shotsOnGoal.setHome(new SimpleStringProperty(String.valueOf(getShotsOnGoalHome())));
 		shotsOnGoal.setAway(new SimpleStringProperty(String.valueOf(getShotsOnGoalAway())));
-		shotsOnGoal.setStatic(new SimpleStringProperty("shotsOnGoal")); 
+		shotsOnGoal.setStatic(new SimpleStringProperty("Shots on goal")); 
 		
 		cornerKiks.setHome(new SimpleStringProperty(String.valueOf(getCornerKiksHome())));
 		cornerKiks.setAway(new SimpleStringProperty(String.valueOf(getCornerKiksAway())));
-		cornerKiks.setStatic(new SimpleStringProperty("cornerKiks")); 
+		cornerKiks.setStatic(new SimpleStringProperty("Corner kiks")); 
 		
 		getOffside.setHome(new SimpleStringProperty(String.valueOf(getOffsideHome())));
 		getOffside.setAway(new SimpleStringProperty(String.valueOf(getOffsideAway())));
-		getOffside.setStatic(new SimpleStringProperty("getOffside")); 
+		getOffside.setStatic(new SimpleStringProperty("Off side")); 
 		
 		fouls.setHome(new SimpleStringProperty(String.valueOf(getFoulsHome())));
 		fouls.setAway(new SimpleStringProperty(String.valueOf(getFoulsAway())));
-		fouls.setStatic(new SimpleStringProperty("fouls")); 
+		fouls.setStatic(new SimpleStringProperty("Fouls")); 
 		
 		redCards.setHome(new SimpleStringProperty(String.valueOf(getRedCardsHome())));
 		redCards.setAway(new SimpleStringProperty(String.valueOf(getRedCardsAway())));
-		redCards.setStatic(new SimpleStringProperty("redCards")); 
+		redCards.setStatic(new SimpleStringProperty("Red cards")); 
 		
 		yellowCards.setHome(new SimpleStringProperty(String.valueOf(getYellowCardsHome())));
 		yellowCards.setAway(new SimpleStringProperty(String.valueOf(getYellowCardsAway())));
-		yellowCards.setStatic(new SimpleStringProperty("yellowCards")); 
+		yellowCards.setStatic(new SimpleStringProperty("Yellow cards")); 
 		
 		completedPasses.setHome(new SimpleStringProperty(String.valueOf(getCompletedPassessHome())));
 		completedPasses.setAway(new SimpleStringProperty(String.valueOf(getCompletedPassesAway())));
-		completedPasses.setStatic(new SimpleStringProperty("completedPasses")); 
+		completedPasses.setStatic(new SimpleStringProperty("Completed passes")); 
 		
 		totalPasses.setHome(new SimpleStringProperty(String.valueOf(getTotalPassessHome())));
 		totalPasses.setAway(new SimpleStringProperty(String.valueOf(getTotalPassesAway())));
-		totalPasses.setStatic(new SimpleStringProperty("totalPasses")); 
+		totalPasses.setStatic(new SimpleStringProperty("Total passes")); 
 		
 		goalAttempts.setHome(new SimpleStringProperty(String.valueOf(getGoalAttemptsHome())));
 		goalAttempts.setAway(new SimpleStringProperty(String.valueOf(getGoalAttemptsAway())));
-		goalAttempts.setStatic(new SimpleStringProperty("goalAttempts")); 
+		goalAttempts.setStatic(new SimpleStringProperty("Goal attempts")); 
 		
 		shotsOffGoal.setHome(new SimpleStringProperty(String.valueOf(getShotsOffGoalHome())));
 		shotsOffGoal.setAway(new SimpleStringProperty(String.valueOf(getShotsOffGoalAway())));
-		shotsOffGoal.setStatic(new SimpleStringProperty("shotsOffGoal"));  
+		shotsOffGoal.setStatic(new SimpleStringProperty("Shots off goal"));  
 
 		freeKicks.setHome(new SimpleStringProperty(String.valueOf(getFreeKicksHome())));
 		freeKicks.setAway(new SimpleStringProperty(String.valueOf(getFreeKicksAway())));
-		freeKicks.setStatic(new SimpleStringProperty("freeKicks"));  
+		freeKicks.setStatic(new SimpleStringProperty("Free kicks"));  
 		
 
 		goalKeeper.setHome(new SimpleStringProperty(String.valueOf(getGoalkeeperSavedH())));
 		goalKeeper.setAway(new SimpleStringProperty(String.valueOf(getGoalkeeperSavedA())));
-		goalKeeper.setStatic(new SimpleStringProperty("goalKeeper"));  
+		goalKeeper.setStatic(new SimpleStringProperty("Goal keeper"));  
 		
 		statistics.add(ballPossession);
 		statistics.add(shotsOnGoal);
@@ -371,5 +371,12 @@ public class Match {
 		statistics.add(goalKeeper);
 		
 		return statistics;
+	}
+	
+	public List<Match> retrieveMatchFromRound(String round) {
+		List<Match> matches = new ArrayList<>();
+		
+		return null;
+		
 	}
 }

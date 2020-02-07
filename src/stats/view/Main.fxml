@@ -563,7 +563,7 @@
                            <left>
                               <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
                                  <top>
-                                    <ComboBox fx:id="comboBoxLeaguesMatches" accessibleRole="PARENT" onAction="#ActionRetrieveMatch" prefWidth="150.0" promptText="LEAGUES" BorderPane.alignment="CENTER">
+                                    <ComboBox fx:id="comboBoxLeaguesMatches" accessibleRole="PARENT" onAction="#ActionRetrieveRound" prefWidth="150.0" promptText="LEAGUES" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
                                           <Insets top="10.0" />
                                        </BorderPane.margin>
@@ -572,7 +572,7 @@
                                  <center>
                                     <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #29734E;" BorderPane.alignment="CENTER">
                                        <top>
-                                          <ComboBox accessibleRole="PARENT" prefWidth="150.0" promptText="MATCH DAYS" BorderPane.alignment="CENTER">
+                                          <ComboBox fx:id="comboBoxRoundMatches" accessibleRole="PARENT" onAction="#ActionRetrieveMatches" prefWidth="150.0" promptText="MATCH DAYS" BorderPane.alignment="CENTER">
                                              <BorderPane.margin>
                                                 <Insets top="10.0" />
                                              </BorderPane.margin>

@@ -16,4 +16,5 @@ public interface IDAOMatch {
 	public List<Player> retrieve(League league)throws DAOException;
 	public List<Player> retrieve() throws DAOException;
 	public List<Match> retrieveAllMatches() throws DAOException;
+	public List<Match> retrieveMatchesbyRound(int round, League league) throws DAOException;
 }

@@ -10,9 +10,12 @@ import java.math.MathContext;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 
@@ -136,12 +139,14 @@ public class AppController implements Initializable{
 	@FXML ComboBox<Team> comboBoxTeamsPlayer;
 	@FXML ComboBox<League> comboBoxLeaguesTeam;
 	@FXML ComboBox<League> comboBoxLeaguesMatches;
+	@FXML ComboBox<Integer> comboBoxRoundMatches;
 	@FXML ImageView imageShield;
 	@FXML Tab playerTab;
 	@FXML TabPane tabPane;
 	@FXML Label labelLeague;
 	@FXML ListView<Match> listMatches;
 	ObservableList comboDefault = FXCollections.observableArrayList();
+	private League leagueSelectedToRound = null;
 	
 	public ObservableList<League> retriveLeagueFromComboBoxPlayer(){
 		List<League> listSearchedLeagues = null;
@@ -332,6 +337,7 @@ public class AppController implements Initializable{
     	} else {
     		labelNamePlayer.setText(playerSelected.getFullName().toUpperCase());
     	}
+    	labelDateBirth.setText(playerSelected.getBornDate());
     	labelCitizenshipPlayer.setText(playerSelected.getNation());
     	labelPositionPlayer.setText(playerSelected.getRole());
     	labelLeaguePlayer.setText(playerSelected.getLeague());
@@ -517,23 +523,36 @@ public class AppController implements Initializable{
 		
 	}
 	
-	public void ActionRetrieveMatch(ActionEvent event) {
-		try {
-			List<Match> allMatches = App.getSharedInstance().getDaoMatch().retrieveAllMatches();
-			if (allMatches.isEmpty()) {
-				Alert alert = new Alert(AlertType.WARNING, " The list is empty" , ButtonType.CLOSE);
-				alert.show();
-			} else {
-				ObservableList<Match> list = FXCollections.observableArrayList(allMatches);
-				listMatches.setItems(list);
-				listMatches.setOnMouseClicked(e -> onClickEventOnMatches(e));
-			}
-		} catch (DAOException e) {
-			
-			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
-			alert.show();
+	public void ActionRetrieveRound(ActionEvent event) {
+		leagueSelectedToRound = comboBoxLeaguesMatches.getSelectionModel().getSelectedItem();
+		List<Match> matchesLeague = leagueSelectedToRound.getMatches();
+		Set<Integer> matchesRoundSet = new HashSet<>();
+		for (Match match: matchesLeague) {
+			String a = match.getRound().replaceAll("Round", "");
+			a = a.trim();
+			int numberRound = Integer.parseInt(a);
+			matchesRoundSet.add(numberRound);
 		}
+		List<Integer> matchesRound = new ArrayList<>(matchesRoundSet);
+		Collections.sort(matchesRound);
+		ObservableList<Integer> listRound = FXCollections.observableArrayList(matchesRound);
+		comboBoxRoundMatches.setItems(listRound);
+		
 	}
+	
+	public void ActionRetrieveMatches(ActionEvent event) throws DAOException {
+		Integer round = comboBoxRoundMatches.getSelectionModel().getSelectedItem();
+		if (round == null) {
+			return;
+		} 
+		List<Match> roundMatches = App.getSharedInstance().getDaoMatch().retrieveMatchesbyRound(round,leagueSelectedToRound);
+		ObservableList<Match> listMatchesRound = FXCollections.observableArrayList(roundMatches);
+		listMatches.setItems(listMatchesRound);
+		listMatches.setOnMouseClicked(e -> onClickEventOnMatches(e));
+		
+		
+	}
+	
 	public void onClickEventOnMatches(MouseEvent event) {
 		Match match = listMatches.getSelectionModel().getSelectedItem();
 		labelResultMatch.setText(match.toString().toUpperCase());
