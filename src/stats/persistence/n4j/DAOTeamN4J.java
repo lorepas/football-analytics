@@ -144,4 +144,10 @@ public class DAOTeamN4J implements IDAOTeamGraph {
 		return 0;
 	}
 
+	@Override
+	public String retrieveShield(Team team) throws DAOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

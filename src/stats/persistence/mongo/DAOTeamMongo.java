@@ -487,4 +487,31 @@ public class DAOTeamMongo implements IDAOTeam {
 		return percentage;
 	}
 
+	@Override
+	public String retrieveShield(Team team) throws DAOException {
+		MongoClient mongoClient = null;
+		String shield = "";
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document filter = new Document();
+			filter.append("name", team.getName());
+			Document projection = new Document();
+			projection.append("shield", 1);
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("leagues").find(filter).projection(projection).cursor();
+			if(cursor.hasNext()) {
+				//res = Player.playerFromJson(cursor.next().toJson());
+				Document document = (Document) cursor.next();
+				shield = document.getString("shield");
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return shield;
+	}
+
 }
