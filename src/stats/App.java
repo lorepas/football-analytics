@@ -128,9 +128,15 @@ public class App extends Application {
 			league.setFullname("Serie A 2019-20");
 			Team hTeam = this.getDaoLeague().retrieveMostWinningHomeTeam(league);
 			Team aTeam = this.getDaoLeague().retrieveMostWinningAwayTeam(league);
+			double percentageOfWins = this.getDaoTeam().retrievePercentageOfWins(league, hTeam);
+			double percentageOfDraws = this.getDaoTeam().retrievePercentageOfDraws(league, hTeam);
+			double percentageOfLosts = this.getDaoTeam().retrievePercentageOfDefeats(league, hTeam);
 			System.out.println("Home team: " + hTeam.getName());
 			System.out.println("Away team: " + aTeam.getName());
-			
+			System.out.println("Wins: " + percentageOfWins);
+			System.out.println("Draws: " + percentageOfDraws);
+			System.out.println("Losts: " + percentageOfLosts);
+
 			LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 			Logger mongoLogger = loggerContext.getLogger("org.mongodb.driver");
 			mongoLogger.setLevel(Level.OFF);

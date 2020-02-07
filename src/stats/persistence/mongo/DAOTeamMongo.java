@@ -29,6 +29,7 @@ import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
 
+import stats.model.League;
 import stats.model.Player;
 import stats.model.Team;
 import stats.persistence.DAOException;
@@ -301,6 +302,189 @@ public class DAOTeamMongo implements IDAOTeam {
 			}
 		}
 		return res;
+	}
+
+	@Override
+	public double retrievePercentageOfWins(League league, Team team) throws DAOException {
+		MongoClient mongoClient = null;
+		double percentage = 0.0;
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("leagues").aggregate(
+					Arrays.asList(new Document("$unwind", 
+						    new Document("path", "$matches")), 
+						    new Document("$project", 
+						    new Document("fullname", 1L)
+						            .append("matches", 1L)
+						            .append("homeTeam", "$matches.nameHome")
+						            .append("awayTeam", "$matches.nameAway")
+						            .append("result", 
+						    new Document("$cond", Arrays.asList(new Document("$gt", Arrays.asList("$matches.scoreHome", "$matches.scoreAway")), "1", 
+						                    new Document("$cond", Arrays.asList(new Document("$eq", Arrays.asList("$matches.scoreHome", "$matches.scoreAway")), "X", "2")))))), 
+						    new Document("$match", 
+						    new Document("$or", Arrays.asList(new Document("$and", Arrays.asList(new Document("matches.nameHome", team.getName()))), 
+						                new Document("$and", Arrays.asList(new Document("matches.nameAway", team.getName())))))), 
+						    new Document("$group", 
+						    new Document("_id", "$fullname")
+						            .append("totalWins", 
+						    new Document("$sum", 
+						    new Document("$cond", Arrays.asList(new Document("$or", Arrays.asList(new Document("$and", Arrays.asList(new Document("$eq", Arrays.asList("$matches.nameHome", team.getName())), 
+						                                        new Document("$eq", Arrays.asList("$result", "1")))), 
+						                                new Document("$and", Arrays.asList(new Document("$eq", Arrays.asList("$matches.nameAway",team.getName())), 
+						                                        new Document("$eq", Arrays.asList("$result", "2")))))), 1L, 0L))))
+						            .append("totalDraws", 
+						    new Document("$sum", 
+						    new Document("$cond", Arrays.asList(new Document("$eq", Arrays.asList("$result", "X")), 1L, 0L))))
+						            .append("totalLosts", 
+						    new Document("$sum", 
+						    new Document("$cond", Arrays.asList(new Document("$or", Arrays.asList(new Document("$and", Arrays.asList(new Document("$eq", Arrays.asList("$matches.nameHome", team.getName())), 
+						                                        new Document("$eq", Arrays.asList("$result", "2")))), 
+						                                new Document("$and", Arrays.asList(new Document("$eq", Arrays.asList("$matches.nameAway", team.getName())), 
+						                                        new Document("$eq", Arrays.asList("$result", "1")))))), 1L, 0L))))
+						            .append("total", 
+						    new Document("$sum", 1L))))
+					).cursor();
+			while(cursor.hasNext()) {
+				//res = Player.playerFromJson(cursor.next().toJson());
+				Document document = (Document) cursor.next();
+				System.out.println("Document: " + document.toJson());
+				if(document.getString("_id").equals(league.getFullname())) {
+					Long totalWins = (Long)document.get("totalWins");
+					Long totalMatches = (Long)document.get("total");
+					percentage = (Double.valueOf(totalWins)/totalMatches) * 100;
+				}
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return percentage;
+	}
+
+	@Override
+	public double retrievePercentageOfDraws(League league, Team team) throws DAOException {
+		MongoClient mongoClient = null;
+		double percentage = 0.0;
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("leagues").aggregate(
+					Arrays.asList(new Document("$unwind", 
+						    new Document("path", "$matches")), 
+						    new Document("$project", 
+						    new Document("fullname", 1L)
+						            .append("matches", 1L)
+						            .append("homeTeam", "$matches.nameHome")
+						            .append("awayTeam", "$matches.nameAway")
+						            .append("result", 
+						    new Document("$cond", Arrays.asList(new Document("$gt", Arrays.asList("$matches.scoreHome", "$matches.scoreAway")), "1", 
+						                    new Document("$cond", Arrays.asList(new Document("$eq", Arrays.asList("$matches.scoreHome", "$matches.scoreAway")), "X", "2")))))), 
+						    new Document("$match", 
+						    new Document("$or", Arrays.asList(new Document("$and", Arrays.asList(new Document("matches.nameHome", team.getName()))), 
+						                new Document("$and", Arrays.asList(new Document("matches.nameAway", team.getName())))))), 
+						    new Document("$group", 
+						    new Document("_id", "$fullname")
+						            .append("totalWins", 
+						    new Document("$sum", 
+						    new Document("$cond", Arrays.asList(new Document("$or", Arrays.asList(new Document("$and", Arrays.asList(new Document("$eq", Arrays.asList("$matches.nameHome", team.getName())), 
+						                                        new Document("$eq", Arrays.asList("$result", "1")))), 
+						                                new Document("$and", Arrays.asList(new Document("$eq", Arrays.asList("$matches.nameAway",team.getName())), 
+						                                        new Document("$eq", Arrays.asList("$result", "2")))))), 1L, 0L))))
+						            .append("totalDraws", 
+						    new Document("$sum", 
+						    new Document("$cond", Arrays.asList(new Document("$eq", Arrays.asList("$result", "X")), 1L, 0L))))
+						            .append("totalLosts", 
+						    new Document("$sum", 
+						    new Document("$cond", Arrays.asList(new Document("$or", Arrays.asList(new Document("$and", Arrays.asList(new Document("$eq", Arrays.asList("$matches.nameHome", team.getName())), 
+						                                        new Document("$eq", Arrays.asList("$result", "2")))), 
+						                                new Document("$and", Arrays.asList(new Document("$eq", Arrays.asList("$matches.nameAway", team.getName())), 
+						                                        new Document("$eq", Arrays.asList("$result", "1")))))), 1L, 0L))))
+						            .append("total", 
+						    new Document("$sum", 1L))))
+					).cursor();
+			while(cursor.hasNext()) {
+				//res = Player.playerFromJson(cursor.next().toJson());
+				Document document = (Document) cursor.next();
+				System.out.println("Document: " + document.toJson());
+				if(document.getString("_id").equals(league.getFullname())) {
+					Long totalDraws = (Long)document.get("totalDraws");
+					Long totalMatches = (Long)document.get("total");
+					percentage = (Double.valueOf(totalDraws)/totalMatches) * 100;
+				}
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return percentage;
+	}
+
+	@Override
+	public double retrievePercentageOfDefeats(League league, Team team) throws DAOException {
+		MongoClient mongoClient = null;
+		double percentage = 0.0;
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("leagues").aggregate(
+					Arrays.asList(new Document("$unwind", 
+						    new Document("path", "$matches")), 
+						    new Document("$project", 
+						    new Document("fullname", 1L)
+						            .append("matches", 1L)
+						            .append("homeTeam", "$matches.nameHome")
+						            .append("awayTeam", "$matches.nameAway")
+						            .append("result", 
+						    new Document("$cond", Arrays.asList(new Document("$gt", Arrays.asList("$matches.scoreHome", "$matches.scoreAway")), "1", 
+						                    new Document("$cond", Arrays.asList(new Document("$eq", Arrays.asList("$matches.scoreHome", "$matches.scoreAway")), "X", "2")))))), 
+						    new Document("$match", 
+						    new Document("$or", Arrays.asList(new Document("$and", Arrays.asList(new Document("matches.nameHome", team.getName()))), 
+						                new Document("$and", Arrays.asList(new Document("matches.nameAway", team.getName())))))), 
+						    new Document("$group", 
+						    new Document("_id", "$fullname")
+						            .append("totalWins", 
+						    new Document("$sum", 
+						    new Document("$cond", Arrays.asList(new Document("$or", Arrays.asList(new Document("$and", Arrays.asList(new Document("$eq", Arrays.asList("$matches.nameHome", team.getName())), 
+						                                        new Document("$eq", Arrays.asList("$result", "1")))), 
+						                                new Document("$and", Arrays.asList(new Document("$eq", Arrays.asList("$matches.nameAway",team.getName())), 
+						                                        new Document("$eq", Arrays.asList("$result", "2")))))), 1L, 0L))))
+						            .append("totalDraws", 
+						    new Document("$sum", 
+						    new Document("$cond", Arrays.asList(new Document("$eq", Arrays.asList("$result", "X")), 1L, 0L))))
+						            .append("totalLosts", 
+						    new Document("$sum", 
+						    new Document("$cond", Arrays.asList(new Document("$or", Arrays.asList(new Document("$and", Arrays.asList(new Document("$eq", Arrays.asList("$matches.nameHome", team.getName())), 
+						                                        new Document("$eq", Arrays.asList("$result", "2")))), 
+						                                new Document("$and", Arrays.asList(new Document("$eq", Arrays.asList("$matches.nameAway", team.getName())), 
+						                                        new Document("$eq", Arrays.asList("$result", "1")))))), 1L, 0L))))
+						            .append("total", 
+						    new Document("$sum", 1L))))
+					).cursor();
+			while(cursor.hasNext()) {
+				//res = Player.playerFromJson(cursor.next().toJson());
+				Document document = (Document) cursor.next();
+				System.out.println("Document: " + document.toJson());
+				if(document.getString("_id").equals(league.getFullname())) {
+					Long totalDefeats = (Long)document.get("totalLosts");
+					Long totalMatches = (Long)document.get("total");
+					percentage = (Double.valueOf(totalDefeats)/totalMatches) * 100;
+				}
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return percentage;
 	}
 
 }
