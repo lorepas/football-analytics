@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.bson.BsonNull;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -261,6 +262,108 @@ public class DAOLeagueMongo implements IDAOLeague{
 						    new Document("$cond", Arrays.asList(new Document("$eq", Arrays.asList("$result", "2")), 1L, 0L))))), 
 						    new Document("$sort", 
 						    new Document("awayWins", -1L)), 
+						    new Document("$limit", 1L))
+					).cursor();
+			if(cursor.hasNext()) {
+//				//res = Player.playerFromJson(cursor.next().toJson());
+				Document document = (Document) cursor.next();
+				String name = document.getString("_id");
+				res.setName(name);
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return res;
+	}
+
+	@Override
+	public Team retrieveMostWinningTeam(League league) throws DAOException {
+		MongoClient mongoClient = null;
+		Team res = new Team();
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("leagues").aggregate(
+					Arrays.asList(new Document("$unwind", 
+						    new Document("path", "$matches")), 
+						    new Document("$match", 
+						    new Document("fullname", league.getFullname())), 
+						    new Document("$project", 
+						    new Document("nameHome", "$matches.nameHome")
+						            .append("nameAway", "$matches.nameAway")
+						            .append("scoreHome", "$matches.scoreHome")
+						            .append("scoreAway", "$matches.scoreAway")
+						            .append("matches", 1L)
+						            .append("fullname", 1L)
+						            .append("winner", 
+						    new Document("$cond", Arrays.asList(new Document("$gt", Arrays.asList("$matches.scoreHome", "$matches.scoreAway")), "$matches.nameHome", 
+						                    new Document("$cond", Arrays.asList(new Document("$lt", Arrays.asList("$matches.scoreHome", "$matches.scoreAway")), "$matches.nameAway", 
+						                            new BsonNull())))))), 
+						    new Document("$match", 
+						    new Document("winner", 
+						    new Document("$ne", 
+						    new BsonNull()))), 
+						    new Document("$group", 
+						    new Document("_id", "$winner")
+						            .append("wins", 
+						    new Document("$sum", 1L))), 
+						    new Document("$sort", 
+						    new Document("wins", -1L)), 
+						    new Document("$limit", 1L))
+					).cursor();
+			if(cursor.hasNext()) {
+//				//res = Player.playerFromJson(cursor.next().toJson());
+				Document document = (Document) cursor.next();
+				String name = document.getString("_id");
+				res.setName(name);
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return res;
+	}
+
+	@Override
+	public Team retrieveMostLosingTeam(League league) throws DAOException {
+		MongoClient mongoClient = null;
+		Team res = new Team();
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("leagues").aggregate(
+					Arrays.asList(new Document("$unwind", 
+						    new Document("path", "$matches")), 
+						    new Document("$match", 
+						    new Document("fullname", league.getFullname())), 
+						    new Document("$project", 
+						    new Document("nameHome", "$matches.nameHome")
+						            .append("nameAway", "$matches.nameAway")
+						            .append("scoreHome", "$matches.scoreHome")
+						            .append("scoreAway", "$matches.scoreAway")
+						            .append("matches", 1L)
+						            .append("fullname", 1L)
+						            .append("loser", 
+						    new Document("$cond", Arrays.asList(new Document("$gt", Arrays.asList("$matches.scoreHome", "$matches.scoreAway")), "$matches.nameAway", 
+						                    new Document("$cond", Arrays.asList(new Document("$lt", Arrays.asList("$matches.scoreHome", "$matches.scoreAway")), "$matches.nameHome", 
+						                            new BsonNull())))))), 
+						    new Document("$match", 
+						    new Document("loser", 
+						    new Document("$ne", 
+						    new BsonNull()))), 
+						    new Document("$group", 
+						    new Document("_id", "$loser")
+						            .append("lost", 
+						    new Document("$sum", 1L))), 
+						    new Document("$sort", 
+						    new Document("wins", -1L)), 
 						    new Document("$limit", 1L))
 					).cursor();
 			if(cursor.hasNext()) {

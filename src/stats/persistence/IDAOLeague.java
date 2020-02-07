@@ -17,4 +17,6 @@ public interface IDAOLeague {
 	List<League> retrieveLeagues(String fullName) throws DAOException;
 	Team retrieveMostWinningHomeTeam(League league) throws DAOException;
 	Team retrieveMostWinningAwayTeam(League league) throws DAOException;
+	Team retrieveMostWinningTeam(League league) throws DAOException;
+	Team retrieveMostLosingTeam(League league) throws DAOException;
 }
