@@ -249,7 +249,7 @@
                                                       <Insets />
                                                    </HBox.margin>
                                                 </Button>
-                                                <Button fx:id="buttonDeleteTeam" mnemonicParsing="false" text="DELETE" visible="false">
+                                                <Button fx:id="buttonDeleteTeam" mnemonicParsing="false" onAction="#ActionDeleteTeam" text="DELETE" visible="false">
                                                    <HBox.margin>
                                                       <Insets left="30.0" />
                                                    </HBox.margin></Button>
@@ -394,7 +394,7 @@
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                                    <children>
                                                       <Button fx:id="buttoUpdatePlayer" mnemonicParsing="false" onAction="#ActionUpdatePlayers" text="UPDATE" visible="false" />
-                                                      <Button fx:id="buttonDeletePlayer" mnemonicParsing="false" text="DELETE" visible="false">
+                                                      <Button fx:id="buttonDeletePlayer" mnemonicParsing="false" onAction="#ActionDeletePlayer" text="DELETE" visible="false">
                                                          <HBox.margin>
                                                             <Insets left="30.0" />
                                                          </HBox.margin>
