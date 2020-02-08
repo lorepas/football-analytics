@@ -150,4 +150,10 @@ public class DAOTeamN4J implements IDAOTeamGraph {
 		return null;
 	}
 
+	@Override
+	public double retrieveAverageAgeFromTeam(Team team) throws DAOException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

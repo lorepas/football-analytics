@@ -23,5 +23,6 @@ public interface IDAOTeam {
 	double retrievePercentageOfDraws(League league, Team team) throws DAOException;
 	double retrievePercentageOfDefeats(League league, Team team) throws DAOException;
 	String retrieveShield(Team team) throws DAOException;
+	double retrieveAverageAgeFromTeam(Team team) throws DAOException;
 	
 }

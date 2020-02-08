@@ -513,5 +513,57 @@ public class DAOTeamMongo implements IDAOTeam {
 		}
 		return shield;
 	}
+	
+	@Override
+	public double retrieveAverageAgeFromTeam(Team team) throws DAOException {
+		MongoClient mongoClient = null;
+		double res = 0;
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("teams").aggregate(
+					Arrays.asList(new Document("$match", 
+						    new Document("fullName", team.getFullName())), 
+						    new Document("$lookup", 
+						    new Document("from", "players")
+						            .append("localField", "fullName")
+						            .append("foreignField", "team")
+						            .append("as", "join")), 
+						    new Document("$unwind", 
+						    new Document("path", "$join")), 
+						    new Document("$project", 
+						    new Document("diff", 
+						    new Document("$subtract", Arrays.asList(new java.util.Date(), "$join.bornDate")))
+						            .append("fullName", 1L)
+						            .append("millis", 
+						    new Document("$multiply", Arrays.asList(1000L, 60L, 60L, 24L, 365L)))), 
+						    new Document("$group", 
+						    new Document("_id", "$fullName")
+						            .append("average", 
+						    new Document("$avg", "$diff"))), 
+						    new Document("$project", 
+						    new Document("_id", 1L)
+						            .append("averageAge", 
+						    new Document("$let", 
+						    new Document("vars", 
+						    new Document("millis", 
+						    new Document("$multiply", Arrays.asList(1000L, 60L, 60L, 24L, 365L))))
+						                    .append("in", 
+						    new Document("$divide", Arrays.asList("$average", "$$millis")))))))).cursor();
+			if(cursor.hasNext()) {
+				Gson gson = new Gson();
+				Document document = cursor.next();
+				res = gson.fromJson(String.valueOf(document.getDouble("averageAge")), double.class);
+				System.out.println(document.toJson());
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return res;
+	}
 
 }
