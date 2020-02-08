@@ -554,7 +554,6 @@ public class DAOTeamMongo implements IDAOTeam {
 				Gson gson = new Gson();
 				Document document = cursor.next();
 				res = gson.fromJson(String.valueOf(document.getDouble("averageAge")), double.class);
-				System.out.println(document.toJson());
 			}
 		} catch(MongoException me) {
 			throw new DAOException(me);

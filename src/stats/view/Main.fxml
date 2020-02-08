@@ -115,12 +115,12 @@
                                                 <Image url="@../../resources/standard%20player.jpg" />
                                              </image>
                                           </ImageView>
-                                          <BarChart fx:id="barCharLeague" title="AVERAGE AGE" GridPane.rowIndex="2">
+                                          <BarChart fx:id="barCharLeague" animated="false" prefWidth="332.0" title="AVERAGE AGE" GridPane.rowIndex="2">
                                             <xAxis>
-                                              <CategoryAxis side="BOTTOM" />
+                                              <CategoryAxis fx:id="teamsAxis" side="BOTTOM" />
                                             </xAxis>
                                             <yAxis>
-                                              <NumberAxis side="LEFT" />
+                                              <NumberAxis fx:id="averageAgeAxis" side="LEFT" />
                                             </yAxis>
                                           </BarChart>
                                           <Label fx:id="labelYoungest" GridPane.columnIndex="1">

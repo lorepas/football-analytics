@@ -37,8 +37,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.LineChart.SortingPolicy;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
@@ -93,6 +95,8 @@ public class AppController implements Initializable{
 	@FXML javafx.scene.control.Button buttoUpdatePlayer;
 	@FXML javafx.scene.control.Button buttonDeletePlayer;
 	@FXML BarChart<Team, Float> barCharLeague;
+	@FXML CategoryAxis teamsAxis;
+	@FXML NumberAxis averageAgeAxis;
 	@FXML Label labelMostWinningHomeTeam;
 	@FXML Label labelMostWinningAwayTeam;
 	@FXML Label labelYoungest;
@@ -149,6 +153,7 @@ public class AppController implements Initializable{
 	ObservableList comboDefault = FXCollections.observableArrayList();
 	private League leagueSelectedToRound = null;
 	private League leagueSelectedCombo = null;
+	XYChart.Series emptyChart = new XYChart.Series<>();
 	
 	public ObservableList<League> retriveLeagueFromComboBoxPlayer(){
 		List<League> listSearchedLeagues = null;
@@ -318,9 +323,20 @@ public class AppController implements Initializable{
 		tablePlayers.setItems(list);
 	}
 	
-	public void onClickEventOnLeague(MouseEvent event){
+	public void onClickEventOnLeague(MouseEvent event) throws DAOException{
 		League leagueSelected = listLeague.getSelectionModel().getSelectedItem();
 		labelLeague.setText(leagueSelected.getFullname().toUpperCase());
+		barCharLeague.getData().clear();
+		XYChart.Series series = new XYChart.Series<>();
+		List<Team> teamsOnLeague = App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelected.getName());
+		for(Team team: teamsOnLeague) {
+			String teamName = team.getName();
+			double avg = App.sharedInstance.getDaoTeam().retrieveAverageAgeFromTeam(team);
+			BigDecimal average = new BigDecimal(avg);
+			BigDecimal averageRounded = average.round(new MathContext(2));
+			series.getData().add(new XYChart.Data(teamName, averageRounded));
+		}
+		barCharLeague.getData().addAll(series);
 		try {
 			labelMostWinningHomeTeam.setText(App.sharedInstance.getDaoLeague().retrieveMostWinningHomeTeam(leagueSelected).getName());
 			labelMostWinningAwayTeam.setText(App.sharedInstance.getDaoLeague().retrieveMostWinningAwayTeam(leagueSelected).getName());
@@ -402,7 +418,14 @@ public class AppController implements Initializable{
 				List<League> listSearchedLeagues = App.sharedInstance.getDaoLeague().retrieveLeagues(text);
 				ObservableList<League> list = FXCollections.observableArrayList(listSearchedLeagues);
 				listLeague.setItems(list);
-				listLeague.setOnMouseClicked(e->onClickEventOnLeague(e));
+				listLeague.setOnMouseClicked(e->{
+					try {
+						onClickEventOnLeague(e);
+					} catch (DAOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				});
 				if (listSearchedLeagues.isEmpty()) {
 					Alert alert = new Alert(AlertType.WARNING, "No League selected", ButtonType.CLOSE);
 					alert.showAndWait();
@@ -620,6 +643,7 @@ public class AppController implements Initializable{
 		comboBoxLeaguesTeam.setItems(retriveLeagueFromComboBoxPlayer());
 		comboBoxLeaguesMatches.setItems(retriveLeagueFromComboBoxPlayer());
 		listLeague.setItems(retriveLeagueFromComboBoxPlayer());
+		barCharLeague.getData().add(emptyChart);
 	}
 	
 	
