@@ -595,8 +595,8 @@
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                  <RowConstraints fillHeight="false" maxHeight="331.0" minHeight="10.0" prefHeight="97.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="574.0" minHeight="10.0" prefHeight="572.0" vgrow="SOMETIMES" />
+                                  <RowConstraints fillHeight="false" maxHeight="331.0" minHeight="10.0" prefHeight="234.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="574.0" minHeight="10.0" prefHeight="435.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
                                     <TableView fx:id="matchesResults" maxHeight="375.0" maxWidth="600.0" minWidth="375.0" prefHeight="0.0" prefWidth="600.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
@@ -606,14 +606,16 @@
                                           <TableColumn fx:id="columnAway" maxWidth="200.0" prefWidth="200.0" text="AWAY" />
                                       </columns>
                                     </TableView>
-                                    <Label fx:id="labelResultMatch" text="Label" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                    <Label fx:id="labelResultMatch" text="Label" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                                        <GridPane.margin>
-                                          <Insets />
+                                          <Insets top="5.0" />
                                        </GridPane.margin>
                                        <font>
                                           <Font size="36.0" />
                                        </font>
                                     </Label>
+                                    <ImageView fx:id="imageTeamHome" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
+                                    <ImageView fx:id="imageTeamAway" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
                                  </children>
                               </GridPane>
                            </center>

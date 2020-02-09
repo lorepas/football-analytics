@@ -58,4 +58,10 @@ public class Utils {
 		ImageIO.write(img, "png", new File("shardImage.png") );
 		
 	}
+	public static void decode(String s, String file) throws IOException  {
+		byte[] bytes = Base64.getDecoder().decode(s);
+		BufferedImage img = ImageIO.read(new ByteArrayInputStream(bytes));
+		ImageIO.write(img, "png", new File(file) );
+		
+	}
  }

@@ -500,7 +500,7 @@ public class DAOTeamMongo implements IDAOTeam {
 			filter.append("name", team.getName());
 			Document projection = new Document();
 			projection.append("shield", 1);
-			MongoCursor<Document> cursor = mongoDatabase.getCollection("leagues").find(filter).projection(projection).cursor();
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("teams").find(filter).projection(projection).cursor();
 			if(cursor.hasNext()) {
 				//res = Player.playerFromJson(cursor.next().toJson());
 				Document document = (Document) cursor.next();

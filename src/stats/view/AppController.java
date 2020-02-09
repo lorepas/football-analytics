@@ -146,6 +146,8 @@ public class AppController implements Initializable{
 	@FXML ComboBox<League> comboBoxLeaguesMatches;
 	@FXML ComboBox<Integer> comboBoxRoundMatches;
 	@FXML ImageView imageShield;
+	@FXML ImageView imageTeamHome;
+	@FXML ImageView imageTeamAway;
 	@FXML Tab playerTab;
 	@FXML TabPane tabPane;
 	@FXML Label labelLeague;
@@ -274,7 +276,7 @@ public class AppController implements Initializable{
 			e1.printStackTrace();
 		}
 		try {
-			Utils.decode(teamSelected.getShield());
+			Utils.decode(teamSelected.getShield(), "shardImage.png");
 			Image image = new Image("file:shardImage.png");
 			imageShield.setImage(image);;
 		} catch (IOException e) {
@@ -337,6 +339,7 @@ public class AppController implements Initializable{
 			series.getData().add(new XYChart.Data(teamName, averageRounded));
 		}
 		barCharLeague.getData().addAll(series);
+		
 		try {
 			labelMostWinningHomeTeam.setText(App.sharedInstance.getDaoLeague().retrieveMostWinningHomeTeam(leagueSelected).getName());
 			labelMostWinningAwayTeam.setText(App.sharedInstance.getDaoLeague().retrieveMostWinningAwayTeam(leagueSelected).getName());
@@ -589,15 +592,53 @@ public class AppController implements Initializable{
 		List<Match> roundMatches = App.getSharedInstance().getDaoMatch().retrieveMatchesbyRound(round,leagueSelectedToRound);
 		ObservableList<Match> listMatchesRound = FXCollections.observableArrayList(roundMatches);
 		listMatches.setItems(listMatchesRound);
-		listMatches.setOnMouseClicked(e -> onClickEventOnMatches(e));
+		listMatches.setOnMouseClicked(e -> {
+			try {
+				onClickEventOnMatches(e);
+			} catch (DAOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 		
 		
 	}
 	
-	public void onClickEventOnMatches(MouseEvent event) {
+	public void onClickEventOnMatches(MouseEvent event) throws DAOException, IOException {
 		Match match = listMatches.getSelectionModel().getSelectedItem();
 		labelResultMatch.setText(match.toString().toUpperCase());
 		inizializeTableMatches(match);
+		Team teamHomeMatch = new Team();
+		Team teamAwayMatch = new Team();
+		teamHomeMatch.setName(match.getNameHome());
+		teamAwayMatch.setName(match.getNameAway());
+		System.out.println(teamHomeMatch.getName());
+		String shieldHome = App.getSharedInstance().getDaoTeam().retrieveShield(teamHomeMatch);
+		System.out.println("Shield: "+ shieldHome);
+		if (shieldHome.isEmpty()) {
+			Image imageStandard = new Image(getClass().getResourceAsStream("/resources/standard shard.png"));
+			imageTeamHome.setImage(imageStandard);
+		} else {
+			Utils.decode(shieldHome,"teamHomeImage.png" );
+			Image imageHome = new Image("file:teamHomeImage.png");
+			imageTeamHome.setImage(imageHome);
+		}
+		
+		String shieldAway = App.getSharedInstance().getDaoTeam().retrieveShield(teamAwayMatch);
+		if (shieldAway.isEmpty()) {
+			Image imageStandard = new Image(getClass().getResourceAsStream("/resources/standard shard.png"));
+			imageTeamAway.setImage(imageStandard);
+		} else {
+			Utils.decode(shieldAway,"teamAwayImage.png" );
+			Image imageAway = new Image("file:teamAwayImage.png");
+			imageTeamAway.setImage(imageAway);
+		}
+		
+		
+		
 	}
 	public void inizializeTableMatches(Match match) {
 		List<MatchPerformanceTable> matchPerformanceTables = match.getListOfStatistics();
