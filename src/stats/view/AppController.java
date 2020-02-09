@@ -346,11 +346,17 @@ public class AppController implements Initializable{
 		}
 		try {
 			Player playerOldest = App.sharedInstance.getDaoPlayer().retrieveOlderPlayer(leagueSelected);
-			labelOldest.setText(playerOldest.getFullName());
+			if(playerOldest != null) {
+				labelOldest.setText(playerOldest.getFullName());
+			}
 			Player playerYoungest = App.sharedInstance.getDaoPlayer().retrieveYougerPlayer(leagueSelected);
-			labelYoungest.setText(playerYoungest.getFullName());
+			if(playerYoungest != null) {
+				labelYoungest.setText(playerYoungest.getFullName());
+			}
 			Player playerMostPaid = App.getSharedInstance().getDaoPlayer().retrieveMostValuedPlayer(leagueSelected);
-			labelHigest.setText(playerMostPaid.getFullName().toUpperCase());
+			if(playerMostPaid != null) {
+				labelHigest.setText(playerMostPaid.getFullName().toUpperCase());
+			}
 		} catch (DAOException e) {
 		// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -539,6 +545,7 @@ public class AppController implements Initializable{
 					if(App.getSharedInstance().getDaoPlayer().exists(player)) {
 						App.getSharedInstance().getDaoPlayer().updatePlayer(player.getFullName(), player);
 						System.out.println(player.getSurname() + " updated");
+//						System.out.println("Player Image: " + player.getImagePlayer());
 					} else {
 						App.getSharedInstance().getDaoPlayer().createPlayer(player);
 						System.out.println(player.getSurname() + " created");

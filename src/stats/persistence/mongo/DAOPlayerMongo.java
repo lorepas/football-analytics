@@ -123,9 +123,9 @@ public class DAOPlayerMongo implements IDAOPlayer {
 				setData.put("bornDate", dateFormatter.parse(player.getBornDate()));
 			}
 			Document updateDocument = new Document("$set", setData);
-			System.out.println("Update document: " + updateDocument);
+			//System.out.println("Update document: " + updateDocument);
 			mongoCollection.updateOne(query, updateDocument);
-			System.out.println("Query: " + query);
+			//System.out.println("Query: " + query);
 		} catch(MongoException mwe) {
 			throw new DAOException(mwe);
 		} catch (ParseException e) {

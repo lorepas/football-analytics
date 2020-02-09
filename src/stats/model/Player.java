@@ -19,6 +19,7 @@ public class Player {
 	private String nation;
 	private String league;
 	private String championshipCode;
+	private String imagePlayer;
 	List<DetailedPerformance> detailedPerformances = new ArrayList<>();
 	List<MarketValue> marketValueHistory = new ArrayList<>();
 	
@@ -60,6 +61,10 @@ public class Player {
 	
 	public String getLeague() {
 		return league;
+	}
+	
+	public String getImagePlayer() {
+		return imagePlayer;
 	}
 	
 	public List<DetailedPerformance> getDetailedPerformances() {
@@ -113,6 +118,10 @@ public class Player {
 	
 	public void setMarketValueHistory(List<MarketValue> marketValueHistory) {
 		this.marketValueHistory = marketValueHistory;
+	}
+	
+	public void setImagePlayer(String imagePlayer) {
+		this.imagePlayer = imagePlayer;
 	}
 	
 	public String toJSON() {
