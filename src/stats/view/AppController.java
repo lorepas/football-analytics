@@ -169,7 +169,7 @@ public class AppController implements Initializable{
 	
 	public void ActionRetriveTeamFromComboBoxTeam(Event event) throws DAOException {
 		leagueSelectedCombo = comboBoxLeaguesTeam.getValue();
-		ObservableList list = FXCollections.observableArrayList(App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelectedCombo.getName()));
+		ObservableList list = FXCollections.observableArrayList(App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelectedCombo));
 		listTeams.setItems(list);
 		listTeams.setOnMouseClicked(e->{
 			try {
@@ -187,7 +187,7 @@ public class AppController implements Initializable{
 	
 	public void ActionRetriveTeamFromComboBoxPlayer(ActionEvent e) throws DAOException {
 		League leagueSelected = comboBoxLeaguesPlayer.getValue();
-		List<Team> listSearchedTeams = App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelected.getName());
+		List<Team> listSearchedTeams = App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelected);
 		ObservableList<Team> list = FXCollections.observableArrayList(listSearchedTeams);
 		comboBoxTeamsPlayer.setItems(list);
 		
@@ -328,7 +328,7 @@ public class AppController implements Initializable{
 		labelLeague.setText(leagueSelected.getFullname().toUpperCase());
 		barCharLeague.getData().clear();
 		XYChart.Series series = new XYChart.Series<>();
-		List<Team> teamsOnLeague = App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelected.getName());
+		List<Team> teamsOnLeague = App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelected);
 		for(Team team: teamsOnLeague) {
 			String teamName = team.getName();
 			double avg = App.sharedInstance.getDaoTeam().retrieveAverageAgeFromTeam(team);
@@ -640,6 +640,22 @@ public class AppController implements Initializable{
 		listLeague.getItems().remove(leagueSelected);
 		comboBoxLeaguesPlayer.setItems(retriveLeagueFromComboBoxPlayer());
 		comboBoxLeaguesTeam.setItems(retriveLeagueFromComboBoxPlayer());
+		System.out.println("DELETE OK");
+	}
+	
+	public void ActionDeleteTeam(ActionEvent e) throws DAOException {
+		Team teamSelected = listTeams.getSelectionModel().getSelectedItem();
+		System.out.println(teamSelected.getName());
+		App.getSharedInstance().getDaoTeam().deleteTeam(teamSelected);
+		listTeams.getItems().remove(teamSelected);
+		System.out.println("DELETE OK");
+	}
+	
+	public void ActionDeletePlayer(ActionEvent e) throws DAOException {
+		Player playerSelected = listPlayer.getSelectionModel().getSelectedItem();
+		System.out.println(playerSelected.getName());
+		App.getSharedInstance().getDaoPlayer().deletePlayer(playerSelected);
+		listPlayer.getItems().remove(playerSelected);
 		System.out.println("DELETE OK");
 	}
 

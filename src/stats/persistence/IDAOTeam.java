@@ -15,7 +15,7 @@ public interface IDAOTeam {
 	public void deleteTeam(Team player) throws DAOException;
 	public List<Team> retrieveTeams(String surname)throws DAOException;
 	public List<Team> retrieveAllTeams() throws DAOException;
-	List<Team> retrieveTeamsFromLeague(String name) throws DAOException;
+	List<Team> retrieveTeamsFromLeague(League name) throws DAOException;
 	double retrieveTeamTotalMarketValue(Team team) throws DAOException;
 	long retriveNativePlayers(Team team) throws DAOException;
 	Player retriveMostRepresentativePlayer(Team team) throws DAOException;

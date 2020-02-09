@@ -11,6 +11,7 @@ public class League {
 	private String name;
 	private String year;
 	private String link;
+	private String championshipCode;
 	private List<Match> matches = new ArrayList<Match>();
 	
 	public String getFullname() {
@@ -68,6 +69,14 @@ public class League {
 		StringBuilder builder = new StringBuilder();
 		builder.append(fullname);
 		return builder.toString();
+	}
+
+	public String getChampionshipCode() {
+		return championshipCode;
+	}
+
+	public void setChampionshipCode(String championshipCode) {
+		this.championshipCode = championshipCode;
 	}
 	
 }

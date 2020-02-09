@@ -138,7 +138,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 	}
 
 	@Override
-	public void deletePlayer(String playerName, Player player) throws DAOException {
+	public void deletePlayer(Player player) throws DAOException {
 		MongoClient mongoClient = null;
 		try {
 			mongoClient = Utils.getMongoClient();

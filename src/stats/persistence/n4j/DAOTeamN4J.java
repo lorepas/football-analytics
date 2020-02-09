@@ -102,7 +102,7 @@ public class DAOTeamN4J implements IDAOTeamGraph {
 	}
 
 	@Override
-	public List<Team> retrieveTeamsFromLeague(String name) throws DAOException {
+	public List<Team> retrieveTeamsFromLeague(League name) throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
