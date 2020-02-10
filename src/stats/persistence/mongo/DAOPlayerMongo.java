@@ -3,6 +3,7 @@ package stats.persistence.mongo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -580,6 +581,84 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			}
 		}
 		return player;
+	}
+
+	@Override
+	public List<Player> retrieveOverallStatistics() throws DAOException {
+		MongoClient mongoClient = null;
+		List<Player> players = new ArrayList<>();
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			MongoCursor<Document> cursor = mongoDatabase.getCollection("players").aggregate(
+					Arrays.asList(new Document("$unwind", 
+						    new Document("path", "$detailedPerformances")), 
+						    new Document("$match", 
+						    new Document("role", 
+						    new Document("$ne", "Portiere"))), 
+						    new Document("$group", 
+						    new Document("_id", "$fullName")
+						            .append("assists", 
+						    new Document("$sum", "$detailedPerformances.assists"))
+						            .append("penalityGoals", 
+						    new Document("$sum", "$detailedPerformances.penalityGoals"))
+						            .append("minutes", 
+						    new Document("$sum", "$detailedPerformances.minutesPerGoals"))
+						            .append("calls", 
+						    new Document("$sum", "$detailedPerformances.calls"))
+						            .append("presences", 
+						    new Document("$sum", "$detailedPerformances.presences"))
+						            .append("goals", 
+						    new Document("$sum", "$detailedPerformances.goals"))
+						            .append("ownGoals", 
+						    new Document("$sum", "$detailedPerformances.ownGoals"))
+						            .append("substitutionOn", 
+						    new Document("$sum", "$detailedPerformances.substitutionOn"))
+						            .append("substitutionOff", 
+						    new Document("$sum", "$detailedPerformances.substitutionOff"))
+						            .append("doubleYellowCards", 
+						    new Document("$sum", "$detailedPerformances.doubleYellowCards"))
+						            .append("yellowCards", 
+						    new Document("$sum", "$detailedPerformances.yellowCards"))
+						            .append("redCards", 
+						    new Document("$sum", "$detailedPerformances.redCards"))
+						            .append("minutesPlayed", 
+						    new Document("$sum", "$detailedPerformances.minutesPlayed"))), 
+						    new Document("$project", 
+						    new Document("_id", 0L)
+						            .append("fullName", "$_id")
+						            .append("assists", 1L)
+						            .append("penalityGoals", 1L)
+						            .append("minutesPerGoal", 1L)
+						            .append("calls", 1L)
+						            .append("presences", 1L)
+						            .append("goals", 1L)
+						            .append("ownGoals", 1L)
+						            .append("substitutionOn", 1L)
+						            .append("substitutionOff", 1L)
+						            .append("doubleYellowCards", 1L)
+						            .append("yellowCards", 1L)
+						            .append("redCards", 1L)
+						            .append("minutesPlayed", 1L)), 
+						    new Document("$match", 
+						    new Document("calls", 
+						    new Document("$gt", 0L))))
+					).cursor();
+			int i = 0;
+			while(cursor.hasNext()) {
+				i++;
+				System.out.println("Player n." + i);
+				System.out.println(cursor.next().toJson());
+				System.out.println("\n");
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return players;
 	}
 
 }
