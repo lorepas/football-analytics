@@ -602,7 +602,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 						    new Document("$sum", "$detailedPerformances.assists"))
 						            .append("penalityGoals", 
 						    new Document("$sum", "$detailedPerformances.penalityGoals"))
-						            .append("minutes", 
+						            .append("minutesPerGoal", 
 						    new Document("$sum", "$detailedPerformances.minutesPerGoals"))
 						            .append("calls", 
 						    new Document("$sum", "$detailedPerformances.calls"))
