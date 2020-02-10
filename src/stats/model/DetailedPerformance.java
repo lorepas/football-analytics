@@ -1,17 +1,20 @@
 package stats.model;
 
+import com.google.gson.Gson;
+
 public class DetailedPerformance {
 
 	private String season;
 	private String team;
-	private int goalConceded;
-	private int cleanSheets;
+	private String fullName;
+	private Integer goalConceded;
+	private Integer cleanSheets;
 	private int assists;
 	private int penalityGoals;
 	private double minutesPerGoal;
 	private int calls;
 	private int presences;
-	private double averagePoints;
+	private Double averagePoints;
 	private int goals;
 	private int ownGoals;
 	private int substitutionOn;
@@ -27,6 +30,11 @@ public class DetailedPerformance {
 	public String getTeam() {
 		return team;
 	}
+	
+	public String getFullName() {
+		return fullName;
+	}
+	
 	public int getGoalConceded() {
 		return goalConceded;
 	}
@@ -129,6 +137,11 @@ public class DetailedPerformance {
 	public void setMinutesPlayed(double minutesPlayed) {
 		this.minutesPlayed = minutesPlayed;
 	}
+	
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+	
 	public DetailedPerformance(String season, String team, Integer goalConceded, Integer cleanSheets, Integer assists,
 			Integer penalityGoals, Double minutesPerGoal, int calls, int presences, double averagePoints, int goals,
 			int ownGoals, int substitutionOn, int substitutionOff, int yellowCards, int doubleYellowCards, int redCards,
@@ -153,6 +166,14 @@ public class DetailedPerformance {
 		this.minutesPlayed = minutesPlayed;
 	}
 	
+	public static DetailedPerformance teamFromJson(String jsonString) {
+		Gson g = new Gson();
+		return g.fromJson(jsonString, DetailedPerformance.class);
+	}
 	
+	public String toJSON() {
+		Gson g = new Gson();
+		return g.toJson(this);
+	}
 
 }

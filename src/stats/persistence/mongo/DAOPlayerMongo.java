@@ -584,9 +584,9 @@ public class DAOPlayerMongo implements IDAOPlayer {
 	}
 
 	@Override
-	public List<Player> retrieveOverallStatistics() throws DAOException {
+	public List<DetailedPerformance> retrieveOverallStatistics() throws DAOException {
 		MongoClient mongoClient = null;
-		List<Player> players = new ArrayList<>();
+		List<DetailedPerformance> d_performances = new ArrayList<>();
 		try {
 			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
@@ -647,9 +647,12 @@ public class DAOPlayerMongo implements IDAOPlayer {
 			int i = 0;
 			while(cursor.hasNext()) {
 				i++;
+				Document document = cursor.next();
 				System.out.println("Player n." + i);
-				System.out.println(cursor.next().toJson());
+				System.out.println(document.toJson());
 				System.out.println("\n");
+				DetailedPerformance detailedPerformance = DetailedPerformance.teamFromJson(document.toJson());
+				d_performances.add(detailedPerformance);
 			}
 		} catch(MongoException me) {
 			throw new DAOException(me);
@@ -658,7 +661,7 @@ public class DAOPlayerMongo implements IDAOPlayer {
 				mongoClient.close();
 			}
 		}
-		return players;
+		return d_performances;
 	}
 
 }

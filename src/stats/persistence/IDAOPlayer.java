@@ -2,6 +2,7 @@ package stats.persistence;
 
 import java.util.List;
 
+import stats.model.DetailedPerformance;
 import stats.model.League;
 import stats.model.Player;
 import stats.model.Team;
@@ -25,6 +26,6 @@ public interface IDAOPlayer {
 	public Player retrieveOlderPlayer(Team team) throws DAOException;
 	public Player retrieveMostValuedPlayer(Team team) throws DAOException;
 	List<Player> retrievePlayersFromTeam(Team team) throws DAOException;
-	List<Player> retrieveOverallStatistics() throws DAOException;
+	List<DetailedPerformance> retrieveOverallStatistics() throws DAOException;
 	
 }
