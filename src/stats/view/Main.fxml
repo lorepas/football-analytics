@@ -91,25 +91,25 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../resources/standard%20player.jpg" />
                                              </image>
                                              <GridPane.margin>
-                                                <Insets top="30.0" />
+                                                <Insets />
                                              </GridPane.margin>
                                           </ImageView>
-                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                              <GridPane.margin>
-                                                <Insets top="30.0" />
+                                                <Insets />
                                              </GridPane.margin>
                                              <image>
                                                 <Image url="@../../resources/standard%20player.jpg" />
                                              </image>
                                           </ImageView>
-                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                              <GridPane.margin>
-                                                <Insets top="30.0" />
+                                                <Insets />
                                              </GridPane.margin>
                                              <image>
                                                 <Image url="@../../resources/standard%20player.jpg" />
@@ -125,7 +125,7 @@
                                           </BarChart>
                                           <Label fx:id="labelYoungest" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                              <GridPane.margin>
-                                                <Insets bottom="5.0" />
+                                                <Insets />
                                              </GridPane.margin>
                                              <font>
                                                 <Font size="18.0" />
@@ -133,7 +133,7 @@
                                           </Label>
                                           <Label fx:id="labelOldest" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                                              <GridPane.margin>
-                                                <Insets bottom="5.0" />
+                                                <Insets />
                                              </GridPane.margin>
                                              <font>
                                                 <Font size="18.0" />
@@ -141,7 +141,7 @@
                                           </Label>
                                           <Label fx:id="labelHigest" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                                              <GridPane.margin>
-                                                <Insets bottom="5.0" left="5.0" />
+                                                <Insets />
                                              </GridPane.margin>
                                              <font>
                                                 <Font size="18.0" />
@@ -149,11 +149,14 @@
                                           </Label>
                                           <Label text="YOUNGEST PLAYER" textFill="#bbb6b6" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                                              <GridPane.margin>
-                                                <Insets bottom="180.0" top="5.0" />
+                                                <Insets bottom="180.0" />
                                              </GridPane.margin>
                                              <font>
                                                 <Font name="System Bold Italic" size="18.0" />
                                              </font>
+                                             <padding>
+                                                <Insets top="5.0" />
+                                             </padding>
                                           </Label>
                                           <Label text="OLDEST PLAYER" textFill="#bbb6b6" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                                              <GridPane.margin>
