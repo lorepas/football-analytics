@@ -337,6 +337,8 @@ public class AppController implements Initializable{
 			BigDecimal average = new BigDecimal(avg);
 			BigDecimal averageRounded = average.round(new MathContext(2));
 			series.getData().add(new XYChart.Data(teamName, averageRounded));
+			series.setName("TEAM AGE");
+			
 		}
 		barCharLeague.getData().addAll(series);
 		
