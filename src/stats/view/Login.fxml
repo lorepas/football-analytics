@@ -33,28 +33,25 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="USERNAME" textFill="#bbb6b6">
+            <Label text="USERNAME" textFill="#bbb6b6" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <GridPane.margin>
-                  <Insets left="120.0" />
+                  <Insets />
                </GridPane.margin>
                <font>
-                  <Font name="AppleGothic Regular" size="23.0" />
+                  <Font name="AppleGothic Regular" size="40.0" />
                </font>
             </Label>
-            <Label text="PASSWORD" textFill="#bbb6b6" GridPane.rowIndex="1">
-               <padding>
-                  <Insets left="120.0" />
-               </padding>
+            <Label text="PASSWORD" textFill="#bbb6b6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <font>
-                  <Font name="AppleGothic Regular" size="23.0" />
+                  <Font name="AppleGothic Regular" size="40.0" />
                </font>
             </Label>
-            <TextField fx:id="fieldUsername" prefHeight="27.0" prefWidth="258.0" promptText="Insert the Username..." GridPane.columnIndex="1">
+            <TextField fx:id="fieldUsername" prefHeight="27.0" prefWidth="258.0" promptText="Insert the username..." GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="fieldPassword" promptText="Insert the Password..." GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="fieldPassword" promptText="Insert the password..." GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <font>
                   <Font name="Baghdad Regular" size="13.0" />
                </font>
@@ -65,14 +62,14 @@
    <bottom>
       <BorderPane prefHeight="150.0" prefWidth="866.0" BorderPane.alignment="CENTER">
          <left>
-            <Button fx:id="buttonToHome" mnemonicParsing="false" onAction="#ActionToHomePage" prefHeight="27.0" prefWidth="89.0" text="LOGIN" BorderPane.alignment="CENTER">
+            <Button fx:id="buttonToHome" mnemonicParsing="false" onAction="#ActionToHomePage" prefHeight="27.0" prefWidth="100.0" text="LOGIN" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="300.0" />
                </BorderPane.margin>
             </Button>
          </left>
          <right>
-            <Button fx:id="buttonGuest" mnemonicParsing="false" onAction="#ActionAsGuest" prefHeight="27.0" prefWidth="90.0" text="GUEST" BorderPane.alignment="CENTER">
+            <Button fx:id="buttonGuest" mnemonicParsing="false" onAction="#ActionAsGuest" prefHeight="27.0" prefWidth="100.0" text="GUEST" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets right="300.0" />
                </BorderPane.margin>

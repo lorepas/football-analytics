@@ -43,6 +43,7 @@
 }
 .chart-title {
   -fx-text-fill: #bbb6b6;
+  -fx-font-size: 15pt;
 
  }
 .table-column {

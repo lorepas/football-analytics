@@ -360,7 +360,7 @@ public class AppController implements Initializable{
 			}
 			Player playerMostPaid = App.getSharedInstance().getDaoPlayer().retrieveMostValuedPlayer(leagueSelected);
 			if(playerMostPaid != null) {
-				labelHigest.setText(playerMostPaid.getFullName().toUpperCase());
+				labelHigest.setText(playerMostPaid.getFullName());
 			}
 		} catch (DAOException e) {
 		// TODO Auto-generated catch block
