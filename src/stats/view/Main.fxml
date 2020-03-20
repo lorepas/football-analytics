@@ -452,7 +452,7 @@
                                           <TableColumn fx:id="columnSeason" maxWidth="200.0" prefWidth="200.0" text="SEASON" />
                                           <TableColumn fx:id="columnTeam" maxWidth="200.0" prefWidth="200.0" resizable="false" text="TEAM" />
                                           <TableColumn fx:id="columnCalls" maxWidth="200.0" prefWidth="200.0" resizable="false" text="CALLS" />
-                                          <TableColumn fx:id="columnPresences" maxWidth="200.0" prefWidth="200.0" resizable="false" text="PRECENCES" />
+                                          <TableColumn fx:id="columnPresences" maxWidth="200.0" prefWidth="200.0" resizable="false" text="PRESENCES" />
                                           <TableColumn fx:id="columnAveragePoints" maxWidth="200.0" prefWidth="200.0" resizable="false" text="AVG POINTS" />
                                           <TableColumn fx:id="columnGoals" maxWidth="200.0" prefWidth="200.0" resizable="false" text="GOALS" />
                                           <TableColumn fx:id="columnOwnGoals" maxWidth="200.0" prefWidth="200.0" resizable="false" text="OWN GOALS" />

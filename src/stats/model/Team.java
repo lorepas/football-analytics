@@ -16,6 +16,25 @@ public class Team {
 	private String championshipCode;
 	private List<String> players = new ArrayList<>();
 	
+	//getters and setters
+	
+	public String toJSON() {
+		Gson g = new Gson();
+		return g.toJson(this);
+	}
+	
+	public static Team teamFromJson(String jsonString) {
+		Gson g = new Gson();
+		return g.fromJson(jsonString, Team.class);
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(name);
+		return builder.toString();
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -56,22 +75,7 @@ public class Team {
 		this.nation = nation;
 	}
 	
-	public String toJSON() {
-		Gson g = new Gson();
-		return g.toJson(this);
-	}
 	
-	public static Team teamFromJson(String jsonString) {
-		Gson g = new Gson();
-		return g.fromJson(jsonString, Team.class);
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(name);
-		return builder.toString();
-	}
 	public String getLeague() {
 		return league;
 	}

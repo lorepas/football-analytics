@@ -8,8 +8,10 @@ public class MarketValue {
 	private int age;
 	private String marketValueString;
 	private String dateString;
-	//Date date;
 	double marketValue;
+	//Date date;
+	
+	//getters and setters
 	
 	public String getTeam() {
 		return team;
@@ -47,6 +49,7 @@ public class MarketValue {
 	public void setMarketValue(double marketValue) {
 		this.marketValue = marketValue;
 	}
+	
 	
 	
 }

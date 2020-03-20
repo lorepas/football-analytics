@@ -23,6 +23,25 @@ public class Player {
 	List<DetailedPerformance> detailedPerformances = new ArrayList<>();
 	List<MarketValue> marketValueHistory = new ArrayList<>();
 	
+	//getters and setters
+	
+	public String toJSON() {
+		Gson g = new Gson();
+		return g.toJson(this);
+	}
+	
+	public static Player playerFromJson(String jsonString) {
+		Gson g = new Gson();
+		return g.fromJson(jsonString, Player.class);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(fullName);
+		return builder.toString();
+	}
+	
 	public Player() {
 	}
 	
@@ -124,22 +143,7 @@ public class Player {
 		this.imagePlayer = imagePlayer;
 	}
 	
-	public String toJSON() {
-		Gson g = new Gson();
-		return g.toJson(this);
-	}
 	
-	public static Player playerFromJson(String jsonString) {
-		Gson g = new Gson();
-		return g.fromJson(jsonString, Player.class);
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(fullName);
-		return builder.toString();
-	}
 
 	public String getChampionshipCode() {
 		return championshipCode;
