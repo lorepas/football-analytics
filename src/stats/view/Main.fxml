@@ -179,7 +179,7 @@
                                                 <Font name="System Bold Italic" size="20.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="labelMostWinningHomeTeam" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                                          <Label fx:id="labelMostWinningTeam" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                                              <padding>
                                                 <Insets top="10.0" />
                                              </padding>
@@ -198,7 +198,7 @@
                                                 <Insets left="10.0" />
                                              </GridPane.margin>
                                           </Label>
-                                          <Label fx:id="labelMostWinningAwayTeam" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                          <Label fx:id="labelMostLosingTeam" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                              <GridPane.margin>
                                                 <Insets right="10.0" />
                                              </GridPane.margin>

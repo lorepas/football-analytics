@@ -360,7 +360,7 @@ public class Match {
 
 		goalKeeper.setHome(new SimpleStringProperty(String.valueOf(getGoalkeeperSavedH())));
 		goalKeeper.setAway(new SimpleStringProperty(String.valueOf(getGoalkeeperSavedA())));
-		goalKeeper.setStatic(new SimpleStringProperty("Goal keeper"));  
+		goalKeeper.setStatic(new SimpleStringProperty("Goalkeeper saves"));  
 		
 		statistics.add(ballPossession);
 		statistics.add(shotsOnGoal);
