@@ -468,15 +468,23 @@ public class AppController implements Initializable{
 					App.getSharedInstance().getDaoLeague().updateLeague(league.getFullname(), league);
 					//
 					listLeague.getItems().add(league);
+					comboBoxLeaguesPlayer.getItems().clear();
+					comboBoxLeaguesTeam.getItems().clear();
+					comboBoxLeaguesMatches.getItems().clear();
 					comboBoxLeaguesPlayer.getItems().addAll(retriveLeagueFromComboBoxPlayer());
 					comboBoxLeaguesTeam.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+					comboBoxLeaguesMatches.getItems().addAll(retriveLeagueFromComboBoxPlayer());
 					//
 					System.out.println(league.getName() + " already exists");
 				} else {
 					App.getSharedInstance().getDaoLeague().createLeague(league);
 					listLeague.getItems().add(league);
+					comboBoxLeaguesPlayer.getItems().clear();
+					comboBoxLeaguesTeam.getItems().clear();
+					comboBoxLeaguesMatches.getItems().clear();
 					comboBoxLeaguesPlayer.getItems().addAll(retriveLeagueFromComboBoxPlayer());
 					comboBoxLeaguesTeam.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+					comboBoxLeaguesMatches.getItems().addAll(retriveLeagueFromComboBoxPlayer());
 					System.out.println(league.getName() + " doesn't exist");
 					
 				}
@@ -681,8 +689,12 @@ public class AppController implements Initializable{
 		System.out.println(leagueSelected.getName());
 		App.getSharedInstance().getDaoLeague().delete(leagueSelected);
 		listLeague.getItems().remove(leagueSelected);
-		comboBoxLeaguesPlayer.setItems(retriveLeagueFromComboBoxPlayer());
-		comboBoxLeaguesTeam.setItems(retriveLeagueFromComboBoxPlayer());
+		comboBoxLeaguesPlayer.getItems().clear();
+		comboBoxLeaguesTeam.getItems().clear();
+		comboBoxLeaguesMatches.getItems().clear();
+		comboBoxLeaguesPlayer.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+		comboBoxLeaguesTeam.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+		comboBoxLeaguesMatches.getItems().addAll(retriveLeagueFromComboBoxPlayer());
 		System.out.println("DELETE OK");
 	}
 	
