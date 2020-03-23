@@ -141,12 +141,12 @@ public class App extends Application {
 //			System.out.println("Wins: " + percentageOfWins);
 //			System.out.println("Draws: " + percentageOfDraws);
 //			System.out.println("Losts: " + percentageOfLosts);
-			String defaultDirectoryPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + "/detailedPerformances.json";
-			List<DetailedPerformance> detailedPerformances = App.getSharedInstance().getDaoPlayer().retrieveOverallStatistics();
-			Gson gson = new Gson();
-			String json = gson.toJson(detailedPerformances);
-			json.replace("'", " ");
-			App.getSharedInstance().getReadFromFile().writeLocalJSON(defaultDirectoryPath, json);
+//			String defaultDirectoryPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + "/detailedPerformances.json";
+//			List<DetailedPerformance> detailedPerformances = App.getSharedInstance().getDaoPlayer().retrieveOverallStatistics();
+//			Gson gson = new Gson();
+//			String json = gson.toJson(detailedPerformances);
+//			json.replace("'", " ");
+//			App.getSharedInstance().getReadFromFile().writeLocalJSON(defaultDirectoryPath, json);
 			
 			LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 			Logger mongoLogger = loggerContext.getLogger("org.mongodb.driver");

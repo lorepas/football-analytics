@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.bson.BsonDocument;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -28,6 +29,7 @@ import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
+import com.mongodb.client.model.TextSearchOptions;
 
 import stats.model.League;
 import stats.model.Player;
@@ -496,8 +498,11 @@ public class DAOTeamMongo implements IDAOTeam {
 		try {
 			mongoClient = Utils.getMongoClient();
 			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			String name = Utils.prettyName(team.getName());
+			System.out.println("Team name to retrieve: " + name);
 			Document filter = new Document();
-			filter.append("name", team.getName());
+			filter.append("name", Pattern.compile(".*" + name + ".*" , Pattern.CASE_INSENSITIVE));
+			System.out.println("Filter: \n" + filter.toJson());
 			Document projection = new Document();
 			projection.append("shield", 1);
 			MongoCursor<Document> cursor = mongoDatabase.getCollection("teams").find(filter).projection(projection).cursor();

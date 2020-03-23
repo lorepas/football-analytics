@@ -72,6 +72,27 @@ public class Utils {
 		
 	}
 	
+	public static String prettyName(String name) {
+		String[] args = name.split(" ");
+		StringBuilder pretty = new StringBuilder();
+		for (String string : args) {
+			if(string.equalsIgnoreCase("Atl.")) {
+				pretty.append("atletico");
+				pretty.append(" ");
+				continue;
+			}
+			if(!string.contains(".") && string.length() > 3) {
+				pretty.append(string);
+				pretty.append(" ");
+			}
+		}
+		String result = pretty.toString();
+		if(result.endsWith(" ")) {
+			result = result.substring(0, result.length() - 1);
+		}
+		return result;
+	}
+	
 	/*public static void writeToCSV(List<PerformanceLastSeason> performances){
         try
         {
