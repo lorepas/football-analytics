@@ -502,6 +502,7 @@ public class DAOTeamMongo implements IDAOTeam {
 			System.out.println("Team name to retrieve: " + name);
 			Document filter = new Document();
 			filter.append("name", Pattern.compile(".*" + name + ".*" , Pattern.CASE_INSENSITIVE));
+			filter.append("championshipCode", team.getChampionshipCode());
 			System.out.println("Filter: \n" + filter.toJson());
 			Document projection = new Document();
 			projection.append("shield", 1);

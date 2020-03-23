@@ -64,7 +64,7 @@ public class Match {
 	public List<Match> retrieveMatchFromRound(String round) {
 		List<Match> matches = new ArrayList<>();
 		
-		return null;
+		return matches;
 		
 	}
 	
@@ -295,6 +295,9 @@ public class Match {
 		
 		List<MatchPerformanceTable> statistics = new ArrayList<MatchPerformanceTable>();
 		
+		if (this.possesionBallHome == null || this.possesionBallAway == null) {
+			return statistics;
+		}
 		MatchPerformanceTable ballPossession = new MatchPerformanceTable(); 
 		MatchPerformanceTable shotsOnGoal = new MatchPerformanceTable(); 
 		MatchPerformanceTable cornerKiks = new MatchPerformanceTable(); 

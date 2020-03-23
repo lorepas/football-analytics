@@ -618,13 +618,18 @@ public class AppController implements Initializable{
 	}
 	
 	public void onClickEventOnMatches(MouseEvent event) throws DAOException, IOException {
+		League league = comboBoxLeaguesMatches.getSelectionModel().getSelectedItem();
+		System.out.println("League selected: " + league.getFullname());
 		Match match = listMatches.getSelectionModel().getSelectedItem();
+		System.out.println("Match selected: " + match);
 		labelResultMatch.setText(match.toString().toUpperCase());
 		inizializeTableMatches(match);
 		Team teamHomeMatch = new Team();
 		Team teamAwayMatch = new Team();
 		teamHomeMatch.setName(match.getNameHome());
+		teamHomeMatch.setChampionshipCode(league.getChampionshipCode());
 		teamAwayMatch.setName(match.getNameAway());
+		teamAwayMatch.setChampionshipCode(league.getChampionshipCode());
 		System.out.println(teamHomeMatch.getName());
 		String shieldHome = App.getSharedInstance().getDaoTeam().retrieveShield(teamHomeMatch);
 		System.out.println("Shield: "+ shieldHome);
@@ -651,6 +656,10 @@ public class AppController implements Initializable{
 		
 	}
 	public void inizializeTableMatches(Match match) {
+		if (match.getListOfStatistics().isEmpty()) {
+			System.out.println("No statistics for this match");
+			return;
+		}
 		List<MatchPerformanceTable> matchPerformanceTables = match.getListOfStatistics();
 		columnHome.setCellValueFactory(cellData -> cellData.getValue().getHome());
 		columnStatistics.setCellValueFactory(cellData -> cellData.getValue().getStatistic());
