@@ -97,8 +97,8 @@ public class AppController implements Initializable{
 	@FXML BarChart<Team, Float> barCharLeague;
 	@FXML CategoryAxis teamsAxis;
 	@FXML NumberAxis averageAgeAxis;
-	@FXML Label labelMostWinningHomeTeam;
-	@FXML Label labelMostWinningAwayTeam;
+	@FXML Label labelMostWinningTeam;
+	@FXML Label labelMostLosingTeam;
 	@FXML Label labelYoungest;
 	@FXML Label labelOldest;
 	@FXML Label labelMostLosing;
@@ -343,8 +343,8 @@ public class AppController implements Initializable{
 		barCharLeague.getData().addAll(series);
 		
 		try {
-			labelMostWinningHomeTeam.setText(App.sharedInstance.getDaoLeague().retrieveMostWinningHomeTeam(leagueSelected).getName());
-			labelMostWinningAwayTeam.setText(App.sharedInstance.getDaoLeague().retrieveMostWinningAwayTeam(leagueSelected).getName());
+			labelMostWinningTeam.setText(App.sharedInstance.getDaoLeague().retrieveMostWinningTeam(leagueSelected).getName());
+			labelMostLosingTeam.setText(App.sharedInstance.getDaoLeague().retrieveMostLosingTeam(leagueSelected).getName());
 		} catch (DAOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

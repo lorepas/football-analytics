@@ -14,6 +14,25 @@ public class League {
 	private String championshipCode;
 	private List<Match> matches = new ArrayList<Match>();
 	
+	//getters and setters
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(fullname);
+		return builder.toString();
+	}
+	
+	public String toJSON() {
+		Gson g = new Gson();
+		return g.toJson(this);
+	}
+	
+	public static League leagueFromJson(String jsonString) {
+		Gson g = new Gson();
+		return g.fromJson(jsonString, League.class);
+	}
+	
 	public String getFullname() {
 		return fullname;
 	}
@@ -46,16 +65,6 @@ public class League {
 		this.matches = matches;
 	}
 	
-	public String toJSON() {
-		Gson g = new Gson();
-		return g.toJson(this);
-	}
-	
-	public static League leagueFromJson(String jsonString) {
-		Gson g = new Gson();
-		return g.fromJson(jsonString, League.class);
-	}
-
 	public String getLink() {
 		return link;
 	}
@@ -64,13 +73,6 @@ public class League {
 		this.link = link;
 	}
 	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(fullname);
-		return builder.toString();
-	}
-
 	public String getChampionshipCode() {
 		return championshipCode;
 	}

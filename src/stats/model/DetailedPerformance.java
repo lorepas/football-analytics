@@ -24,6 +24,18 @@ public class DetailedPerformance {
 	private int redCards;
 	private double minutesPlayed;
 	
+	//getters and setters
+	
+	public static DetailedPerformance teamFromJson(String jsonString) {
+		Gson g = new Gson();
+		return g.fromJson(jsonString, DetailedPerformance.class);
+	}
+	
+	public String toJSON() {
+		Gson g = new Gson();
+		return g.toJson(this);
+	}
+	
 	public String getSeason() {
 		return season;
 	}
@@ -166,14 +178,6 @@ public class DetailedPerformance {
 		this.minutesPlayed = minutesPlayed;
 	}
 	
-	public static DetailedPerformance teamFromJson(String jsonString) {
-		Gson g = new Gson();
-		return g.fromJson(jsonString, DetailedPerformance.class);
-	}
 	
-	public String toJSON() {
-		Gson g = new Gson();
-		return g.toJson(this);
-	}
 
 }

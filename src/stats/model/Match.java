@@ -15,7 +15,6 @@ public class Match {
 	private int shotsOnGoalHome; 
 	private int shotsOnGoalAway;
 		 
-		 
 	private int cornerKiksHome; 
 	private int cornerKiksAway; 
 		 
@@ -34,8 +33,8 @@ public class Match {
 	private int completedPassessHome; 
 	private int completedPassesAway; 
 	
-	private int totalPassessHome; //
-	private int totalPassesAway; //
+	private int totalPassessHome; 
+	private int totalPassesAway; 
 	
 	private int goalAttemptsHome; 
 	private int goalAttemptsAway; 
@@ -49,8 +48,6 @@ public class Match {
 	private int goalkeeperSavedH; 
 	private int goalkeeperSavedA; 
 	
-//
-	
 	private String date; 
 	private String time;
 
@@ -61,6 +58,30 @@ public class Match {
 	private int scoreAway;
 	
 	private String round;
+	
+	//getters and setters
+	
+	public List<Match> retrieveMatchFromRound(String round) {
+		List<Match> matches = new ArrayList<>();
+		
+		return null;
+		
+	}
+	
+	public static Match matchFromJson(String jsonString) {
+		Gson g = new Gson();
+		return g.fromJson(jsonString, Match.class);
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(nameHome + " ");
+		builder.append(scoreHome + " - ");
+		builder.append(scoreAway +  " ");
+		builder.append(nameAway );
+		return builder.toString();
+	}
 	
 	public String getPossesionBallHome() {
 		return possesionBallHome;
@@ -268,40 +289,25 @@ public class Match {
 		this.totalPassesAway = totalPassesAway;
 	}
 	
-	public static Match matchFromJson(String jsonString) {
-		Gson g = new Gson();
-		return g.fromJson(jsonString, Match.class);
-	}
 	
-	
-	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(nameHome + " ");
-		builder.append(scoreHome + " - ");
-		builder.append(scoreAway +  " ");
-		builder.append(nameAway );
-		return builder.toString();
-	}
 
 	public List<MatchPerformanceTable> getListOfStatistics(){
 		
 		List<MatchPerformanceTable> statistics = new ArrayList<MatchPerformanceTable>();
 		
-		MatchPerformanceTable ballPossession = new MatchPerformanceTable(); //
-		MatchPerformanceTable shotsOnGoal = new MatchPerformanceTable(); //
-		MatchPerformanceTable cornerKiks = new MatchPerformanceTable(); //
-		MatchPerformanceTable getOffside = new MatchPerformanceTable(); //
-		MatchPerformanceTable fouls = new MatchPerformanceTable();//
-		MatchPerformanceTable redCards = new MatchPerformanceTable(); //
-		MatchPerformanceTable yellowCards = new MatchPerformanceTable(); //
-		MatchPerformanceTable completedPasses = new MatchPerformanceTable(); //
-		MatchPerformanceTable totalPasses  = new MatchPerformanceTable(); //
-		MatchPerformanceTable goalAttempts = new MatchPerformanceTable(); //
-		MatchPerformanceTable shotsOffGoal = new MatchPerformanceTable(); //
-		MatchPerformanceTable freeKicks= new MatchPerformanceTable(); //
-		MatchPerformanceTable goalKeeper = new MatchPerformanceTable(); //
+		MatchPerformanceTable ballPossession = new MatchPerformanceTable(); 
+		MatchPerformanceTable shotsOnGoal = new MatchPerformanceTable(); 
+		MatchPerformanceTable cornerKiks = new MatchPerformanceTable(); 
+		MatchPerformanceTable getOffside = new MatchPerformanceTable(); 
+		MatchPerformanceTable fouls = new MatchPerformanceTable();
+		MatchPerformanceTable redCards = new MatchPerformanceTable(); 
+		MatchPerformanceTable yellowCards = new MatchPerformanceTable(); 
+		MatchPerformanceTable completedPasses = new MatchPerformanceTable(); 
+		MatchPerformanceTable totalPasses  = new MatchPerformanceTable(); 
+		MatchPerformanceTable goalAttempts = new MatchPerformanceTable(); 
+		MatchPerformanceTable shotsOffGoal = new MatchPerformanceTable(); 
+		MatchPerformanceTable freeKicks= new MatchPerformanceTable(); 
+		MatchPerformanceTable goalKeeper = new MatchPerformanceTable(); 
 		
 		ballPossession.setHome(new SimpleStringProperty(getPossesionBallHome().toString()));
 		ballPossession.setAway(new SimpleStringProperty(getPossesionBallAway().toString()));
@@ -313,7 +319,7 @@ public class Match {
 		
 		cornerKiks.setHome(new SimpleStringProperty(String.valueOf(getCornerKiksHome())));
 		cornerKiks.setAway(new SimpleStringProperty(String.valueOf(getCornerKiksAway())));
-		cornerKiks.setStatic(new SimpleStringProperty("Corner kiks")); 
+		cornerKiks.setStatic(new SimpleStringProperty("Corner kicks")); 
 		
 		getOffside.setHome(new SimpleStringProperty(String.valueOf(getOffsideHome())));
 		getOffside.setAway(new SimpleStringProperty(String.valueOf(getOffsideAway())));
@@ -354,7 +360,7 @@ public class Match {
 
 		goalKeeper.setHome(new SimpleStringProperty(String.valueOf(getGoalkeeperSavedH())));
 		goalKeeper.setAway(new SimpleStringProperty(String.valueOf(getGoalkeeperSavedA())));
-		goalKeeper.setStatic(new SimpleStringProperty("Goal keeper"));  
+		goalKeeper.setStatic(new SimpleStringProperty("Goalkeeper saves"));  
 		
 		statistics.add(ballPossession);
 		statistics.add(shotsOnGoal);
@@ -373,10 +379,5 @@ public class Match {
 		return statistics;
 	}
 	
-	public List<Match> retrieveMatchFromRound(String round) {
-		List<Match> matches = new ArrayList<>();
-		
-		return null;
-		
-	}
+	
 }
