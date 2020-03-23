@@ -139,7 +139,7 @@ public class DetailedPerformance {
 	}
 	
 	public void setFullName(String fullName) {
-		this.fullName = fullName;
+		this.fullName = fullName.replace("'", " ");
 	}
 	
 	public DetailedPerformance(String season, String team, Integer goalConceded, Integer cleanSheets, Integer assists,

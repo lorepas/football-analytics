@@ -6,11 +6,16 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import java.util.List;
 
+import javax.swing.JFileChooser;
+
 import org.slf4j.LoggerFactory;
+
+import com.google.gson.Gson;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import stats.model.DetailedPerformance;
 import stats.model.League;
 import stats.model.Match;
 import stats.model.Team;
@@ -135,7 +140,14 @@ public class App extends Application {
 //			System.out.println("Away team: " + aTeam.getName());
 //			System.out.println("Wins: " + percentageOfWins);
 //			System.out.println("Draws: " + percentageOfDraws);
-//			System.out.println("Losts: " + percentageOfLosts);			
+//			System.out.println("Losts: " + percentageOfLosts);
+			String defaultDirectoryPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + "/detailedPerformances.json";
+			List<DetailedPerformance> detailedPerformances = App.getSharedInstance().getDaoPlayer().retrieveOverallStatistics();
+			Gson gson = new Gson();
+			String json = gson.toJson(detailedPerformances);
+			json.replace("'", " ");
+			App.getSharedInstance().getReadFromFile().writeLocalJSON(defaultDirectoryPath, json);
+			
 			LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 			Logger mongoLogger = loggerContext.getLogger("org.mongodb.driver");
 			mongoLogger.setLevel(Level.OFF);
