@@ -363,7 +363,7 @@ public class DAOLeagueMongo implements IDAOLeague{
 						            .append("lost", 
 						    new Document("$sum", 1L))), 
 						    new Document("$sort", 
-						    new Document("wins", -1L)), 
+						    new Document("lost", -1L)), 
 						    new Document("$limit", 1L))
 					).cursor();
 			if(cursor.hasNext()) {
