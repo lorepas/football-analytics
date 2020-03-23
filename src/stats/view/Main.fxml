@@ -648,11 +648,11 @@
                                           <Font name="System Bold Italic" size="36.0" />
                                        </font>
                                     </Label>
-                                    <ImageView fx:id="imageTeamHome" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                                    <ImageView fx:id="imageTeamHome" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin></ImageView>
-                                    <ImageView fx:id="imageTeamAway" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                                    <ImageView fx:id="imageTeamAway" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin></ImageView>
