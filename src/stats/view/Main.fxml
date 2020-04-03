@@ -223,7 +223,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab style="-fx-background-color: #359565;" text="TEAMS">
+          <Tab style="-fx-background-color: #359565;" text="TEAMS" disable="true">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #359565; -fx-border-color: #29734E;">
                      <children>
@@ -360,7 +360,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab style="-fx-background-color: #359565;" text="PLAYERS">
+          <Tab style="-fx-background-color: #359565;" text="PLAYERS" disable="true">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #359565; -fx-border-color: #29734E;">
                      <children>
@@ -589,7 +589,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab style="-fx-background-color: #359565;" text="MATCHES">
+          <Tab style="-fx-background-color: #359565;" text="MATCHES">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #359565; -fx-border-color: #29734E;">
                      <children>
