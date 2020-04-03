@@ -39,7 +39,6 @@ public class DAOTeamN4J implements IDAOTeamGraph {
 					parameters("fullName", team.getFullName()));
 			transaction.run(createTeamNode);
 			transaction.commit();
-			System.out.println("Ciao");
 		} catch(ClientException ce) {
 			if(transaction != null) {
 				transaction.rollback();
