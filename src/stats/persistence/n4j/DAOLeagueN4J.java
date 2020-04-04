@@ -269,5 +269,11 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 		return null;
 	}
 
+	@Override
+	public League retrieveLeague(String name) throws DAOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

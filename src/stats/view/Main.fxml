@@ -115,7 +115,7 @@
                                                 <Image url="@../../resources/standard%20player.jpg" />
                                              </image>
                                           </ImageView>
-                                          <BarChart fx:id="barCharLeague" animated="false" title="AVERAGE AGE" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                          <BarChart fx:id="barCharLeague" animated="false" title="AVERAGE AGE" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                                             <xAxis>
                                               <CategoryAxis fx:id="teamsAxis" side="BOTTOM" />
                                             </xAxis>
@@ -206,6 +206,14 @@
                                                 <Font name="System Bold" size="14.0" />
                                              </font>
                                           </Label>
+                                          <Button mnemonicParsing="false" onAction="#ActionShowAvgAge" text="SHOW" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                                             <GridPane.margin>
+                                                <Insets />
+                                             </GridPane.margin>
+                                             <padding>
+                                                <Insets top="5.0" />
+                                             </padding>
+                                          </Button>
                                        </children>
                                     </GridPane>
                                  </center>

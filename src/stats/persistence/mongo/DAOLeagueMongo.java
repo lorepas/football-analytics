@@ -192,6 +192,33 @@ public class DAOLeagueMongo implements IDAOLeague{
 		return leagues;
 	}
 	
+	@Override
+	public League retrieveLeague(String name) throws DAOException {
+		MongoClient mongoClient = null;
+		MongoCursor<Document> cursor = null;
+		League league=null;
+		try {
+			mongoClient = Utils.getMongoClient();
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("footballDB");
+			Document query = new Document();
+			query.append("fullname", Pattern.compile(".*" + name + ".*" , Pattern.CASE_INSENSITIVE));
+			cursor = mongoDatabase.getCollection("leagues").find(query).iterator();
+			if (cursor.hasNext()) { 
+				league =League.leagueFromJson(cursor.next().toJson());
+			}
+		} catch(MongoException me) {
+			throw new DAOException(me);
+		} finally {
+			if(cursor != null) {
+				cursor.close(); 
+			}
+			if(mongoClient != null) {
+				mongoClient.close();
+			}
+		}
+		return league;
+	}
+	
 	public Team retrieveMostWinningHomeTeam(League league) throws DAOException {
 		MongoClient mongoClient = null;
 		Team res = new Team();
