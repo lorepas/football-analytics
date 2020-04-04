@@ -1,5 +1,6 @@
 package stats;
 	
+import java.net.InetAddress;
 import java.util.ArrayList;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
@@ -41,6 +42,9 @@ import stats.persistence.n4j.IDAOTeamGraph;
 import stats.view.AppController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 
 
@@ -113,41 +117,15 @@ public class App extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-//			User user = new User();
-//			user.setUsername("user");
-//			user.setPwd("nalf10");
-//			App.getSharedInstance().getDaoUserKV().putUser(user);
-//			League league = new League();
-//			league.setFullName("Toscana Prima Categoria Girone B");
-//			league.setYear("2019-20");
-//			Match match = new Match();
-//			match.setNameHome("Capanne");
-//			match.setNameAway("Calci");
-//			match.setScoreHome(1);
-//			match.setScoreAway(1);
-//			league.getMatches().add(match);
-//			this.getDaoLeagueGraph().create(league);
-//			this.getDaoLeagueGraph().retrieve(league.getFullName());
-//			System.out.println("Exists = " + exists);
-//			League league = new League();
-//			league.setFullname("Serie A 2019-20");
-//			Team hTeam = this.getDaoLeague().retrieveMostWinningHomeTeam(league);
-//			Team aTeam = this.getDaoLeague().retrieveMostWinningAwayTeam(league);
-//			double percentageOfWins = this.getDaoTeam().retrievePercentageOfWins(league, hTeam);
-//			double percentageOfDraws = this.getDaoTeam().retrievePercentageOfDraws(league, hTeam);
-//			double percentageOfLosts = this.getDaoTeam().retrievePercentageOfDefeats(league, hTeam);
-//			System.out.println("Home team: " + hTeam.getName());
-//			System.out.println("Away team: " + aTeam.getName());
-//			System.out.println("Wins: " + percentageOfWins);
-//			System.out.println("Draws: " + percentageOfDraws);
-//			System.out.println("Losts: " + percentageOfLosts);
-//			String defaultDirectoryPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + "/detailedPerformances.json";
-//			List<DetailedPerformance> detailedPerformances = App.getSharedInstance().getDaoPlayer().retrieveOverallStatistics();
-//			Gson gson = new Gson();
-//			String json = gson.toJson(detailedPerformances);
-//			json.replace("'", " ");
-//			App.getSharedInstance().getReadFromFile().writeLocalJSON(defaultDirectoryPath, json);
-			
+			boolean isReachable = InetAddress.getByName("172.16.0.132").isReachable(10000);
+			if(!isReachable) {
+				System.out.println("The address is not reachable");
+				Alert alert = new Alert(AlertType.INFORMATION, "The address is not reachable", ButtonType.CLOSE);
+				alert.showAndWait();
+				System.exit(0);
+				return;
+			}
+			System.out.println("The address is reachable");
 			LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 			Logger mongoLogger = loggerContext.getLogger("org.mongodb.driver");
 			mongoLogger.setLevel(Level.OFF);
