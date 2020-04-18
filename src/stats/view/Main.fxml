@@ -115,7 +115,7 @@
                                                 <Image url="@../../resources/standard%20player.jpg" />
                                              </image>
                                           </ImageView>
-                                          <BarChart fx:id="barCharLeague" animated="false" title="AVERAGE AGE" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                          <!--  <BarChart fx:id="barCharLeague" animated="false" title="AVERAGE AGE" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">-->
                                           <BarChart fx:id="barCharLeague" animated="false" title="AVERAGE AGE" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                                             <xAxis>
                                               <CategoryAxis fx:id="teamsAxis" side="BOTTOM" />

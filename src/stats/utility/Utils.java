@@ -9,6 +9,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -36,6 +38,18 @@ public class Utils {
 	private static final String CSV_SEPARATOR = ",";
 	
 	public static MongoClient getMongoClient() throws MongoException {
+		try {
+			boolean check = InetAddress.getByName("172.16.0.132").isReachable(10000);
+			if(!check) {
+				System.out.println("Not connected to VPN!");
+				throw new MongoException("Mongo is down: you should connect with a VPN");
+			}
+		} catch (UnknownHostException e1) {
+			throw new MongoException(e1.getMessage());
+		} catch (IOException e1) {
+			throw new MongoException(e1.getMessage());
+		}
+		
 		MongoClientOptions.Builder builder = new MongoClientOptions.Builder();
 		builder.maxConnectionIdleTime(60000);
 //		builder.sslEnabled(true);

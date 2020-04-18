@@ -163,7 +163,9 @@ public class AppController implements Initializable{
 			listSearchedLeagues = App.sharedInstance.getDaoLeague().retrieveAllLeagues();
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Alert alert = new Alert(AlertType.WARNING, "Connect to VPN", ButtonType.CLOSE);
+			alert.showAndWait();
+			System.exit(0);
 		}
 		ObservableList<League> list = FXCollections.observableArrayList(listSearchedLeagues);
 		return list;
