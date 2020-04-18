@@ -19,4 +19,5 @@ public interface IDAOLeague {
 	Team retrieveMostWinningAwayTeam(League league) throws DAOException;
 	Team retrieveMostWinningTeam(League league) throws DAOException;
 	Team retrieveMostLosingTeam(League league) throws DAOException;
+	League retrieveLeague(String name) throws DAOException;
 }

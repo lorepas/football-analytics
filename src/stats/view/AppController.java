@@ -328,20 +328,7 @@ public class AppController implements Initializable{
 	public void onClickEventOnLeague(MouseEvent event) throws DAOException{
 		League leagueSelected = listLeague.getSelectionModel().getSelectedItem();
 		labelLeague.setText(leagueSelected.getFullname().toUpperCase());
-//		barCharLeague.getData().clear();
-//		XYChart.Series series = new XYChart.Series<>();
-//		List<Team> teamsOnLeague = App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelected);
-//		for(Team team: teamsOnLeague) {
-//			String teamName = team.getName();
-//			double avg = App.sharedInstance.getDaoTeam().retrieveAverageAgeFromTeam(team);
-//			BigDecimal average = new BigDecimal(avg);
-//			BigDecimal averageRounded = average.round(new MathContext(2));
-//			series.getData().add(new XYChart.Data(teamName, averageRounded));
-//			series.setName("TEAM AGE");
-//			
-//		}
-//		barCharLeague.getData().addAll(series);
-		
+		barCharLeague.getData().clear();
 		try {
 			labelMostWinningTeam.setText(App.sharedInstance.getDaoLeague().retrieveMostWinningTeam(leagueSelected).getName());
 			labelMostLosingTeam.setText(App.sharedInstance.getDaoLeague().retrieveMostLosingTeam(leagueSelected).getName());
@@ -365,6 +352,25 @@ public class AppController implements Initializable{
 		} catch (DAOException e) {
 		// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	public void ActionShowAvgAge(ActionEvent event) throws DAOException {
+		if(!labelLeague.getText().isEmpty()) {
+			League leagueSelected = App.getSharedInstance().getDaoLeague().retrieveLeague(labelLeague.getText());
+			barCharLeague.getData().clear();
+			XYChart.Series series = new XYChart.Series<>();
+			List<Team> teamsOnLeague = App.sharedInstance.getDaoTeam().retrieveTeamsFromLeague(leagueSelected);
+			for(Team team: teamsOnLeague) {
+				String teamName = team.getName();
+				double avg = App.sharedInstance.getDaoTeam().retrieveAverageAgeFromTeam(team);
+				BigDecimal average = new BigDecimal(avg);
+				BigDecimal averageRounded = average.round(new MathContext(2));
+				series.getData().add(new XYChart.Data(teamName, averageRounded));
+				series.setName("TEAM AGE");
+				
+			}
+			barCharLeague.getData().addAll(series);
 		}
 	}
 	
