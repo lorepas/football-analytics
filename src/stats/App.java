@@ -34,9 +34,11 @@ import stats.persistence.mongo.DAOTeamMongo;
 import stats.persistence.mongo.DAOUserMongo;
 import stats.persistence.n4j.DAOLeagueN4J;
 import stats.persistence.n4j.DAOMatchN4J;
+import stats.persistence.n4j.DAOQuery;
 import stats.persistence.n4j.DAOTeamN4J;
 import stats.persistence.n4j.IDAOLeagueGraph;
 import stats.persistence.n4j.IDAOMatchGraph;
+import stats.persistence.n4j.IDAOQuery;
 import stats.persistence.n4j.IDAOTeamGraph;
 import stats.view.AppController;
 import javafx.scene.Parent;
@@ -58,6 +60,7 @@ public class App extends Application {
 	private IDAOLeagueGraph daoLeagueGraph = new DAOLeagueN4J();
 	private IDAOMatchGraph daoMatchGraph = new DAOMatchN4J();
 	private IDAOTeamGraph daoTeamGraph = new DAOTeamN4J();
+	private IDAOQuery daoQuery = new DAOQuery();
 	private ReadFromFile readFromFile = new ReadFromFile();
 	private Stage primaryStage;
 	
