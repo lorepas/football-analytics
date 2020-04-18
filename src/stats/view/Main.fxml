@@ -91,7 +91,7 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../resources/standard%20player.jpg" />
                                              </image>
@@ -99,7 +99,7 @@
                                                 <Insets top="5.0" />
                                              </GridPane.margin>
                                           </ImageView>
-                                          <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                              <GridPane.margin>
                                                 <Insets top="5.0" />
                                              </GridPane.margin>
@@ -107,7 +107,7 @@
                                                 <Image url="@../../resources/standard%20player.jpg" />
                                              </image>
                                           </ImageView>
-                                          <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                              <GridPane.margin>
                                                 <Insets top="5.0" />
                                              </GridPane.margin>
@@ -115,6 +115,7 @@
                                                 <Image url="@../../resources/standard%20player.jpg" />
                                              </image>
                                           </ImageView>
+                                          <BarChart fx:id="barCharLeague" animated="false" title="AVERAGE AGE" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                           <BarChart fx:id="barCharLeague" animated="false" title="AVERAGE AGE" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                                             <xAxis>
                                               <CategoryAxis fx:id="teamsAxis" side="BOTTOM" />
@@ -123,7 +124,7 @@
                                               <NumberAxis fx:id="averageAgeAxis" side="LEFT" />
                                             </yAxis>
                                           </BarChart>
-                                          <Label fx:id="labelYoungest" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                                          <Label fx:id="labelYoungest" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
@@ -131,7 +132,7 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="labelOldest" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                                          <Label fx:id="labelOldest" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
@@ -139,7 +140,7 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="labelHigest" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                                          <Label fx:id="labelHigest" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
@@ -147,7 +148,7 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label text="YOUNGEST PLAYER" textFill="#bbb6b6" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                          <Label text="YOUNGEST PLAYER" textFill="#bbb6b6" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
@@ -155,7 +156,7 @@
                                                 <Font name="System Bold Italic" size="20.0" />
                                              </font>
                                           </Label>
-                                          <Label text="OLDEST PLAYER" textFill="#bbb6b6" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                          <Label text="OLDEST PLAYER" textFill="#bbb6b6" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
@@ -163,7 +164,7 @@
                                                 <Font name="System Bold Italic" size="20.0" />
                                              </font>
                                           </Label>
-                                          <Label text="HIGHEST PAID PLAYER" textFill="#bbb6b6" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                          <Label text="HIGHEST PAID PLAYER" textFill="#bbb6b6" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
@@ -231,7 +232,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab style="-fx-background-color: #359565;" text="TEAMS">
+          <Tab disable="true" style="-fx-background-color: #359565;" text="TEAMS">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #359565; -fx-border-color: #29734E;">
                      <children>
@@ -368,7 +369,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab style="-fx-background-color: #359565;" text="PLAYERS">
+          <Tab disable="true" style="-fx-background-color: #359565;" text="PLAYERS">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #359565; -fx-border-color: #29734E;">
                      <children>
@@ -597,7 +598,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab style="-fx-background-color: #359565;" text="MATCHES">
+          <Tab style="-fx-background-color: #359565;" text="MATCHES">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #359565; -fx-border-color: #29734E;">
                      <children>
