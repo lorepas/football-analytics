@@ -48,10 +48,15 @@ public class DAOQuery implements IDAOQuery {
 					parameters("teamFullName", teamQuery.getFullName()));
 			Result result=transaction.run(findAllLeague);
 			List<Record> list=result.list();
+			List<League> leagues = new ArrayList<>();
 			for (Record record : list) {
 				System.out.println(record);
+				League l = new League();
+				l.setFullname(record.get("collect(l.fullName)").get(0).asString());
+				leagues.add(l);
 			}
-			transaction.commit(); 
+			transaction.commit();
+			return leagues;
 		} catch (ClientException ce) {
 			System.out.println(ce.getLocalizedMessage());
 			if (transaction != null) {
@@ -65,7 +70,7 @@ public class DAOQuery implements IDAOQuery {
 				driver.close();
 			}
 		}
-		return null;
+		return new ArrayList<League>();
 	}
 	
 public List<Match> countWin(Team team) throws DAOException {

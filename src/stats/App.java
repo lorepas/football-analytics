@@ -112,6 +112,10 @@ public class App extends Application {
 	public ReadFromFile getReadFromFile() {
 		return readFromFile;
 	}
+	
+	public IDAOQuery getDaoQuery(){
+		return daoQuery;
+	}
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -120,37 +124,12 @@ public class App extends Application {
 //			user.setUsername("user");
 //			user.setPwd("nalf10");
 //			App.getSharedInstance().getDaoUserKV().putUser(user);
-//			League league = new League();
-//			league.setFullName("Toscana Prima Categoria Girone B");
-//			league.setYear("2019-20");
-//			Match match = new Match();
-//			match.setNameHome("Capanne");
-//			match.setNameAway("Calci");
-//			match.setScoreHome(1);
-//			match.setScoreAway(1);
-//			league.getMatches().add(match);
-//			this.getDaoLeagueGraph().create(league);
-//			this.getDaoLeagueGraph().retrieve(league.getFullName());
-//			System.out.println("Exists = " + exists);
-//			League league = new League();
-//			league.setFullname("Serie A 2019-20");
-//			Team hTeam = this.getDaoLeague().retrieveMostWinningHomeTeam(league);
-//			Team aTeam = this.getDaoLeague().retrieveMostWinningAwayTeam(league);
-//			double percentageOfWins = this.getDaoTeam().retrievePercentageOfWins(league, hTeam);
-//			double percentageOfDraws = this.getDaoTeam().retrievePercentageOfDraws(league, hTeam);
-//			double percentageOfLosts = this.getDaoTeam().retrievePercentageOfDefeats(league, hTeam);
-//			System.out.println("Home team: " + hTeam.getName());
-//			System.out.println("Away team: " + aTeam.getName());
-//			System.out.println("Wins: " + percentageOfWins);
-//			System.out.println("Draws: " + percentageOfDraws);
-//			System.out.println("Losts: " + percentageOfLosts);
-//			String defaultDirectoryPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + "/detailedPerformances.json";
-//			List<DetailedPerformance> detailedPerformances = App.getSharedInstance().getDaoPlayer().retrieveOverallStatistics();
-//			Gson gson = new Gson();
-//			String json = gson.toJson(detailedPerformances);
-//			json.replace("'", " ");
-//			App.getSharedInstance().getReadFromFile().writeLocalJSON(defaultDirectoryPath, json);
-			
+			Team team = new Team();
+			team.setFullName("Swindon");
+			List<League> leagues = getDaoQuery().countLeague(team);
+			for(League l:leagues) {
+				System.out.println(l.getFullname());
+			}
 			LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 			Logger mongoLogger = loggerContext.getLogger("org.mongodb.driver");
 			mongoLogger.setLevel(Level.OFF);
