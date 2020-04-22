@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -83,7 +81,6 @@
                                     <GridPane prefHeight="669.0" prefWidth="664.0" BorderPane.alignment="CENTER">
                                       <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                       </columnConstraints>
                                       <rowConstraints>
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -91,130 +88,7 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                             <image>
-                                                <Image url="@../../resources/standard%20player.jpg" />
-                                             </image>
-                                             <GridPane.margin>
-                                                <Insets top="5.0" />
-                                             </GridPane.margin>
-                                          </ImageView>
-                                          <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                             <GridPane.margin>
-                                                <Insets top="5.0" />
-                                             </GridPane.margin>
-                                             <image>
-                                                <Image url="@../../resources/standard%20player.jpg" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                                             <GridPane.margin>
-                                                <Insets top="5.0" />
-                                             </GridPane.margin>
-                                             <image>
-                                                <Image url="@../../resources/standard%20player.jpg" />
-                                             </image>
-                                          </ImageView>
-                                          <!--  <BarChart fx:id="barCharLeague" animated="false" title="AVERAGE AGE" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">-->
-                                          <BarChart fx:id="barCharLeague" animated="false" title="AVERAGE AGE" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                            <xAxis>
-                                              <CategoryAxis fx:id="teamsAxis" side="BOTTOM" />
-                                            </xAxis>
-                                            <yAxis>
-                                              <NumberAxis fx:id="averageAgeAxis" side="LEFT" />
-                                            </yAxis>
-                                          </BarChart>
-                                          <Label fx:id="labelYoungest" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
-                                             <GridPane.margin>
-                                                <Insets />
-                                             </GridPane.margin>
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="labelOldest" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
-                                             <GridPane.margin>
-                                                <Insets />
-                                             </GridPane.margin>
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="labelHigest" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
-                                             <GridPane.margin>
-                                                <Insets />
-                                             </GridPane.margin>
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="YOUNGEST PLAYER" textFill="#bbb6b6" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-                                             <GridPane.margin>
-                                                <Insets />
-                                             </GridPane.margin>
-                                             <font>
-                                                <Font name="System Bold Italic" size="20.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="OLDEST PLAYER" textFill="#bbb6b6" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                                             <GridPane.margin>
-                                                <Insets />
-                                             </GridPane.margin>
-                                             <font>
-                                                <Font name="System Bold Italic" size="20.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="HIGHEST PAID PLAYER" textFill="#bbb6b6" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                             <GridPane.margin>
-                                                <Insets />
-                                             </GridPane.margin>
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="MOST WINNING TEAM" textFill="#bbb6b6" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
-                                             <GridPane.margin>
-                                                <Insets left="10.0" />
-                                             </GridPane.margin>
-                                             <font>
-                                                <Font name="System Bold Italic" size="20.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="labelMostWinningTeam" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-                                             <padding>
-                                                <Insets top="10.0" />
-                                             </padding>
-                                             <GridPane.margin>
-                                                <Insets right="10.0" />
-                                             </GridPane.margin>
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="labelMostLosing" text="MOST LOSING TEAM" textFill="#bbb6b6" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                             <font>
-                                                <Font name="System Bold Italic" size="20.0" />
-                                             </font>
-                                             <GridPane.margin>
-                                                <Insets left="10.0" />
-                                             </GridPane.margin>
-                                          </Label>
-                                          <Label fx:id="labelMostLosingTeam" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                             <GridPane.margin>
-                                                <Insets right="10.0" />
-                                             </GridPane.margin>
-                                             <font>
-                                                <Font name="System Bold" size="14.0" />
-                                             </font>
-                                          </Label>
-                                          <Button mnemonicParsing="false" onAction="#ActionShowAvgAge" text="SHOW" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
-                                             <GridPane.margin>
-                                                <Insets />
-                                             </GridPane.margin>
-                                             <padding>
-                                                <Insets top="5.0" />
-                                             </padding>
-                                          </Button>
+                                          <ListView fx:id="listTeamsOfALeague" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #359565 #359565;" GridPane.rowIndex="1" />
                                        </children>
                                     </GridPane>
                                  </center>
@@ -232,7 +106,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab disable="true" style="-fx-background-color: #359565;" text="TEAMS">
+          <Tab style="-fx-background-color: #359565;" text="TEAMS">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #359565; -fx-border-color: #29734E;">
                      <children>
@@ -263,13 +137,6 @@
                                              </children>
                                           </HBox>
                                        </bottom>
-                                       <top>
-                                          <ComboBox fx:id="comboBoxLeaguesTeam" accessibleRole="PARENT" onAction="#ActionRetriveTeamFromComboBoxTeam" prefWidth="150.0" promptText="LEAGUES" BorderPane.alignment="CENTER">
-                                             <BorderPane.margin>
-                                                <Insets bottom="10.0" />
-                                             </BorderPane.margin>
-                                          </ComboBox>
-                                       </top>
                                     </BorderPane>
                                  </center>
                                  <top>
@@ -308,59 +175,45 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <ImageView fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                       <GridPane.margin>
-                                          <Insets />
-                                       </GridPane.margin>
-                                       <image>
-                                          <Image url="@../../resources/standard%20player.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <Label text="PLAYER MOST REPRESENTATIVE" textFill="#bbb6b6" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-                                       <GridPane.margin>
-                                          <Insets top="50.0" />
-                                       </GridPane.margin>
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="labelMostRepresentative" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
-                                       <GridPane.margin>
-                                          <Insets bottom="45.0" />
-                                       </GridPane.margin>
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <PieChart fx:id="pieChartForeign" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" title="PERCENTAGE OF FOREIGN PLAYERS" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                                    <PieChart fx:id="pieChartResults" title="PERCENTAGE OF MATCHES &#10;WON,DRAWN AND LOST" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                                    
-                                          <ImageView fx:id="imageShield" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    
-                                    <Label text="MARKET VALUE" textFill="#bbb6b6" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
-                                       <GridPane.margin>
-                                          <Insets bottom="45.0" left="50.0" />
-                                       </GridPane.margin>
-                                       <font>
-                                          <Font name="System Bold Italic" size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="labelMarketValue" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
-                                       <GridPane.margin>
-                                          <Insets bottom="45.0" right="50.0" />
-                                       </GridPane.margin>
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font>
-                                    </Label>
                                     <Label fx:id="labelNameTeam" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                                        <GridPane.margin>
-                                          <Insets />
+                                          <Insets left="250.0" />
                                        </GridPane.margin>
                                        <font>
                                           <Font name="System Bold Italic" size="36.0" />
                                        </font>
                                     </Label>
+                                    <Label text="MATCHES WON" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                                       <GridPane.margin>
+                                          <Insets left="50.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="MATCHES LOST" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                                       <GridPane.margin>
+                                          <Insets left="50.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="MATCHES DRAW" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                       <GridPane.margin>
+                                          <Insets left="50.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="labelNumberMatchesWin" text="Label" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                                       <GridPane.margin>
+                                          <Insets right="100.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="labelNumberMatchesLost" text="Label" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                                       <GridPane.margin>
+                                          <Insets right="100.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="labelNamberMatchesDrawn" text="Label" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                       <GridPane.margin>
+                                          <Insets right="100.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <ListView fx:id="listLeaguesOfThatTeam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #359565 #359565;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                  </children>
                               </GridPane>
                            </center>
@@ -598,7 +451,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-          <Tab style="-fx-background-color: #359565;" text="MATCHES">
+          <Tab disable="true" style="-fx-background-color: #359565;" text="MATCHES">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #359565; -fx-border-color: #29734E;">
                      <children>
