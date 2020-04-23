@@ -108,7 +108,7 @@ public class AppController implements Initializable{
 	@FXML Label labelNameTeam;
 	@FXML Label labelNumberMatchesWin;
 	@FXML Label labelNumberMatchesLost;
-	@FXML Label labelNamberMatchesDrawn;
+	@FXML Label labelNumberMatchesDrawn;
 //	@FXML Label labelMarketValue;
 //	@FXML Label labelMostRepresentative;
 //	@FXML PieChart pieChartForeign;
@@ -214,41 +214,35 @@ public class AppController implements Initializable{
 //	}
 	
 	public void ActionRetrieveTeam(ActionEvent event) {
-		try {
-			String text = fieldTeam.getText();
-			if (text.isEmpty()) {
-				Alert alert = new Alert(AlertType.WARNING, "Empty field", ButtonType.CLOSE);
-				alert.showAndWait();
-			} else {
-				List<Team> listSearchedTeams = App.sharedInstance.getDaoTeamGraph().retrieveTeams(text);
-				ObservableList list = FXCollections.observableArrayList(listSearchedTeams);
-				listTeams.setItems(list);
-				listTeams.setOnMouseClicked(e->{
-					try {
-						onClickEventOnTeam(e);
-					} catch (DAOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				});
-				if (listSearchedTeams.isEmpty()) {
-					Alert alert = new Alert(AlertType.WARNING, "No team selected", ButtonType.CLOSE);
-					alert.showAndWait();
-				}
-			}
-		} catch(DAOException e) {
-			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
-			alert.showAndWait();
-		}
+//		String text = fieldTeam.getText();
+//		if (text.isEmpty()) {
+//			Alert alert = new Alert(AlertType.WARNING, "Empty field", ButtonType.CLOSE);
+//			alert.showAndWait();
+//		} else {
+//			listTeams.setOnMouseClicked(e->{
+//				try {
+//					onClickEventOnTeam(e);
+//				} catch (DAOException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+//			});
+//				if (listSearchedTeams.isEmpty()) {
+//					Alert alert = new Alert(AlertType.WARNING, "No team selected", ButtonType.CLOSE);
+//					alert.showAndWait();
+//				}
+//		}
 		
 	}
-	public void onClickEventOnTeam(MouseEvent event) throws DAOException{
+	public void ActionClickOnTeam(MouseEvent event) throws DAOException{
 		Team teamSelected = listTeams.getSelectionModel().getSelectedItem();
-		if (teamSelected.getFullName().isEmpty()) {
-    		labelNameTeam.setText(teamSelected.getName().toUpperCase());
-    	} else {
-    		labelNameTeam.setText(teamSelected.getFullName().toUpperCase());
-    	}
+		labelNameTeam.setText(teamSelected.getFullName().toUpperCase());
+		labelNumberMatchesWin.setText(String.valueOf(App.sharedInstance.getDaoQuery().countWin(teamSelected).size()));
+		labelNumberMatchesLost.setText(String.valueOf(App.sharedInstance.getDaoQuery().countLost(teamSelected).size()));
+		labelNumberMatchesDrawn.setText(String.valueOf(App.sharedInstance.getDaoQuery().countDrawn(teamSelected).size()));
+		List<League> leagues = App.sharedInstance.getDaoQuery().countLeague(teamSelected);
+		ObservableList<League> list = FXCollections.observableArrayList(leagues);
+		listLeaguesOfThatTeam.setItems(list);
 //		long nativePlayer = App.sharedInstance.getDaoTeam().retriveNativePlayers(teamSelected);
 //		long foreignPlayer = teamSelected.getRosterSize() - nativePlayer;
 //		long percentageNativePlayer = (nativePlayer*100) / teamSelected.getRosterSize();
@@ -746,6 +740,15 @@ public class AppController implements Initializable{
 		//comboBoxLeaguesPlayer.setItems(retriveLeagueFromComboBoxPlayer());
 		//comboBoxLeaguesTeam.setItems(retriveLeagueFromComboBoxPlayer());
 		//comboBoxLeaguesMatches.setItems(retriveLeagueFromComboBoxPlayer());
+		List<Team> teams = new ArrayList<>();
+		try {
+			teams = App.sharedInstance.getDaoTeamGraph().retrieveAllTeams();
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ObservableList<Team> list = FXCollections.observableArrayList(teams);
+		listTeams.setItems(list);
 		listLeague.setItems(retriveLeagueFromComboBoxPlayer());
 		//barCharLeague.getData().add(emptyChart);
 	}

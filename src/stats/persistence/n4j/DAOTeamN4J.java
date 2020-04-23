@@ -2,12 +2,17 @@ package stats.persistence.n4j;
 
 import static org.neo4j.driver.Values.parameters;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Query;
+import org.neo4j.driver.Record;
+import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
+import org.neo4j.driver.Value;
 import org.neo4j.driver.exceptions.ClientException;
 
 import stats.model.League;
@@ -79,8 +84,44 @@ public class DAOTeamN4J implements IDAOTeamGraph {
 
 	@Override
 	public List<Team> retrieveAllTeams() throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
+		Driver driver = null;
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			driver = Utils.getNEO4JDriver();
+			session = driver.session();
+			transaction = session.beginTransaction();
+			String existsQuery = "MATCH (t:Team)";
+			existsQuery += "RETURN t";
+			Query existsLeague = new Query(existsQuery);
+			Result rs = transaction.run(existsLeague);
+			List<Record> list= rs.list();
+			List<Team> teams = new ArrayList<>();
+			//TODO: Re-factor the following code
+			for (Record record : list) {
+				Team team = new Team();
+				Value v = record.get("t");
+				Iterator<Value> values = v.asNode().values().iterator();				
+				team.setFullName(values.next().asString());
+				teams.add(team);
+			}
+			transaction.commit();
+			return teams;
+		} catch(ClientException ce) {
+			if(transaction != null) {
+				if(transaction.isOpen()) {
+					transaction.rollback();
+				}
+			}
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+			if(driver != null) {
+				driver.close();
+			}
+		}
+		return new ArrayList<Team>();
 	}
 
 	@Override
