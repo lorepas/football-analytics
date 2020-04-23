@@ -169,52 +169,78 @@
                               <GridPane prefHeight="607.0" prefWidth="664.0" BorderPane.alignment="CENTER">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="219.0" minHeight="0.0" prefHeight="67.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="543.0" minHeight="10.0" prefHeight="147.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="545.0" minHeight="10.0" prefHeight="455.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
                                     <Label fx:id="labelNameTeam" textFill="WHITE" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                                        <GridPane.margin>
-                                          <Insets left="250.0" />
+                                          <Insets />
                                        </GridPane.margin>
                                        <font>
-                                          <Font name="System Bold Italic" size="30.0" />
+                                          <Font name="System Bold Italic" size="36.0" />
                                        </font>
                                     </Label>
-                                    <Label text="MATCHES WON" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                                    <Label text="MATCHES WON" textFill="#bbb6b6" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                                        <GridPane.margin>
                                           <Insets left="50.0" />
                                        </GridPane.margin>
+                                       <font>
+                                          <Font name="System Bold Italic" size="20.0" />
+                                       </font>
                                     </Label>
-                                    <Label text="MATCHES LOST" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                                    <Label text="MATCHES LOST" textFill="#bbb6b6" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets left="50.0" />
                                        </GridPane.margin>
+                                       <font>
+                                          <Font name="System Bold Italic" size="20.0" />
+                                       </font>
                                     </Label>
-                                    <Label text="MATCHES DRAW" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                    <Label text="MATCHES DRAW" textFill="#bbb6b6" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                        <GridPane.margin>
                                           <Insets left="50.0" />
                                        </GridPane.margin>
+                                       <font>
+                                          <Font name="System Bold Italic" size="20.0" />
+                                       </font>
                                     </Label>
-                                    <Label fx:id="labelNumberMatchesWin" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                                    <Label fx:id="labelNumberMatchesWin" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                                        <GridPane.margin>
                                           <Insets right="100.0" />
                                        </GridPane.margin>
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
                                     </Label>
-                                    <Label fx:id="labelNumberMatchesLost" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                                    <Label fx:id="labelNumberMatchesLost" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets right="100.0" />
                                        </GridPane.margin>
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
                                     </Label>
                                     <Label fx:id="labelNumberMatchesDrawn" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                        <GridPane.margin>
                                           <Insets right="100.0" />
                                        </GridPane.margin>
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
                                     </Label>
-                                    <ListView fx:id="listLeaguesOfThatTeam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #359565 #359565;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <ListView fx:id="listLeaguesOfThatTeam" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #359565 #359565;" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                       <GridPane.margin>
+                                          <Insets bottom="20.0" top="40.0" />
+                                       </GridPane.margin></ListView>
+                                    <Label text="LEAGUES LIST" textFill="#bbb6b6" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                       <font>
+                                          <Font name="System Bold Italic" size="20.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </GridPane>
                            </center>
