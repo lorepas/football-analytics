@@ -214,24 +214,37 @@ public class AppController implements Initializable{
 //	}
 	
 	public void ActionRetrieveTeam(ActionEvent event) {
-//		String text = fieldTeam.getText();
-//		if (text.isEmpty()) {
-//			Alert alert = new Alert(AlertType.WARNING, "Empty field", ButtonType.CLOSE);
-//			alert.showAndWait();
-//		} else {
-//			listTeams.setOnMouseClicked(e->{
-//				try {
-//					onClickEventOnTeam(e);
-//				} catch (DAOException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-//			});
-//				if (listSearchedTeams.isEmpty()) {
-//					Alert alert = new Alert(AlertType.WARNING, "No team selected", ButtonType.CLOSE);
-//					alert.showAndWait();
-//				}
-//		}
+		try {
+			String text = fieldTeam.getText();
+			if (text.isEmpty()) {
+				List<Team> teams = new ArrayList<>();
+				try {
+					teams = App.sharedInstance.getDaoTeamGraph().retrieveAllTeams();
+				} catch (DAOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				ObservableList<Team> list = FXCollections.observableArrayList(teams);
+				listTeams.getItems().clear();
+				listTeams.setItems(list);
+			} else {
+				Team listSearchedTeams = App.sharedInstance.getDaoTeamGraph().retrieveTeam(text);
+				ObservableList<Team> list = FXCollections.observableArrayList(listSearchedTeams);
+				listTeams.getItems().clear();
+				listTeams.setItems(list);
+//				listTeams.setOnMouseClicked(e->{
+//					try {
+//						ActionClickOnTeam(e);
+//					} catch (DAOException e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//					}
+//				});
+			}
+		} catch(DAOException e) {
+			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
+			alert.showAndWait();
+		}
 		
 	}
 	public void ActionClickOnTeam(MouseEvent event) throws DAOException{
@@ -433,12 +446,13 @@ public class AppController implements Initializable{
 		try {
 			String text = fieldLeague.getText();
 			if (text.isEmpty()) {
-				Alert alert = new Alert(AlertType.WARNING, "Empty field", ButtonType.CLOSE);
-				alert.showAndWait();
+				listLeague.getItems().clear();
+				listLeague.setItems(retriveLeagueFromComboBoxPlayer());
 			} else {
 				//TO CHECK
-				List<League> listSearchedLeagues = App.sharedInstance.getDaoLeagueGraph().retrieveLeagues(text);
+				League listSearchedLeagues = App.sharedInstance.getDaoLeagueGraph().retrieve(text);
 				ObservableList<League> list = FXCollections.observableArrayList(listSearchedLeagues);
+				listLeague.getItems().clear();
 				listLeague.setItems(list);
 				listLeague.setOnMouseClicked(e->{
 					try {
@@ -448,10 +462,6 @@ public class AppController implements Initializable{
 						e1.printStackTrace();
 					}
 				});
-				if (listSearchedLeagues.isEmpty()) {
-					Alert alert = new Alert(AlertType.WARNING, "No League selected", ButtonType.CLOSE);
-					alert.showAndWait();
-				}
 			}
 		} catch(DAOException e) {
 			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);

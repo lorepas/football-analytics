@@ -125,12 +125,6 @@ public class App extends Application {
 //			user.setUsername("user");
 //			user.setPwd("nalf10");
 //			App.getSharedInstance().getDaoUserKV().putUser(user);
-			Team team = new Team();
-			team.setFullName("Swindon");
-			List<League> leagues = getDaoQuery().countLeague(team);
-			for(League l:leagues) {
-				System.out.println(l.getFullname());
-			}
 			LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 			Logger mongoLogger = loggerContext.getLogger("org.mongodb.driver");
 			mongoLogger.setLevel(Level.OFF);
