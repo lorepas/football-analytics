@@ -52,10 +52,10 @@ public class App extends Application {
 	//
 	public static App sharedInstance = new App();
 	private AppController appController = new AppController();
-	private IDAOTeam daoTeam = new DAOTeamMongo();
-	private IDAOPlayer daoPlayer = new DAOPlayerMongo();
-	private IDAOLeague daoLeague = new DAOLeagueMongo();
-	private IDAOMatch daoMatch = new DAOMatchMongo();
+//	private IDAOTeam daoTeam = new DAOTeamMongo();
+//	private IDAOPlayer daoPlayer = new DAOPlayerMongo();
+//	private IDAOLeague daoLeague = new DAOLeagueMongo();
+//	private IDAOMatch daoMatch = new DAOMatchMongo();
 	private IDAOUser daoUserKV = new DAOUserKV();
 	private IDAOLeagueGraph daoLeagueGraph = new DAOLeagueN4J();
 	private IDAOMatchGraph daoMatchGraph = new DAOMatchN4J();
@@ -73,21 +73,21 @@ public class App extends Application {
 		return daoUserKV;
 	}
 	
-	public IDAOTeam getDaoTeam() {
-		return daoTeam;
-	}
-	
-	public IDAOPlayer getDaoPlayer() {
-		return daoPlayer;
-	}
-
-	public IDAOLeague getDaoLeague() {
-		return daoLeague;
-	}
-
-	public IDAOMatch getDaoMatch() {
-		return daoMatch;
-	}
+//	public IDAOTeam getDaoTeam() {
+//		return daoTeam;
+//	}
+//	
+//	public IDAOPlayer getDaoPlayer() {
+//		return daoPlayer;
+//	}
+//
+//	public IDAOLeague getDaoLeague() {
+//		return daoLeague;
+//	}
+//
+//	public IDAOMatch getDaoMatch() {
+//		return daoMatch;
+//	}
 	
 	public IDAOLeagueGraph getDaoLeagueGraph() {
 		return daoLeagueGraph;
@@ -120,6 +120,7 @@ public class App extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			//DON'T REMOVE THESE LINES
 //			User user = new User();
 //			user.setUsername("user");
 //			user.setPwd("nalf10");

@@ -31,7 +31,7 @@ public class Team {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(name);
+		builder.append(fullName);
 		return builder.toString();
 	}
 	

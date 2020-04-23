@@ -222,7 +222,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab disable="true" style="-fx-background-color: #359565;" text="PLAYERS">
+          <!--  <Tab disable="true" style="-fx-background-color: #359565;" text="PLAYERS">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #359565; -fx-border-color: #29734E;">
                      <children>
@@ -525,7 +525,7 @@
                      </children>
                   </AnchorPane>
                </content>
-            </Tab>
+            </Tab>-->
         </tabs>
       </TabPane>
    </center>

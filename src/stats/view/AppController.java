@@ -87,7 +87,7 @@ public class AppController implements Initializable{
 	@FXML javafx.scene.control.Button searchLeague; 
 	@FXML javafx.scene.control.TextField fieldLeague; 
 	@FXML ListView<League> listLeague; 
-	@FXML ListView<League> listTeamsOfALeague; 
+	@FXML ListView<Team> listTeamsOfALeague; 
 	@FXML ListView<League> listLeaguesOfThatTeam; 
 	@FXML javafx.scene.control.Button buttonUpdateTeam; 
 	@FXML javafx.scene.control.Button buttonLogin; 
@@ -165,7 +165,7 @@ public class AppController implements Initializable{
 	public ObservableList<League> retriveLeagueFromComboBoxPlayer(){
 		List<League> listSearchedLeagues = null;
 		try {
-			listSearchedLeagues = App.sharedInstance.getDaoLeague().retrieveAllLeagues();
+			listSearchedLeagues = App.sharedInstance.getDaoLeagueGraph().retrieveAllLeagues();
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			Alert alert = new Alert(AlertType.WARNING, "Connect to VPN", ButtonType.CLOSE);
@@ -220,7 +220,7 @@ public class AppController implements Initializable{
 				Alert alert = new Alert(AlertType.WARNING, "Empty field", ButtonType.CLOSE);
 				alert.showAndWait();
 			} else {
-				List<Team> listSearchedTeams = App.sharedInstance.getDaoTeam().retrieveTeams(text);
+				List<Team> listSearchedTeams = App.sharedInstance.getDaoTeamGraph().retrieveTeams(text);
 				ObservableList list = FXCollections.observableArrayList(listSearchedTeams);
 				listTeams.setItems(list);
 				listTeams.setOnMouseClicked(e->{
@@ -249,47 +249,47 @@ public class AppController implements Initializable{
     	} else {
     		labelNameTeam.setText(teamSelected.getFullName().toUpperCase());
     	}
-		long nativePlayer = App.sharedInstance.getDaoTeam().retriveNativePlayers(teamSelected);
-		long foreignPlayer = teamSelected.getRosterSize() - nativePlayer;
-		long percentageNativePlayer = (nativePlayer*100) / teamSelected.getRosterSize();
-		long percentageForeignPlayer = (foreignPlayer*100) / teamSelected.getRosterSize();
-		ObservableList<Data> listPie = FXCollections.observableArrayList(
-				new PieChart.Data(percentageNativePlayer + "% NATIVE", nativePlayer),
-				new PieChart.Data(percentageForeignPlayer + "% FOREIGN", foreignPlayer));
+//		long nativePlayer = App.sharedInstance.getDaoTeam().retriveNativePlayers(teamSelected);
+//		long foreignPlayer = teamSelected.getRosterSize() - nativePlayer;
+//		long percentageNativePlayer = (nativePlayer*100) / teamSelected.getRosterSize();
+//		long percentageForeignPlayer = (foreignPlayer*100) / teamSelected.getRosterSize();
+//		ObservableList<Data> listPie = FXCollections.observableArrayList(
+//				new PieChart.Data(percentageNativePlayer + "% NATIVE", nativePlayer),
+//				new PieChart.Data(percentageForeignPlayer + "% FOREIGN", foreignPlayer));
 		//pieChartForeign.setData(listPie);
 //		leagueSelectedCombo = comboBoxLeaguesTeam.getSelectionModel().getSelectedItem();
-		double percentageOfWin = App.getSharedInstance().getDaoTeam().retrievePercentageOfWins(leagueSelectedCombo, teamSelected);
-		double percentageOfDefeats = App.getSharedInstance().getDaoTeam().retrievePercentageOfDefeats(leagueSelectedCombo, teamSelected);
-		double percentageOfDrawn = App.getSharedInstance().getDaoTeam().retrievePercentageOfDraws(leagueSelectedCombo, teamSelected);
-		ObservableList<Data> listPieMatches = FXCollections.observableArrayList(
-				new PieChart.Data(Math.round(percentageOfWin) + "% WIN", percentageOfWin),
-				new PieChart.Data(Math.round(percentageOfDefeats) + "% DEFEATS", percentageOfDefeats),
-				new PieChart.Data(Math.round(percentageOfDrawn) + "% DRAWN", percentageOfDrawn));
+//		double percentageOfWin = App.getSharedInstance().getDaoTeam().retrievePercentageOfWins(leagueSelectedCombo, teamSelected);
+//		double percentageOfDefeats = App.getSharedInstance().getDaoTeam().retrievePercentageOfDefeats(leagueSelectedCombo, teamSelected);
+//		double percentageOfDrawn = App.getSharedInstance().getDaoTeam().retrievePercentageOfDraws(leagueSelectedCombo, teamSelected);
+//		ObservableList<Data> listPieMatches = FXCollections.observableArrayList(
+//				new PieChart.Data(Math.round(percentageOfWin) + "% WIN", percentageOfWin),
+//				new PieChart.Data(Math.round(percentageOfDefeats) + "% DEFEATS", percentageOfDefeats),
+//				new PieChart.Data(Math.round(percentageOfDrawn) + "% DRAWN", percentageOfDrawn));
 		//pieChartResults.setData(listPieMatches);
-		Player playerMostRepresentative = App.sharedInstance.getDaoTeam().retriveMostRepresentativePlayer(teamSelected);
+//		Player playerMostRepresentative = App.sharedInstance.getDaoTeam().retriveMostRepresentativePlayer(teamSelected);
 		//labelMostRepresentative.setText(playerMostRepresentative.getFullName());
-		try {
-			double res = App.sharedInstance.getDaoTeam().retrieveTeamTotalMarketValue(teamSelected);
-			BigDecimal resRound = new BigDecimal(res);
-			if(res > Math.pow(10,6)) {
-				BigDecimal div = new BigDecimal(Math.pow(10, 6));
-				BigDecimal marketValue = resRound.divide(div);
-				//labelMarketValue.setText(String.valueOf(marketValue)+" mln \u20ac");
-			}else {
-				//labelMarketValue.setText(String.valueOf(resRound)+" \u20ac");
-			}
-		} catch (DAOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			Utils.decode(teamSelected.getShield(), "shardImage.png");
-			Image image = new Image("file:shardImage.png");
-			//imageShield.setImage(image);;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			double res = App.sharedInstance.getDaoTeam().retrieveTeamTotalMarketValue(teamSelected);
+//			BigDecimal resRound = new BigDecimal(res);
+//			if(res > Math.pow(10,6)) {
+//				BigDecimal div = new BigDecimal(Math.pow(10, 6));
+//				BigDecimal marketValue = resRound.divide(div);
+//				//labelMarketValue.setText(String.valueOf(marketValue)+" mln \u20ac");
+//			}else {
+//				//labelMarketValue.setText(String.valueOf(resRound)+" \u20ac");
+//			}
+//		} catch (DAOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		try {
+//			Utils.decode(teamSelected.getShield(), "shardImage.png");
+//			Image image = new Image("file:shardImage.png");
+//			//imageShield.setImage(image);;
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 //	public void initializedTable(Player playerSelected) {
@@ -335,6 +335,9 @@ public class AppController implements Initializable{
 	public void onClickEventOnLeague(MouseEvent event) throws DAOException{
 		League leagueSelected = listLeague.getSelectionModel().getSelectedItem();
 		labelLeague.setText(leagueSelected.getFullname().toUpperCase());
+		List<Team> teams = App.sharedInstance.getDaoQuery().countTeams(leagueSelected);
+		ObservableList<Team> listTeams = FXCollections.observableArrayList(teams);
+		listTeamsOfALeague.setItems(listTeams);
 		//barCharLeague.getData().clear();
 //		try {
 			//labelMostWinningTeam.setText(App.sharedInstance.getDaoLeague().retrieveMostWinningTeam(leagueSelected).getName());
@@ -439,7 +442,8 @@ public class AppController implements Initializable{
 				Alert alert = new Alert(AlertType.WARNING, "Empty field", ButtonType.CLOSE);
 				alert.showAndWait();
 			} else {
-				List<League> listSearchedLeagues = App.sharedInstance.getDaoLeague().retrieveLeagues(text);
+				//TO CHECK
+				List<League> listSearchedLeagues = App.sharedInstance.getDaoLeagueGraph().retrieveLeagues(text);
 				ObservableList<League> list = FXCollections.observableArrayList(listSearchedLeagues);
 				listLeague.setItems(list);
 				listLeague.setOnMouseClicked(e->{
@@ -464,91 +468,91 @@ public class AppController implements Initializable{
 	
 	//TODO
 	public void ActionUpdateLeague(ActionEvent event) {
-		try {
-			System.out.println("UPDATE LEAGUE OK");
-			FileChooser chooser = new FileChooser();
-			File file = chooser.showOpenDialog(App.getSharedInstance().getPrimaryStage());
-			if (file != null) {
-				String filePath = file.getAbsolutePath();
-				String json = App.getSharedInstance().getReadFromFile().readLocalJSON(filePath);
-				if(!json.contains("matches") && !json.contains("year") && !json.contains("link")) {
-					Alert alert = new Alert(AlertType.ERROR, "File is not in the correct format", ButtonType.CLOSE);
-					alert.showAndWait();
-					return;
-				}
-				League league = new Gson().fromJson(json, League.class);
-				if(App.getSharedInstance().getDaoLeague().exists(league)) {
-					App.getSharedInstance().getDaoLeague().updateLeague(league.getFullname(), league);
-					//
-					listLeague.getItems().add(league);
-					//comboBoxLeaguesPlayer.getItems().clear();
-					//comboBoxLeaguesTeam.getItems().clear();
-					//comboBoxLeaguesMatches.getItems().clear();
-					//comboBoxLeaguesPlayer.getItems().addAll(retriveLeagueFromComboBoxPlayer());
-					//comboBoxLeaguesTeam.getItems().addAll(retriveLeagueFromComboBoxPlayer());
-					//comboBoxLeaguesMatches.getItems().addAll(retriveLeagueFromComboBoxPlayer());
-					//
-					System.out.println(league.getName() + " already exists");
-				} else {
-					App.getSharedInstance().getDaoLeague().createLeague(league);
-					listLeague.getItems().add(league);
-					//comboBoxLeaguesPlayer.getItems().clear();
-					//comboBoxLeaguesTeam.getItems().clear();
-					//comboBoxLeaguesMatches.getItems().clear();
-					//comboBoxLeaguesPlayer.getItems().addAll(retriveLeagueFromComboBoxPlayer());
-					//comboBoxLeaguesTeam.getItems().addAll(retriveLeagueFromComboBoxPlayer());
-					//comboBoxLeaguesMatches.getItems().addAll(retriveLeagueFromComboBoxPlayer());
-					System.out.println(league.getName() + " doesn't exist");
-					
-				}
-			} else {
-				System.out.println("File is null");
-			}
-		} catch(DAOException e) {
-			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
-			alert.showAndWait();
-		} catch(JsonSyntaxException jse) {
-			Alert alert = new Alert(AlertType.ERROR, "The file isn't in the correct format", ButtonType.CLOSE);
-			alert.showAndWait();
-		}
+//		try {
+//			System.out.println("UPDATE LEAGUE OK");
+//			FileChooser chooser = new FileChooser();
+//			File file = chooser.showOpenDialog(App.getSharedInstance().getPrimaryStage());
+//			if (file != null) {
+//				String filePath = file.getAbsolutePath();
+//				String json = App.getSharedInstance().getReadFromFile().readLocalJSON(filePath);
+//				if(!json.contains("matches") && !json.contains("year") && !json.contains("link")) {
+//					Alert alert = new Alert(AlertType.ERROR, "File is not in the correct format", ButtonType.CLOSE);
+//					alert.showAndWait();
+//					return;
+//				}
+//				League league = new Gson().fromJson(json, League.class);
+//				if(App.getSharedInstance().getDaoLeagueGraph().exists(league)) {
+//					App.getSharedInstance().getDaoLeagueGraph().updateLeague(league.getFullname(), league);
+//					//
+//					listLeague.getItems().add(league);
+//					//comboBoxLeaguesPlayer.getItems().clear();
+//					//comboBoxLeaguesTeam.getItems().clear();
+//					//comboBoxLeaguesMatches.getItems().clear();
+//					//comboBoxLeaguesPlayer.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+//					//comboBoxLeaguesTeam.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+//					//comboBoxLeaguesMatches.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+//					//
+//					System.out.println(league.getName() + " already exists");
+//				} else {
+//					App.getSharedInstance().getDaoLeagueGraph().createLeague(league);
+//					listLeague.getItems().add(league);
+//					//comboBoxLeaguesPlayer.getItems().clear();
+//					//comboBoxLeaguesTeam.getItems().clear();
+//					//comboBoxLeaguesMatches.getItems().clear();
+//					//comboBoxLeaguesPlayer.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+//					//comboBoxLeaguesTeam.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+//					//comboBoxLeaguesMatches.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+//					System.out.println(league.getName() + " doesn't exist");
+//					
+//				}
+//			} else {
+//				System.out.println("File is null");
+//			}
+//		} catch(DAOException e) {
+//			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
+//			alert.showAndWait();
+//		} catch(JsonSyntaxException jse) {
+//			Alert alert = new Alert(AlertType.ERROR, "The file isn't in the correct format", ButtonType.CLOSE);
+//			alert.showAndWait();
+//		}
 	}
 
 	public void ActionUpdateTeams(ActionEvent event) {
-		try {
-			System.out.println("UPDATE TEAM OK");
-			FileChooser chooser = new FileChooser();
-			File file = chooser.showOpenDialog(App.getSharedInstance().getPrimaryStage());
-			if (file != null) {
-				String filePath = file.getAbsolutePath();
-
-				String json = App.getSharedInstance().getReadFromFile().readLocalJSON(filePath);
-				if(!json.contains("rosterSize") && !json.contains("shield") && !json.contains("championshipCode")) {
-					Alert alert = new Alert(AlertType.ERROR, "File is not in the correct format", ButtonType.CLOSE);
-					alert.showAndWait();
-					return;
-				}
-				Team[] teams = new Gson().fromJson(json, Team[].class);
-				for (Team team : teams) {
-					if(App.getSharedInstance().getDaoTeam().exists(team)) {
-						App.getSharedInstance().getDaoTeam().updateTeam(team.getFullName(), team);
-						//listTeams.getItems().add(team);
-						System.out.println(team.getFullName() + " already exists");
-					} else {
-						App.getSharedInstance().getDaoTeam().createTeam(team);
-						//listTeams.getItems().add(team);
-						System.out.println(team.getFullName() + " doesn't exist");
-					}
-				}
-			} else {
-				System.out.println("File is null");
-			}
-		} catch(DAOException e) {
-			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
-			alert.showAndWait();
-		} catch(JsonSyntaxException jse) {
-			Alert alert = new Alert(AlertType.ERROR, "The file isn't in the correct format", ButtonType.CLOSE);
-			alert.showAndWait();
-		}
+//		try {
+//			System.out.println("UPDATE TEAM OK");
+//			FileChooser chooser = new FileChooser();
+//			File file = chooser.showOpenDialog(App.getSharedInstance().getPrimaryStage());
+//			if (file != null) {
+//				String filePath = file.getAbsolutePath();
+//
+//				String json = App.getSharedInstance().getReadFromFile().readLocalJSON(filePath);
+//				if(!json.contains("rosterSize") && !json.contains("shield") && !json.contains("championshipCode")) {
+//					Alert alert = new Alert(AlertType.ERROR, "File is not in the correct format", ButtonType.CLOSE);
+//					alert.showAndWait();
+//					return;
+//				}
+//				Team[] teams = new Gson().fromJson(json, Team[].class);
+//				for (Team team : teams) {
+//					if(App.getSharedInstance().getDaoTeam().exists(team)) {
+//						App.getSharedInstance().getDaoTeam().updateTeam(team.getFullName(), team);
+//						//listTeams.getItems().add(team);
+//						System.out.println(team.getFullName() + " already exists");
+//					} else {
+//						App.getSharedInstance().getDaoTeam().createTeam(team);
+//						//listTeams.getItems().add(team);
+//						System.out.println(team.getFullName() + " doesn't exist");
+//					}
+//				}
+//			} else {
+//				System.out.println("File is null");
+//			}
+//		} catch(DAOException e) {
+//			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
+//			alert.showAndWait();
+//		} catch(JsonSyntaxException jse) {
+//			Alert alert = new Alert(AlertType.ERROR, "The file isn't in the correct format", ButtonType.CLOSE);
+//			alert.showAndWait();
+//		}
 		
 	}
 	//TODO
@@ -571,7 +575,7 @@ public class AppController implements Initializable{
 //					if(App.getSharedInstance().getDaoPlayer().exists(player)) {
 //						App.getSharedInstance().getDaoPlayer().updatePlayer(player.getFullName(), player);
 //						System.out.println(player.getSurname() + " updated");
-////						System.out.println("Player Image: " + player.getImagePlayer());
+//						System.out.println("Player Image: " + player.getImagePlayer());
 //					} else {
 //						App.getSharedInstance().getDaoPlayer().createPlayer(player);
 //						System.out.println(player.getSurname() + " created");
@@ -707,25 +711,25 @@ public class AppController implements Initializable{
 	}
 	
 	public void ActionDeleteLeague(ActionEvent e) throws DAOException {
-		League leagueSelected = listLeague.getSelectionModel().getSelectedItem();
-		System.out.println(leagueSelected.getName());
-		App.getSharedInstance().getDaoLeague().delete(leagueSelected);
-		listLeague.getItems().remove(leagueSelected);
-		//comboBoxLeaguesPlayer.getItems().clear();
-		//comboBoxLeaguesTeam.getItems().clear();
-		//comboBoxLeaguesMatches.getItems().clear();
-		//comboBoxLeaguesPlayer.getItems().addAll(retriveLeagueFromComboBoxPlayer());
-		//comboBoxLeaguesTeam.getItems().addAll(retriveLeagueFromComboBoxPlayer());
-		//comboBoxLeaguesMatches.getItems().addAll(retriveLeagueFromComboBoxPlayer());
-		System.out.println("DELETE OK");
+//		League leagueSelected = listLeague.getSelectionModel().getSelectedItem();
+//		System.out.println(leagueSelected.getName());
+//		App.getSharedInstance().getDaoLeague().delete(leagueSelected);
+//		listLeague.getItems().remove(leagueSelected);
+//		//comboBoxLeaguesPlayer.getItems().clear();
+//		//comboBoxLeaguesTeam.getItems().clear();
+//		//comboBoxLeaguesMatches.getItems().clear();
+//		//comboBoxLeaguesPlayer.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+//		//comboBoxLeaguesTeam.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+//		//comboBoxLeaguesMatches.getItems().addAll(retriveLeagueFromComboBoxPlayer());
+//		System.out.println("DELETE OK");
 	}
 	
 	public void ActionDeleteTeam(ActionEvent e) throws DAOException {
-		Team teamSelected = listTeams.getSelectionModel().getSelectedItem();
-		System.out.println(teamSelected.getName());
-		App.getSharedInstance().getDaoTeam().deleteTeam(teamSelected);
-		listTeams.getItems().remove(teamSelected);
-		System.out.println("DELETE OK");
+//		Team teamSelected = listTeams.getSelectionModel().getSelectedItem();
+//		System.out.println(teamSelected.getName());
+//		App.getSharedInstance().getDaoTeam().deleteTeam(teamSelected);
+//		listTeams.getItems().remove(teamSelected);
+//		System.out.println("DELETE OK");
 	}
 	
 //	public void ActionDeletePlayer(ActionEvent e) throws DAOException {
