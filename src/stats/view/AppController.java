@@ -472,23 +472,23 @@ public class AppController implements Initializable{
 	
 	//TODO
 	public void ActionUpdateLeague(ActionEvent event) {
-//		try {
-//			System.out.println("UPDATE LEAGUE OK");
-//			FileChooser chooser = new FileChooser();
-//			File file = chooser.showOpenDialog(App.getSharedInstance().getPrimaryStage());
-//			if (file != null) {
-//				String filePath = file.getAbsolutePath();
-//				String json = App.getSharedInstance().getReadFromFile().readLocalJSON(filePath);
-//				if(!json.contains("matches") && !json.contains("year") && !json.contains("link")) {
-//					Alert alert = new Alert(AlertType.ERROR, "File is not in the correct format", ButtonType.CLOSE);
-//					alert.showAndWait();
-//					return;
-//				}
-//				League league = new Gson().fromJson(json, League.class);
-//				if(App.getSharedInstance().getDaoLeagueGraph().exists(league)) {
-//					App.getSharedInstance().getDaoLeagueGraph().updateLeague(league.getFullname(), league);
-//					//
-//					listLeague.getItems().add(league);
+		try {
+			System.out.println("UPDATE LEAGUE OK");
+			FileChooser chooser = new FileChooser();
+			File file = chooser.showOpenDialog(App.getSharedInstance().getPrimaryStage());
+			if (file != null) {
+				String filePath = file.getAbsolutePath();
+				String json = App.getSharedInstance().getReadFromFile().readLocalJSON(filePath);
+				if(!json.contains("matches") && !json.contains("year") && !json.contains("link")) {
+					Alert alert = new Alert(AlertType.ERROR, "File is not in the correct format", ButtonType.CLOSE);
+					alert.showAndWait();
+					return;
+				}
+				League league = new Gson().fromJson(json, League.class);
+				if(App.getSharedInstance().getDaoLeagueGraph().exists(league)) {
+					App.getSharedInstance().getDaoLeagueGraph().updateLeague(league.getFullname(), league);
+					//
+					listLeague.getItems().add(league);
 //					//comboBoxLeaguesPlayer.getItems().clear();
 //					//comboBoxLeaguesTeam.getItems().clear();
 //					//comboBoxLeaguesMatches.getItems().clear();
@@ -496,29 +496,29 @@ public class AppController implements Initializable{
 //					//comboBoxLeaguesTeam.getItems().addAll(retriveLeagueFromComboBoxPlayer());
 //					//comboBoxLeaguesMatches.getItems().addAll(retriveLeagueFromComboBoxPlayer());
 //					//
-//					System.out.println(league.getName() + " already exists");
-//				} else {
-//					App.getSharedInstance().getDaoLeagueGraph().createLeague(league);
-//					listLeague.getItems().add(league);
+					System.out.println(league.getName() + " already exists");
+				} else {
+					App.getSharedInstance().getDaoLeagueGraph().createLeague(league);
+					listLeague.getItems().add(league);
 //					//comboBoxLeaguesPlayer.getItems().clear();
 //					//comboBoxLeaguesTeam.getItems().clear();
 //					//comboBoxLeaguesMatches.getItems().clear();
 //					//comboBoxLeaguesPlayer.getItems().addAll(retriveLeagueFromComboBoxPlayer());
 //					//comboBoxLeaguesTeam.getItems().addAll(retriveLeagueFromComboBoxPlayer());
 //					//comboBoxLeaguesMatches.getItems().addAll(retriveLeagueFromComboBoxPlayer());
-//					System.out.println(league.getName() + " doesn't exist");
-//					
-//				}
-//			} else {
-//				System.out.println("File is null");
-//			}
-//		} catch(DAOException e) {
-//			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
-//			alert.showAndWait();
-//		} catch(JsonSyntaxException jse) {
-//			Alert alert = new Alert(AlertType.ERROR, "The file isn't in the correct format", ButtonType.CLOSE);
-//			alert.showAndWait();
-//		}
+					System.out.println(league.getName() + " doesn't exist");
+					
+				}
+			} else {
+				System.out.println("File is null");
+			}
+		} catch(DAOException e) {
+			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
+			alert.showAndWait();
+		} catch(JsonSyntaxException jse) {
+			Alert alert = new Alert(AlertType.ERROR, "The file isn't in the correct format", ButtonType.CLOSE);
+			alert.showAndWait();
+		}
 	}
 
 	public void ActionUpdateTeams(ActionEvent event) {
