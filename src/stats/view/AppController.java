@@ -160,9 +160,11 @@ public class AppController implements Initializable{
 	ObservableList comboDefault = FXCollections.observableArrayList();
 	private League leagueSelectedToRound = null;
 	private League leagueSelectedCombo = null;
+	@FXML ImageView backLeague;
+	@FXML ImageView backTeam;
 //	XYChart.Series emptyChart = new XYChart.Series<>();
 	
-	public ObservableList<League> retriveLeagueFromComboBoxPlayer(){
+	public ObservableList<League> refreshListLeague(){
 		List<League> listSearchedLeagues = null;
 		try {
 			listSearchedLeagues = App.sharedInstance.getDaoLeagueGraph().retrieveAllLeagues();
@@ -173,6 +175,18 @@ public class AppController implements Initializable{
 			System.exit(0);
 		}
 		ObservableList<League> list = FXCollections.observableArrayList(listSearchedLeagues);
+		return list;
+	}
+	
+	public ObservableList<Team> refreshListTeam(){
+		List<Team> teams = new ArrayList<>();
+		try {
+			teams = App.sharedInstance.getDaoTeamGraph().retrieveAllTeams();
+		} catch (DAOException ec) {
+			// TODO Auto-generated catch block
+			ec.printStackTrace();
+		}
+		ObservableList<Team> list = FXCollections.observableArrayList(teams);
 		return list;
 	}
 	
@@ -217,18 +231,15 @@ public class AppController implements Initializable{
 		try {
 			String text = fieldTeam.getText();
 			if (text.isEmpty()) {
-				List<Team> teams = new ArrayList<>();
-				try {
-					teams = App.sharedInstance.getDaoTeamGraph().retrieveAllTeams();
-				} catch (DAOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				ObservableList<Team> list = FXCollections.observableArrayList(teams);
-				listTeams.getItems().clear();
-				listTeams.setItems(list);
+				Alert alert = new Alert(AlertType.WARNING, "Empty field", ButtonType.CLOSE);
+				alert.showAndWait();
 			} else {
 				List<Team> listSearchedTeams = App.sharedInstance.getDaoTeamGraph().retrieveTeams(text);
+				if (listSearchedTeams.isEmpty()) {
+					Alert alert = new Alert(AlertType.WARNING, "No team selected", ButtonType.CLOSE);
+					alert.showAndWait();
+					return;
+				}
 				ObservableList<Team> list = FXCollections.observableArrayList(listSearchedTeams);
 				listTeams.getItems().clear();
 				listTeams.setItems(list);
@@ -446,11 +457,16 @@ public class AppController implements Initializable{
 		try {
 			String text = fieldLeague.getText();
 			if (text.isEmpty()) {
-				listLeague.getItems().clear();
-				listLeague.setItems(retriveLeagueFromComboBoxPlayer());
+				Alert alert = new Alert(AlertType.WARNING, "Empty field", ButtonType.CLOSE);
+				alert.showAndWait();
 			} else {
 				//TO CHECK
 				List<League> listSearchedLeagues = App.sharedInstance.getDaoLeagueGraph().retrieveLeagues(text);
+				if (listSearchedLeagues.isEmpty()) {
+					Alert alert = new Alert(AlertType.WARNING, "No league selected", ButtonType.CLOSE);
+					alert.showAndWait();
+					return;
+				}
 				ObservableList<League> list = FXCollections.observableArrayList(listSearchedLeagues);
 				listLeague.getItems().clear();
 				listLeague.setItems(list);
@@ -735,6 +751,18 @@ public class AppController implements Initializable{
 //		System.out.println("DELETE OK");
 	}
 	
+	public void ActionBackListLeague(MouseEvent e) {
+		fieldLeague.setText("");
+		listLeague.getItems().clear();
+		listLeague.setItems(refreshListLeague());
+	}
+	
+	public void ActionBackListTeam(MouseEvent e) {
+		fieldTeam.setText("");
+		listTeams.getItems().clear();
+		listTeams.setItems(refreshListTeam());
+	}
+	
 	public void ActionDeleteTeam(ActionEvent e) throws DAOException {
 //		Team teamSelected = listTeams.getSelectionModel().getSelectedItem();
 //		System.out.println(teamSelected.getName());
@@ -757,16 +785,8 @@ public class AppController implements Initializable{
 		//comboBoxLeaguesPlayer.setItems(retriveLeagueFromComboBoxPlayer());
 		//comboBoxLeaguesTeam.setItems(retriveLeagueFromComboBoxPlayer());
 		//comboBoxLeaguesMatches.setItems(retriveLeagueFromComboBoxPlayer());
-		List<Team> teams = new ArrayList<>();
-		try {
-			teams = App.sharedInstance.getDaoTeamGraph().retrieveAllTeams();
-		} catch (DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ObservableList<Team> list = FXCollections.observableArrayList(teams);
-		listTeams.setItems(list);
-		listLeague.setItems(retriveLeagueFromComboBoxPlayer());
+		listTeams.setItems(refreshListTeam());
+		listLeague.setItems(refreshListLeague());
 		//barCharLeague.getData().add(emptyChart);
 	}
 	

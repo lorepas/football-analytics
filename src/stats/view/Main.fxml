@@ -36,25 +36,6 @@
                                        </BorderPane.margin>
                                     </ListView>
                                  </center>
-                                 <top>
-                                    <HBox prefHeight="66.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <TextField fx:id="fieldLeague" onAction="#ActionRetrieveLeague" prefHeight="27.0" prefWidth="110.0" promptText="Search a League...">
-                                             <HBox.margin>
-                                                <Insets left="10.0" top="10.0" />
-                                             </HBox.margin>
-                                             <font>
-                                                <Font name="Baghdad Regular" size="11.0" />
-                                             </font>
-                                          </TextField>
-                                          <Button fx:id="searchLeague" mnemonicParsing="false" onAction="#ActionRetrieveLeague" text="SEARCH">
-                                             <HBox.margin>
-                                                <Insets left="10.0" top="10.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                       </children>
-                                    </HBox>
-                                 </top>
                                  <bottom>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                        <children>
@@ -67,6 +48,31 @@
                                        </children>
                                     </HBox>
                                  </bottom>
+                                 <top>
+                                    <GridPane BorderPane.alignment="CENTER">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <TextField fx:id="fieldLeague" onAction="#ActionRetrieveLeague" prefHeight="27.0" prefWidth="110.0" promptText="Search a League...">
+                                             <font>
+                                                <Font name="Baghdad Regular" size="11.0" />
+                                             </font>
+                                          </TextField>
+                                          <Button fx:id="searchLeague" mnemonicParsing="false" onAction="#ActionRetrieveLeague" text="SEARCH" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                                          <ImageView fx:id="backLeague" fitHeight="36.0" fitWidth="23.0" onMouseClicked="#ActionBackListLeague" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                             <image>
+                                                <Image url="@../../resources/back.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </GridPane>
+                                 </top>
                               </BorderPane>
                            </left>
                            <center>
@@ -143,23 +149,29 @@
                                  <top>
                                     <Pane prefHeight="67.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <HBox prefHeight="64.0" prefWidth="200.0">
+                                          <GridPane>
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
                                              <children>
                                                 <TextField fx:id="fieldTeam" onAction="#ActionRetrieveTeam" prefHeight="27.0" prefWidth="109.0" promptText="Search a Team...">
-                                                   <HBox.margin>
-                                                      <Insets left="10.0" top="10.0" />
-                                                   </HBox.margin>
                                                    <font>
                                                       <Font name="Baghdad Regular" size="11.0" />
                                                    </font>
                                                 </TextField>
-                                                <Button fx:id="searchButton" mnemonicParsing="false" onAction="#ActionRetrieveTeam" text="SEARCH">
-                                                   <HBox.margin>
-                                                      <Insets left="10.0" top="10.0" />
-                                                   </HBox.margin>
-                                                </Button>
+                                                <Button fx:id="searchButton" mnemonicParsing="false" onAction="#ActionRetrieveTeam" text="SEARCH" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                                                <ImageView fx:id="backTeam" fitHeight="36.0" fitWidth="23.0" onMouseClicked="#ActionBackListTeam" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                                   <image>
+                                                      <Image url="@../../resources/back.png" />
+                                                   </image>
+                                                </ImageView>
                                              </children>
-                                          </HBox>
+                                          </GridPane>
                                        </children>
                                     </Pane>
                                  </top>
