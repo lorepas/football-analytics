@@ -105,7 +105,44 @@ public class DAOTeamN4J implements IDAOTeamGraph {
 
 	@Override
 	public List<Team> retrieveTeams(String fullName) throws DAOException {
-		return null;
+		Driver driver = null;
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			driver = Utils.getNEO4JDriver();
+			session = driver.session();
+			transaction = session.beginTransaction();
+			String existsQuery = "MATCH (t:Team) ";
+			existsQuery+="WHERE toLower(t.fullName) CONTAINS toLower($fullName) RETURN t";
+			Query existsLeague = new Query(existsQuery, parameters("fullName", fullName));
+			Result rs = transaction.run(existsLeague);
+			List<Record> list= rs.list();
+			List<Team> teams = new ArrayList<>();
+			//TODO: Re-factor the following code
+			for (Record record : list) {
+				Team team = new Team();
+				Value v = record.get("t");
+				Iterator<Value> values = v.asNode().values().iterator();				
+				team.setFullName(values.next().asString());
+				teams.add(team);
+			}
+			transaction.commit();
+			return teams;
+		} catch(ClientException ce) {
+			if(transaction != null) {
+				if(transaction.isOpen()) {
+					transaction.rollback();
+				}
+			}
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+			if(driver != null) {
+				driver.close();
+			}
+		}
+		return new ArrayList<Team>();
 	}
 	
 	@Override

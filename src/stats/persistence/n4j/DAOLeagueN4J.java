@@ -294,8 +294,46 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 
 	@Override
 	public List<League> retrieveLeagues(String fullName) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
+		Driver driver = null;
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			driver = Utils.getNEO4JDriver();
+			session = driver.session();
+			transaction = session.beginTransaction();
+			String existsQuery = "MATCH (league:League) ";
+			existsQuery+="WHERE toLower(league.fullName) CONTAINS toLower($fullName) RETURN league";
+			Query existsLeague = new Query(existsQuery, parameters("fullName", fullName));
+			Result rs = transaction.run(existsLeague);
+			List<Record> list= rs.list();
+			List<League> leagues = new ArrayList<>();
+			//TODO: Re-factor the following code
+			for (Record record : list) {
+				League l = new League();
+				Value v = record.get("league");
+				Iterator<Value> values = v.asNode().values().iterator();
+				l.setName(values.next().asString());
+				l.setFullname(values.next().asString());
+				l.setYear(values.next().asString());
+				leagues.add(l);
+			}
+			transaction.commit();
+			return leagues;
+		} catch(ClientException ce) {
+			if(transaction != null) {
+				if(transaction.isOpen()) {
+					transaction.rollback();
+				}
+			}
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+			if(driver != null) {
+				driver.close();
+			}
+		}
+		return new ArrayList<League>();
 	}
 
 	@Override

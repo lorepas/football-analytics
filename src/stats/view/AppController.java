@@ -228,7 +228,7 @@ public class AppController implements Initializable{
 				listTeams.getItems().clear();
 				listTeams.setItems(list);
 			} else {
-				Team listSearchedTeams = App.sharedInstance.getDaoTeamGraph().retrieveTeam(text);
+				List<Team> listSearchedTeams = App.sharedInstance.getDaoTeamGraph().retrieveTeams(text);
 				ObservableList<Team> list = FXCollections.observableArrayList(listSearchedTeams);
 				listTeams.getItems().clear();
 				listTeams.setItems(list);
@@ -450,7 +450,7 @@ public class AppController implements Initializable{
 				listLeague.setItems(retriveLeagueFromComboBoxPlayer());
 			} else {
 				//TO CHECK
-				League listSearchedLeagues = App.sharedInstance.getDaoLeagueGraph().retrieve(text);
+				List<League> listSearchedLeagues = App.sharedInstance.getDaoLeagueGraph().retrieveLeagues(text);
 				ObservableList<League> list = FXCollections.observableArrayList(listSearchedLeagues);
 				listLeague.getItems().clear();
 				listLeague.setItems(list);
