@@ -382,5 +382,4 @@ public class Match {
 		return statistics;
 	}
 	
-	
 }

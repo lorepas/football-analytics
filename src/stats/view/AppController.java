@@ -507,8 +507,6 @@ public class AppController implements Initializable{
 //					//comboBoxLeaguesPlayer.getItems().addAll(retriveLeagueFromComboBoxPlayer());
 //					//comboBoxLeaguesTeam.getItems().addAll(retriveLeagueFromComboBoxPlayer());
 //					//comboBoxLeaguesMatches.getItems().addAll(retriveLeagueFromComboBoxPlayer());
-					System.out.println(league.getName() + " doesn't exist");
-					
 				}
 			} else {
 				System.out.println("File is null");
