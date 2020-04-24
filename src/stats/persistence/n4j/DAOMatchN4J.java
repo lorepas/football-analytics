@@ -52,7 +52,9 @@ public class DAOMatchN4J implements IDAOMatchGraph {
 			transaction.commit();
 		} catch(ClientException ce) {
 			if(transaction != null) {
-				transaction.rollback();
+				if(transaction.isOpen()) {
+					transaction.rollback();
+				}
 			}
 		} finally {
 			if(session != null) {

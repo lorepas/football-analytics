@@ -47,7 +47,9 @@ public class DAOTeamN4J implements IDAOTeamGraph {
 			transaction.commit();
 		} catch(ClientException ce) {
 			if(transaction != null) {
-				transaction.rollback();
+				if(transaction.isOpen()) {
+					transaction.rollback();
+				}
 			}
 		} finally {
 			if(session != null) {
@@ -72,9 +74,33 @@ public class DAOTeamN4J implements IDAOTeamGraph {
 	}
 
 	@Override
-	public void deleteTeam(Team player) throws DAOException {
-		// TODO Auto-generated method stub
-
+	public void deleteTeam(Team team) throws DAOException {
+		Driver driver = null;
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			driver = Utils.getNEO4JDriver();
+			session = driver.session();
+			transaction = session.beginTransaction();
+			String deleteLeagueNode = "MATCH (team:Team { fullName: $fullName })";
+			deleteLeagueNode += "DETACH DELETE team";
+			Query createLeagueNode = new Query(deleteLeagueNode, 
+					parameters("fullName", team.getName()));
+			transaction.run(createLeagueNode);
+			transaction.commit();
+		} catch(ClientException ce) {
+			if(transaction != null) {
+				transaction.rollback();
+			}
+			throw new DAOException(ce);
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+			if(driver != null) {
+				driver.close();
+			}
+		}
 	}
 
 	@Override

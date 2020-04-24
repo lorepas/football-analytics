@@ -473,15 +473,16 @@ public class AppController implements Initializable{
 	//TODO
 	public void ActionUpdateLeague(ActionEvent event) {
 		try {
-			System.out.println("UPDATE LEAGUE OK");
+			System.out.println("AppController.ActionUpdateLeague()");
 			FileChooser chooser = new FileChooser();
 			File file = chooser.showOpenDialog(App.getSharedInstance().getPrimaryStage());
 			if (file != null) {
 				String filePath = file.getAbsolutePath();
 				String json = App.getSharedInstance().getReadFromFile().readLocalJSON(filePath);
 				if(!json.contains("matches") && !json.contains("year") && !json.contains("link")) {
-					Alert alert = new Alert(AlertType.ERROR, "File is not in the correct format", ButtonType.CLOSE);
-					alert.showAndWait();
+					Alert alert = new Alert(AlertType.ERROR, "File is not in the correct format:\nit must be the json file of"
+							+ " the object League", ButtonType.CLOSE);
+					alert.show();
 					return;
 				}
 				League league = new Gson().fromJson(json, League.class);
@@ -513,11 +514,12 @@ public class AppController implements Initializable{
 				System.out.println("File is null");
 			}
 		} catch(DAOException e) {
+			e.printStackTrace();
 			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
-			alert.showAndWait();
+			alert.show();
 		} catch(JsonSyntaxException jse) {
 			Alert alert = new Alert(AlertType.ERROR, "The file isn't in the correct format", ButtonType.CLOSE);
-			alert.showAndWait();
+			alert.show();
 		}
 	}
 
@@ -714,11 +716,18 @@ public class AppController implements Initializable{
 		}
 	}
 	
-	public void ActionDeleteLeague(ActionEvent e) throws DAOException {
-//		League leagueSelected = listLeague.getSelectionModel().getSelectedItem();
-//		System.out.println(leagueSelected.getName());
-//		App.getSharedInstance().getDaoLeague().delete(leagueSelected);
-//		listLeague.getItems().remove(leagueSelected);
+	public void ActionDeleteLeague(ActionEvent e) {
+		League leagueSelected = listLeague.getSelectionModel().getSelectedItem();
+		System.out.println(leagueSelected.getName());
+		try {
+			App.getSharedInstance().getDaoLeagueGraph().delete(leagueSelected);
+			listLeague.getItems().remove(leagueSelected);
+			System.out.println("DELETE OK");
+		} catch (DAOException e1) {
+			Alert alert = new Alert(AlertType.ERROR, e1.getMessage(), ButtonType.CLOSE);
+			alert.showAndWait();
+			return;
+		}
 //		//comboBoxLeaguesPlayer.getItems().clear();
 //		//comboBoxLeaguesTeam.getItems().clear();
 //		//comboBoxLeaguesMatches.getItems().clear();

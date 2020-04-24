@@ -42,9 +42,13 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 			transaction = session.beginTransaction();
 			String existsQuery = "MATCH (league:League {fullName: $fullName})";
 			existsQuery += "RETURN count(league)";
-			Query existsLeague = new Query(existsQuery);
+			Query existsLeague = new Query(existsQuery, parameters("fullName", league.getFullname()));
 			Result rs = transaction.run(existsLeague);
-			if(rs.single().get(0).asInt() == 1) {
+			Record record = rs.single();
+			System.out.println("Record: " + record.toString());
+			Value v = record.get(0);
+			System.out.println("Value: " + v.toString());
+			if(v.asInt() == 1) {
 				value = true;
 			}
 			transaction.commit();
@@ -127,6 +131,14 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 			if(driver != null) {
 				driver.close();
 			}
+		}
+		for (Match match : league.getMatches()) {
+			Team team = new Team();
+			team.setName(match.getNameHome());
+			App.getSharedInstance().getDaoTeamGraph().deleteTeam(team);
+			Team team2 = new Team();
+			team.setName(match.getNameAway());
+			App.getSharedInstance().getDaoTeamGraph().deleteTeam(team2);
 		}
 	}
 

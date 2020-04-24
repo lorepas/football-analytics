@@ -266,7 +266,9 @@ public class DAOQuery implements IDAOQuery {
 		} catch (ClientException ce) {
 			System.out.println(ce.getLocalizedMessage());
 			if (transaction != null) {
-				// transaction.rollback();
+//				if(transaction.isOpen()) {
+//					transaction.rollback();
+//				}
 			}
 		} finally {
 			if (session != null) {
