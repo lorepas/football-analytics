@@ -10,8 +10,6 @@ import stats.persistence.IDAOLeague;
 public interface IDAOLeagueGraph extends IDAOLeague {
 	
 	public void enrollTeam(League league, String teamFullName);
-	public int numberOfEnrolledTeams(League league);
-	public List<Team> enrolledTeams(League league);
-	List<League> retrieve();
 	League retrieve(String fullName) throws DAOException;
+	public void updateLeague(String fullname, League league);
 }

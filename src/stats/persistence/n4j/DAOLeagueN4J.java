@@ -1,11 +1,8 @@
 package stats.persistence.n4j;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Query;
@@ -15,16 +12,12 @@ import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
 import org.neo4j.driver.Value;
 import org.neo4j.driver.exceptions.ClientException;
-import org.neo4j.driver.internal.InternalNode;
-import org.neo4j.driver.types.Node;
 import org.neo4j.driver.util.Pair;
 
 import static org.neo4j.driver.Values.parameters;
 
-import stats.App;
 import stats.model.League;
 import stats.model.Match;
-import stats.model.Team;
 import stats.persistence.DAOException;
 import stats.utility.Utils;
 
@@ -125,7 +118,6 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 				} else {
 				}
 				//Create match
-//				System.out.println("Creation match");
 				String query = "MATCH (homeTeam:Team {fullName: $homeTeam})";
 				query += "MATCH (awayTeam:Team {fullName: $awayTeam})";
 				query += "CREATE (homeTeam)-[:PLAYED_WITH {scoreHome: $scoreHome, scoreAway: $scoreAway}]->(awayTeam)";
@@ -257,13 +249,6 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 	}
 
 	@Override
-	public List<League> retrieve(){
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
 	public void enrollTeam(League league, String teamFullName) {
 		Driver driver = null;
 		Session session = null;
@@ -293,18 +278,6 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 			}
 		}
 		
-	}
-
-	@Override
-	public int numberOfEnrolledTeams(League league) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<Team> enrolledTeams(League league) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -353,18 +326,6 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 	}
 
 	@Override
-	public void createListOfLeagues(List<League> leagues) throws DAOException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateLeague(String fullName, League league) throws DAOException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public List<League> retrieveLeagues(String fullName) throws DAOException {
 		Driver driver = null;
 		Session session = null;
@@ -409,34 +370,9 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 	}
 
 	@Override
-	public Team retrieveMostWinningHomeTeam(League league) throws DAOException {
+	public void updateLeague(String fullname, League league) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
-
-	@Override
-	public Team retrieveMostWinningAwayTeam(League league) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Team retrieveMostWinningTeam(League league) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Team retrieveMostLosingTeam(League league) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public League retrieveLeague(String name) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }

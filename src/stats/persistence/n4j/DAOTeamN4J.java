@@ -17,19 +17,12 @@ import org.neo4j.driver.exceptions.ClientException;
 import org.neo4j.driver.util.Pair;
 
 import stats.model.League;
-import stats.model.Player;
 import stats.model.Team;
 import stats.persistence.DAOException;
 import stats.persistence.IDAOTeam;
 import stats.utility.Utils;
 
 public class DAOTeamN4J implements IDAOTeamGraph {
-
-	@Override
-	public boolean exists(Team team) throws DAOException {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public void createTeam(Team team) throws DAOException {
@@ -59,18 +52,6 @@ public class DAOTeamN4J implements IDAOTeamGraph {
 				driver.close();
 			}
 		}
-	}
-
-	@Override
-	public void createListOfTeams(List<Team> teams) throws DAOException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void updateTeam(String fullName, Team player) throws DAOException {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -224,79 +205,6 @@ public class DAOTeamN4J implements IDAOTeamGraph {
 			}
 		}
 		return new ArrayList<Team>();
-	}
-
-	@Override
-	public int numberOfWonMatches(Team team) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int numberOfDrawnMatches(Team team) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int numberOfLostMatches(Team team) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<Team> retrieveTeamsFromLeague(League name) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public double retrieveTeamTotalMarketValue(Team team) throws DAOException {
-		return 0;
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public long retriveNativePlayers(Team team) throws DAOException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Player retriveMostRepresentativePlayer(Team team) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public double retrievePercentageOfWins(League league, Team team) throws DAOException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double retrievePercentageOfDraws(League league, Team team) throws DAOException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double retrievePercentageOfDefeats(League league, Team team) throws DAOException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public String retrieveShield(Team team) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public double retrieveAverageAgeFromTeam(Team team) throws DAOException {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 }

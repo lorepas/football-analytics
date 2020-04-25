@@ -44,8 +44,6 @@ public void ActionToHomePage(ActionEvent event) throws IOException {
 			controller.buttonUpdateLeague.setVisible(true);
 			controller.buttonDeleteLeague.setVisible(true);
 			controller.buttonDeleteTeam.setVisible(true);
-//			controller.buttonDeletePlayer.setVisible(true);
-//			controller.buttoUpdatePlayer.setVisible(true);
 			app_stage.show();
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION, "Wrong insert! Try again or if you want you can login as a guest.", ButtonType.CLOSE);
@@ -70,8 +68,6 @@ public void ActionToHomePage(ActionEvent event) throws IOException {
 		controller.buttonUpdateLeague.setVisible(false);
 		controller.buttonDeleteLeague.setVisible(false);
 		controller.buttonDeleteTeam.setVisible(false);
-		controller.buttonDeletePlayer.setVisible(false);
-		controller.buttoUpdatePlayer.setVisible(false);
 		app_stage.show();
 	}
 
