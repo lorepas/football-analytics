@@ -123,7 +123,7 @@ public class AppController implements Initializable{
 	
 	public void onClickEventOnLeague(MouseEvent event) throws DAOException{
 		League leagueSelected = listLeague.getSelectionModel().getSelectedItem();
-		labelLeague.setText(leagueSelected.getFullname().toUpperCase());
+		labelLeague.setText(leagueSelected.getName().toUpperCase()+" "+leagueSelected.getYear());
 		List<Team> teams = App.sharedInstance.getDaoQuery().countTeams(leagueSelected);
 		ObservableList<Team> listTeams = FXCollections.observableArrayList(teams);
 		listTeamsOfALeague.setItems(listTeams);
