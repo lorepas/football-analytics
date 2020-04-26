@@ -47,10 +47,11 @@ public class DAOUserKV implements IDAOUser{
 			throw new DAOException(ex);
 		} finally {
 			try {
-			keyIterator.close();
+				keyIterator.close();
 			} catch(IOException ex){
 				ex.printStackTrace();
 			}
+			
 		}
 	}
 }

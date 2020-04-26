@@ -1,37 +1,20 @@
 package stats;
 	
-import java.util.ArrayList;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-import java.util.List;
 
-import javax.swing.JFileChooser;
 
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.Gson;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
-import stats.model.DetailedPerformance;
-import stats.model.League;
-import stats.model.Match;
-import stats.model.Team;
 import stats.model.User;
 import stats.persistence.DAOUserKV;
-import stats.persistence.IDAOLeague;
-import stats.persistence.IDAOMatch;
-import stats.persistence.IDAOPlayer;
-import stats.persistence.IDAOTeam;
 import stats.persistence.IDAOUser;
 import stats.persistence.ReadFromFile;
-import stats.persistence.mongo.DAOLeagueMongo;
-import stats.persistence.mongo.DAOMatchMongo;
-import stats.persistence.mongo.DAOPlayerMongo;
-import stats.persistence.mongo.DAOTeamMongo;
-import stats.persistence.mongo.DAOUserMongo;
 import stats.persistence.n4j.DAOLeagueN4J;
 import stats.persistence.n4j.DAOMatchN4J;
 import stats.persistence.n4j.DAOQuery;
@@ -43,19 +26,12 @@ import stats.persistence.n4j.IDAOTeamGraph;
 import stats.view.AppController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 
 
 public class App extends Application {
-	//
-	
-	//
+
 	public static App sharedInstance = new App();
 	private AppController appController = new AppController();
-//	private IDAOTeam daoTeam = new DAOTeamMongo();
-//	private IDAOPlayer daoPlayer = new DAOPlayerMongo();
-//	private IDAOLeague daoLeague = new DAOLeagueMongo();
-//	private IDAOMatch daoMatch = new DAOMatchMongo();
 	private IDAOUser daoUserKV = new DAOUserKV();
 	private IDAOLeagueGraph daoLeagueGraph = new DAOLeagueN4J();
 	private IDAOMatchGraph daoMatchGraph = new DAOMatchN4J();
@@ -72,22 +48,6 @@ public class App extends Application {
 	public IDAOUser getDaoUserKV() {
 		return daoUserKV;
 	}
-	
-//	public IDAOTeam getDaoTeam() {
-//		return daoTeam;
-//	}
-//	
-//	public IDAOPlayer getDaoPlayer() {
-//		return daoPlayer;
-//	}
-//
-//	public IDAOLeague getDaoLeague() {
-//		return daoLeague;
-//	}
-//
-//	public IDAOMatch getDaoMatch() {
-//		return daoMatch;
-//	}
 	
 	public IDAOLeagueGraph getDaoLeagueGraph() {
 		return daoLeagueGraph;
@@ -120,7 +80,7 @@ public class App extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			//DON'T REMOVE THESE LINES
+			//ADMIN
 //			User user = new User();
 //			user.setUsername("user");
 //			user.setPwd("nalf10");
