@@ -206,5 +206,28 @@ public class DAOTeamN4J implements IDAOTeamGraph {
 		}
 		return new ArrayList<Team>();
 	}
+	
+	public Query createTeamQuery(Team team) {
+		String queryHome = "CREATE(:Team {fullName: $fullName})";
+		Query createHomeNodeQuery = new Query(queryHome, 
+				parameters("fullName", team.getFullName()));
+		return createHomeNodeQuery;
+	}
+	
+	public Query teamExistenceQuery(Team team) {
+		String existsQuery = "MATCH (team:Team {fullName: $fullName})";
+		existsQuery += "RETURN count(team)";
+		//Create home team
+		Query exists = new Query(existsQuery, parameters("fullName", team.getFullName()));
+		return exists;
+	}
+	
+	public Query deleteTeamQuery(Team team) {
+		String deleteTeamNode = "MATCH (team:Team { fullName: $fullName })";
+		deleteTeamNode += "DETACH DELETE team";
+		Query delTeamNode = new Query(deleteTeamNode, 
+				parameters("fullName", team.getFullName()));
+		return delTeamNode;
+	}
 
 }

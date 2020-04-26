@@ -16,6 +16,14 @@ public class Team {
 	private String championshipCode;
 	private List<String> players = new ArrayList<>();
 	
+	public Team() {
+		
+	}
+	
+	public Team(String fullName) {
+		this.fullName = fullName;
+	}
+	
 	//getters and setters
 	
 	public String toJSON() {
