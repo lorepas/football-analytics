@@ -102,7 +102,6 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 							parameters("teamFullName", match.getNameHome(), "leagueFullName", league.getFullname(), 
 									"season", league.getYear()));
 					transaction.run(enrolledInRel);
-				} else {
 				}
 				//Create away team
 				Query existsAway = new Query(existsQuery, parameters("fullName", match.getNameAway()));
@@ -122,10 +121,7 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 							parameters("teamFullName", match.getNameAway(), "leagueFullName", league.getFullname(), 
 									"season", league.getYear()));
 					transaction.run(createMatchRelationship);
-				} else {
 				}
-				//Create match
-//				System.out.println("Creation match");
 				String query = "MATCH (homeTeam:Team {fullName: $homeTeam})";
 				query += "MATCH (awayTeam:Team {fullName: $awayTeam})";
 				query += "CREATE (homeTeam)-[:PLAYED_WITH {scoreHome: $scoreHome, scoreAway: $scoreAway}]->(awayTeam)";
@@ -360,8 +356,39 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 
 	@Override
 	public void updateLeague(String fullName, League league) throws DAOException {
-		// TODO Auto-generated method stub
-		
+		Driver driver = null;
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			driver = Utils.getNEO4JDriver();
+			session = driver.session();
+			transaction = session.beginTransaction();
+			
+			// Update league fields
+			String updateLeagueNodeQueryStr = "MATCH (league:League { fullName: $fullName })";
+			updateLeagueNodeQueryStr += "SET league.name = $name, league.season = $season";
+			Query updateLeagueNodeQuery = new Query(updateLeagueNodeQueryStr, 
+					parameters("fullName", fullName, "name", league.getName(), 
+							"season", league.getYear()));
+			Result rs = transaction.run(updateLeagueNodeQuery);
+			System.out.println("Result: " + rs.consume());
+			
+			transaction.commit();
+		} catch(ClientException ce) {
+			if(transaction != null) {
+				if(transaction.isOpen()) {
+					transaction.rollback();
+				}	
+			}
+			throw new DAOException(ce);
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+			if(driver != null) {
+				driver.close();
+			}
+		}
 	}
 
 	@Override
