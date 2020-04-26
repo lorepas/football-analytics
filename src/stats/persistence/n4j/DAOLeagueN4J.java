@@ -18,6 +18,7 @@ import static org.neo4j.driver.Values.parameters;
 
 import stats.model.League;
 import stats.model.Match;
+import stats.model.Team;
 import stats.persistence.DAOException;
 import stats.utility.Utils;
 
@@ -75,53 +76,32 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 			transaction.run(createLeagueNode);
 			for (Match match : league.getMatches()) {
 				System.out.println("Match: " + match.toString());
-				String existsQuery = "MATCH (team:Team {fullName: $fullName})";
-				existsQuery += "RETURN count(team)";
+				Team teamHome = new Team();
+				teamHome.setFullName(match.getNameHome());
+				Team teamAway = new Team();
+				teamAway.setFullName(match.getNameAway());
 				//Create home team
-				Query existsHome = new Query(existsQuery, parameters("fullName", match.getNameHome()));
-				Result rs = transaction.run(existsHome);
+				Result rs = transaction.run(this.createTeamExistenceQuery(teamHome));
 				Record record = rs.single();
 				Value v = record.get(0);
 				if(v.asInt() == 0) {
 					System.out.println("Creation team: " + match.getNameHome());
-					String queryHome = "CREATE(:Team {fullName: $fullName})";
-					Query createTeamHomeNode = new Query(queryHome, 
-							parameters("fullName", match.getNameHome()));
-					transaction.run(createTeamHomeNode);
-					String query = "MATCH (team:Team {fullName: $teamFullName})";
-					query += "MATCH (league:League {fullName: $leagueFullName})";
-					query += "CREATE (team)-[:ENROLLED_IN {season: $season}]->(league)";
-					Query enrolledInRel = new Query(query, 
-							parameters("teamFullName", match.getNameHome(), "leagueFullName", league.getFullname(), 
-									"season", league.getYear()));
-					transaction.run(enrolledInRel);
+					transaction.run(this.createTeamQuery(teamHome));
+					transaction.run(this.createEnrolledInRelationship(league, teamHome));
 				}
 				//Create away team
-				Query existsAway = new Query(existsQuery, parameters("fullName", match.getNameAway()));
-				Result rsAway = transaction.run(existsAway);
+				Result rsAway = transaction.run(this.createTeamExistenceQuery(teamAway));
 				Record recordAway = rsAway.single();
 				v = recordAway.get(0);
 				if(v.asInt() == 0) {
 					System.out.println("Creation team: " + match.getNameAway());
-					String queryAway = "CREATE(:Team {fullName: $fullName})";
-					Query createTeamAwayNode = new Query(queryAway, 
-							parameters("fullName", match.getNameAway()));
-					transaction.run(createTeamAwayNode);
-					String query = "MATCH (team:Team {fullName: $teamFullName})";
-					query += "MATCH (league:League {fullName: $leagueFullName})";
-					query += "CREATE (team)-[:ENROLLED_IN {season: $season}]->(league)";
-					Query createMatchRelationship = new Query(query, 
-							parameters("teamFullName", match.getNameAway(), "leagueFullName", league.getFullname(), 
-									"season", league.getYear()));
-					transaction.run(createMatchRelationship);
+					transaction.run(this.createTeamQuery(teamAway));
+					transaction.run(this.createEnrolledInRelationship(league, teamAway));
 				}
-				String query = "MATCH (homeTeam:Team {fullName: $homeTeam})";
-				query += "MATCH (awayTeam:Team {fullName: $awayTeam})";
-				query += "CREATE (homeTeam)-[:PLAYED_WITH {scoreHome: $scoreHome, scoreAway: $scoreAway}]->(awayTeam)";
-				Query createMatchRelationship = new Query(query, 
-						parameters("homeTeam", match.getNameHome(), "awayTeam", match.getNameAway(), 
-								"scoreHome", match.getScoreHome(), "scoreAway", match.getScoreAway()));
-				transaction.run(createMatchRelationship);
+				//Create match
+				Query addMatchRelationship = this.createAddMatchQuery(teamHome, teamAway, 
+						match.getScoreHome(), match.getScoreAway());
+				transaction.run(addMatchRelationship);
 			}
 			System.out.println("Match Size: " + league.getMatches().size());
 			System.out.println("Creation of " +  league.getFullname() + " OK");
@@ -141,8 +121,6 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 				driver.close();
 			}
 		}
-		
-		
 	}
 
 	@Override
@@ -160,30 +138,22 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 					parameters("fullName", league.getFullname()));
 			transaction.run(delLeagueNode);
 			for (Match match : league.getMatches()) {
-				String existsQuery = "MATCH (team:Team {fullName: $fullName})";
-				existsQuery += "RETURN count(team)";
-				Query existsHome = new Query(existsQuery, parameters("fullName", match.getNameHome()));
-				Result rs = transaction.run(existsHome);
+				Team teamHome = new Team();
+				teamHome.setFullName(match.getNameHome());
+				Team teamAway = new Team();
+				teamAway.setFullName(match.getNameAway());
+				Result rs = transaction.run(this.createTeamExistenceQuery(teamHome));
 				Record record = rs.single();
 				Value v = record.get(0);
 				if(v.asInt() > 0) {
-					String deleteTeamNode = "MATCH (team:Team { fullName: $fullName })";
-					deleteTeamNode += "DETACH DELETE team";
-					Query createTeamNode = new Query(deleteTeamNode, 
-							parameters("fullName", match.getNameHome()));
-					transaction.run(createTeamNode);
-					System.out.println("Deleted " + match.getNameHome());
+					transaction.run(deleteTeamQuery(teamHome));
+					System.out.println("Deleted " + teamHome);
 				}
-				Query existsAway = new Query(existsQuery, parameters("fullName", match.getNameAway()));
-				Result rsAw = transaction.run(existsAway);
+				Result rsAw = transaction.run(this.createTeamExistenceQuery(teamAway));
 				Record recordAw = rsAw.single();
 				Value vAw = recordAw.get(0);
 				if(vAw.asInt() > 0 ) {
-					String deleteTeamNode = "MATCH (team:Team { fullName: $fullName })";
-					deleteTeamNode += "DETACH DELETE team";
-					Query createTeamNode = new Query(deleteTeamNode, 
-							parameters("fullName", match.getNameAway()));
-					transaction.run(createTeamNode);
+					transaction.run(this.deleteTeamQuery(teamAway));
 					System.out.println("Deleted " + match.getNameAway());
 				}
 			}
@@ -403,6 +373,48 @@ public class DAOLeagueN4J implements IDAOLeagueGraph {
 		}
 		return new ArrayList<League>();
 	}
-
+	
+	private Query createTeamQuery(Team team) {
+		String queryHome = "CREATE(:Team {fullName: $fullName})";
+		Query createHomeNodeQuery = new Query(queryHome, 
+				parameters("fullName", team.getFullName()));
+		return createHomeNodeQuery;
+	}
+	
+	private Query createEnrolledInRelationship(League league, Team team) {
+		String query = "MATCH (team:Team {fullName: $teamFullName})";
+		query += "MATCH (league:League {fullName: $leagueFullName})";
+		query += "CREATE (team)-[:ENROLLED_IN {season: $season}]->(league)";
+		Query enrolledInRel = new Query(query, 
+				parameters("teamFullName", team.getFullName(), "leagueFullName", league.getFullname(), 
+						"season", league.getYear()));
+		return enrolledInRel;
+	}
+	
+	private Query createTeamExistenceQuery(Team team) {
+		String existsQuery = "MATCH (team:Team {fullName: $fullName})";
+		existsQuery += "RETURN count(team)";
+		//Create home team
+		Query exists = new Query(existsQuery, parameters("fullName", team.getFullName()));
+		return exists;
+	}
+	
+	private Query createAddMatchQuery(Team home, Team away, int scoreHome, int scoreAway) {
+		String query = "MATCH (homeTeam:Team {fullName: $homeTeam})";
+		query += "MATCH (awayTeam:Team {fullName: $awayTeam})";
+		query += "CREATE (homeTeam)-[:PLAYED_WITH {scoreHome: $scoreHome, scoreAway: $scoreAway}]->(awayTeam)";
+		Query createMatchRelationship = new Query(query, 
+				parameters("homeTeam", home.getFullName(), "awayTeam", away.getFullName(), 
+						"scoreHome", scoreHome, "scoreAway", scoreAway));
+		return createMatchRelationship;
+	}
+	
+	private Query deleteTeamQuery(Team team) {
+		String deleteTeamNode = "MATCH (team:Team { fullName: $fullName })";
+		deleteTeamNode += "DETACH DELETE team";
+		Query delTeamNode = new Query(deleteTeamNode, 
+				parameters("fullName", team.getFullName()));
+		return delTeamNode;
+	}
 	
 }
