@@ -32,12 +32,6 @@ import stats.persistence.mongo.DAOMatchMongo;
 import stats.persistence.mongo.DAOPlayerMongo;
 import stats.persistence.mongo.DAOTeamMongo;
 import stats.persistence.mongo.DAOUserMongo;
-import stats.persistence.n4j.DAOLeagueN4J;
-import stats.persistence.n4j.DAOMatchN4J;
-import stats.persistence.n4j.DAOTeamN4J;
-import stats.persistence.n4j.IDAOLeagueGraph;
-import stats.persistence.n4j.IDAOMatchGraph;
-import stats.persistence.n4j.IDAOTeamGraph;
 import stats.view.AppController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -55,9 +49,6 @@ public class App extends Application {
 	private IDAOLeague daoLeague = new DAOLeagueMongo();
 	private IDAOMatch daoMatch = new DAOMatchMongo();
 	private IDAOUser daoUserKV = new DAOUserKV();
-	private IDAOLeagueGraph daoLeagueGraph = new DAOLeagueN4J();
-	private IDAOMatchGraph daoMatchGraph = new DAOMatchN4J();
-	private IDAOTeamGraph daoTeamGraph = new DAOTeamN4J();
 	private ReadFromFile readFromFile = new ReadFromFile();
 	private Stage primaryStage;
 	
@@ -85,18 +76,6 @@ public class App extends Application {
 	public IDAOMatch getDaoMatch() {
 		return daoMatch;
 	}
-	
-	public IDAOLeagueGraph getDaoLeagueGraph() {
-		return daoLeagueGraph;
-	}
-	
-	public IDAOMatchGraph getDaoMatchGraph() {
-		return daoMatchGraph;
-	}
-	
-	public IDAOTeamGraph getDaoTeamGraph() {
-		return daoTeamGraph;
-	}
 
 	public AppController getAppController() {
 		return appController;
@@ -113,40 +92,11 @@ public class App extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			//ADMIN CREATION
 //			User user = new User();
 //			user.setUsername("user");
 //			user.setPwd("nalf10");
 //			App.getSharedInstance().getDaoUserKV().putUser(user);
-//			League league = new League();
-//			league.setFullName("Toscana Prima Categoria Girone B");
-//			league.setYear("2019-20");
-//			Match match = new Match();
-//			match.setNameHome("Capanne");
-//			match.setNameAway("Calci");
-//			match.setScoreHome(1);
-//			match.setScoreAway(1);
-//			league.getMatches().add(match);
-//			this.getDaoLeagueGraph().create(league);
-//			this.getDaoLeagueGraph().retrieve(league.getFullName());
-//			System.out.println("Exists = " + exists);
-//			League league = new League();
-//			league.setFullname("Serie A 2019-20");
-//			Team hTeam = this.getDaoLeague().retrieveMostWinningHomeTeam(league);
-//			Team aTeam = this.getDaoLeague().retrieveMostWinningAwayTeam(league);
-//			double percentageOfWins = this.getDaoTeam().retrievePercentageOfWins(league, hTeam);
-//			double percentageOfDraws = this.getDaoTeam().retrievePercentageOfDraws(league, hTeam);
-//			double percentageOfLosts = this.getDaoTeam().retrievePercentageOfDefeats(league, hTeam);
-//			System.out.println("Home team: " + hTeam.getName());
-//			System.out.println("Away team: " + aTeam.getName());
-//			System.out.println("Wins: " + percentageOfWins);
-//			System.out.println("Draws: " + percentageOfDraws);
-//			System.out.println("Losts: " + percentageOfLosts);
-//			String defaultDirectoryPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + "/detailedPerformances.json";
-//			List<DetailedPerformance> detailedPerformances = App.getSharedInstance().getDaoPlayer().retrieveOverallStatistics();
-//			Gson gson = new Gson();
-//			String json = gson.toJson(detailedPerformances);
-//			json.replace("'", " ");
-//			App.getSharedInstance().getReadFromFile().writeLocalJSON(defaultDirectoryPath, json);
 			
 			LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 			Logger mongoLogger = loggerContext.getLogger("org.mongodb.driver");

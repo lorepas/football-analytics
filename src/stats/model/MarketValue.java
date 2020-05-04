@@ -9,7 +9,6 @@ public class MarketValue {
 	private String marketValueString;
 	private String dateString;
 	double marketValue;
-	//Date date;
 	
 	//getters and setters
 	
@@ -25,9 +24,7 @@ public class MarketValue {
 	public String getDateString() {
 		return dateString;
 	}
-//	public Date getDate() {
-//		return date;
-//	}
+
 	public double getMarketValue() {
 		return marketValue;
 	}
@@ -43,9 +40,7 @@ public class MarketValue {
 	public void setDateString(String dateString) {
 		this.dateString = dateString;
 	}
-//	public void setDate(Date date) {
-//		this.date = date;
-//	}
+
 	public void setMarketValue(double marketValue) {
 		this.marketValue = marketValue;
 	}
