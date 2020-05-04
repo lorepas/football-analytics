@@ -130,19 +130,7 @@
                                           </ListView>
                                        </center>
                                        <bottom>
-                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                             <children>
-                                                <Button fx:id="buttonUpdateTeam" mnemonicParsing="false" onAction="#ActionUpdateTeams" text="UPDATE" visible="false">
-                                                   <HBox.margin>
-                                                      <Insets />
-                                                   </HBox.margin>
-                                                </Button>
-                                                <Button fx:id="buttonDeleteTeam" mnemonicParsing="false" onAction="#ActionDeleteTeam" text="DELETE" visible="false">
-                                                   <HBox.margin>
-                                                      <Insets left="30.0" />
-                                                   </HBox.margin></Button>
-                                             </children>
-                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                                        </bottom>
                                     </BorderPane>
                                  </center>

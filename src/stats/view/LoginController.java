@@ -40,10 +40,8 @@ public void ActionToHomePage(ActionEvent event) throws IOException {
 			AppController controller = loader.getController();
 			app_stage.setScene(homeScene);
 			controller.buttonLogin.setText("LOGOUT");
-			controller.buttonUpdateTeam.setVisible(true);
 			controller.buttonUpdateLeague.setVisible(true);
 			controller.buttonDeleteLeague.setVisible(true);
-			controller.buttonDeleteTeam.setVisible(true);
 			app_stage.show();
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION, "Wrong insert! Try again or if you want you can login as a guest.", ButtonType.CLOSE);
@@ -64,10 +62,8 @@ public void ActionToHomePage(ActionEvent event) throws IOException {
 		AppController controller = loader.getController();
 		app_stage.setScene(homeScene);
 		//controller.buttonLogin.setText("LOGOUT");
-		controller.buttonUpdateTeam.setVisible(false);
 		controller.buttonUpdateLeague.setVisible(false);
 		controller.buttonDeleteLeague.setVisible(false);
-		controller.buttonDeleteTeam.setVisible(false);
 		app_stage.show();
 	}
 

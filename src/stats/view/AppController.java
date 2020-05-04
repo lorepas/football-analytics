@@ -44,11 +44,11 @@ public class AppController implements Initializable{
 	@FXML ListView<League> listLeague; 
 	@FXML ListView<Team> listTeamsOfALeague; 
 	@FXML ListView<League> listLeaguesOfThatTeam; 
-	@FXML javafx.scene.control.Button buttonUpdateTeam; 
+//	@FXML javafx.scene.control.Button buttonUpdateTeam; 
 	@FXML javafx.scene.control.Button buttonLogin; 
 	@FXML javafx.scene.control.Button buttonUpdateLeague;
 	@FXML javafx.scene.control.Button buttonDeleteLeague;
-	@FXML javafx.scene.control.Button buttonDeleteTeam; 
+//	@FXML javafx.scene.control.Button buttonDeleteTeam; 
 	@FXML Label labelNameTeam;
 	@FXML Label labelNumberMatchesWin;
 	@FXML Label labelNumberMatchesLost;
@@ -202,53 +202,7 @@ public class AppController implements Initializable{
 			alert.show();
 		}
 	}
-
-	public void ActionUpdateTeams(ActionEvent event) {
-//		try {
-//			System.out.println("UPDATE TEAM OK");
-//			FileChooser chooser = new FileChooser();
-//			File file = chooser.showOpenDialog(App.getSharedInstance().getPrimaryStage());
-//			if (file != null) {
-//				String filePath = file.getAbsolutePath();
-//
-//				String json = App.getSharedInstance().getReadFromFile().readLocalJSON(filePath);
-//				if(!json.contains("rosterSize") && !json.contains("shield") && !json.contains("championshipCode")) {
-//					Alert alert = new Alert(AlertType.ERROR, "File is not in the correct format", ButtonType.CLOSE);
-//					alert.showAndWait();
-//					return;
-//				}
-//				Team[] teams = new Gson().fromJson(json, Team[].class);
-//				for (Team team : teams) {
-//					if(App.getSharedInstance().getDaoTeam().exists(team)) {
-//						App.getSharedInstance().getDaoTeam().updateTeam(team.getFullName(), team);
-//						//listTeams.getItems().add(team);
-//						System.out.println(team.getFullName() + " already exists");
-//					} else {
-//						App.getSharedInstance().getDaoTeam().createTeam(team);
-//						//listTeams.getItems().add(team);
-//						System.out.println(team.getFullName() + " doesn't exist");
-//					}
-//				}
-//			} else {
-//				System.out.println("File is null");
-//			}
-//		} catch(DAOException e) {
-//			Alert alert = new Alert(AlertType.ERROR, "Delete " + e.getMessage(), ButtonType.CLOSE);
-//			alert.showAndWait();
-//		} catch(JsonSyntaxException jse) {
-//			Alert alert = new Alert(AlertType.ERROR, "The file isn't in the correct format", ButtonType.CLOSE);
-//			alert.showAndWait();
-//		}	
-	}
-	
-	public void ActionDeleteTeam(ActionEvent e) throws DAOException {
-//		Team teamSelected = listTeams.getSelectionModel().getSelectedItem();
-//		System.out.println(teamSelected.getName());
-//		App.getSharedInstance().getDaoTeam().deleteTeam(teamSelected);
-//		listTeams.getItems().remove(teamSelected);
-//		System.out.println("DELETE OK");
-	}
-	
+		
 	public void ActionToLogin(ActionEvent event) throws IOException {
 		if (this.buttonLogin.getText().equalsIgnoreCase("LOGIN")) {
 			Parent login = FXMLLoader.load(getClass().getResource("Login.fxml"));
@@ -260,10 +214,8 @@ public class AppController implements Initializable{
 			app_stage.show();
 		} else {
 			buttonLogin.setText("LOGIN");
-			buttonUpdateTeam.setVisible(false);
 			buttonUpdateLeague.setVisible(false);
 			buttonDeleteLeague.setVisible(false);
-			buttonDeleteTeam.setVisible(false);
 			Alert alert = new Alert(AlertType.INFORMATION, "LOGOUT DONE", ButtonType.CLOSE);
 			alert.showAndWait();
 			
