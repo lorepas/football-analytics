@@ -7,8 +7,8 @@ public class DetailedPerformance {
 	private String season;
 	private String team;
 	private String fullName;
-	private Integer goalConceded;
-	private Integer cleanSheets;
+	private int goalConceded;
+	private int cleanSheets;
 	private int assists;
 	private int penalityGoals;
 	private double minutesPerGoal;
